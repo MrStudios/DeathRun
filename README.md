@@ -10,6 +10,7 @@
     Below are recordings of available traps.
 </center>
 
+<br>
 <details>
     <summary>Trap Blocks</summary>
     <img src="https://mrstudios.pl/assets/upload/trapBlocks.gif">
@@ -48,7 +49,6 @@
 <!-- CONFIGURATION -->
 <center>
     <h2>CONFIGURATION</h2>
-    Below are recordings of available traps.
 </center>
 
 ```json
