@@ -20,7 +20,6 @@ import pl.mrstudios.deathrun.commands.CommandStart;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.events.WandClickListener;
 import pl.mrstudios.deathrun.hooks.PlaceholderHook;
-import pl.mrstudios.deathrun.utils.ChannelUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +58,7 @@ public class Main extends JavaPlugin {
         getCommand("start").setExecutor(new CommandStart());
 
         /* Update Info */
-        this.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r   &f&l* &7Version: &f" + this.getDescription().getVersion() + (this.getDescription().getVersion().startsWith(Objects.requireNonNull(ChannelUtil.getWebsiteContent("http://api.mrstudios.pl/api/version.php?product=DeathRun"))) ? "" : "&r &8&o(Update Available)")));
+        this.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r   &f&l* &7Version: &f" + this.getDescription().getVersion()));
 
         /* Setup Mode Checking */
         if (Objects.isNull(this.configuration.getMapConfig().isSetup()))
