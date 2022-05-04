@@ -1,49 +1,49 @@
 <!-- INFORMATIONS -->
 <center>
     <h2>INFORMATIONS</h2>
-    <strong>Death Run</strong> is a minigame that first appeared on the HiveMC server and became popular right away. In this game idea is that as death we have to make the game difficult for runners who will try to reach finish line in shortest time possible.
+    <p><strong>Death Run</strong> is a minigame that first appeared on the HiveMC server and became popular right away. In this game idea is that as death we have to make the game difficult for runners who will try to reach finish line in shortest time possible.</p>
 </center>
 
 <!-- TRAPS -->
 <center>
     <h2>TRAPS</h2>
-    Below are recordings of available traps.
+    <p>Below are list of available traps.</p>
 </center>
 
 <br>
 <details>
     <summary>Trap Blocks</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapBlocks.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapBlocks.gif">
 </details>
 <br>
 <details>
     <summary>Trap TNT</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapTnt.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapTnt.gif">
 </details>
 <br>
 <details>
     <summary>Trap Giant</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapGiant.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapGiant.gif">
 </details>
 <br>
 <details>
     <summary>Trap Lava</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapLava.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapLava.gif">
 </details>
 <br>
 <details>
     <summary>Trap Water</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapWater.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapWater.gif">
 </details>
 <br>
 <details>
     <summary>Trap Wall</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapWall.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapWall.gif">
 </details>
 <br>
 <details>
     <summary>Trap Pistons</summary>
-    <img src="https://mrstudios.pl/assets/upload/trapPistons.gif">
+    <img src="http://api.mrstudios.pl/assets/upload/trapPistons.gif">
 </details>
 
 <!-- CONFIGURATION -->
@@ -205,7 +205,7 @@
 <!-- PLACEHOLDERS -->
 <center>
     <h2>PLACEHOLDERS</h2>
-    Placeholder list for <a href="https://github.com/PlaceholderAPI/PlaceholderAPI" style="text-decoration: none; color: #ffffff; font-weight: bold;">PlaceholderAPI</a> plugin.
+    <p>Placeholder list for <a href="https://github.com/PlaceholderAPI/PlaceholderAPI" style="text-decoration: none; color: #ffffff; font-weight: bold;">PlaceholderAPI</a> plugin.</p>
 </center>
 
 ```
