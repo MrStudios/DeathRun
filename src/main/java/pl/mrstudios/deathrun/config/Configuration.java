@@ -17,7 +17,7 @@ public class Configuration {
     private static Gson gson = new Gson();
 
     /* Configuration Settings */
-    private int configVersion = 3;
+    private int configVersion = 4;
 
     /* Configurations */
     private MapConfig mapConfig;

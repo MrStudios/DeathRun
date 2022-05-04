@@ -1,8 +1,5 @@
 {
   "settings": {
-    "license": {
-      "key": "ENTER YOUR KEY HERE"
-    },
     "server": {
       "thisServer": "dr-arena-1",
       "lobbyServer": "lobby"
@@ -26,14 +23,6 @@
         "speedAmplifier": 5,
         "speedTime": 5
       }
-    },
-    "mySQL": {
-      "enabled": false,
-      "host": "127.0.0.1",
-      "port": 3306,
-      "name": "minecraft",
-      "user": "root",
-      "password": "U5eStr0ngP4ssw0rd"
     },
     "sounds": {
       "arenaStarting": "NOTE_PLING",

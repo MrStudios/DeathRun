@@ -17,18 +17,9 @@ public class SettingsConfig extends Configuration.Adapter {
     @Setter
     public static class Settings {
 
-        private License license;
         private Server server;
         private Arena arena;
-        private MySQL mySQL;
         private Sounds sounds;
-
-        @Getter @Setter
-        public static class License {
-
-            private String key;
-
-        }
 
         @Getter @Setter
         public static class Server {
@@ -74,18 +65,6 @@ public class SettingsConfig extends Configuration.Adapter {
                 private float speedTime;
 
             }
-
-        }
-
-        @Getter @Setter
-        public static class MySQL {
-
-            private boolean enabled;
-            private String host;
-            private int port;
-            private String name;
-            private String user;
-            private String password;
 
         }
 
