@@ -121,7 +121,6 @@ public class Main extends JavaPlugin {
 
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "MatchMaking");
         this.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r   &f&l* &7Registered channels."));
 
         this.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r"));
