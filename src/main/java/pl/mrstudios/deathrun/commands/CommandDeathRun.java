@@ -234,7 +234,6 @@ public class CommandDeathRun implements TabExecutor {
                                         ItemFlag.HIDE_UNBREAKABLE
                                 )
                                 .enchantment(Enchantment.DURABILITY, 10)
-                                .unbreakable()
                                 .build()
 
                         );
