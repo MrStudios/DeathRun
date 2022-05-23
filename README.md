@@ -13,37 +13,30 @@
 <br>
 <details>
     <summary>Trap Blocks</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapBlocks.gif">
 </details>
 <br>
 <details>
     <summary>Trap TNT</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapTnt.gif">
 </details>
 <br>
 <details>
     <summary>Trap Giant</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapGiant.gif">
 </details>
 <br>
 <details>
     <summary>Trap Lava</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapLava.gif">
 </details>
 <br>
 <details>
     <summary>Trap Water</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapWater.gif">
 </details>
 <br>
 <details>
     <summary>Trap Wall</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapWall.gif">
 </details>
 <br>
 <details>
     <summary>Trap Pistons</summary>
-    <img src="http://api.mrstudios.pl/assets/upload/trapPistons.gif">
 </details>
 
 <!-- CONFIGURATION -->
