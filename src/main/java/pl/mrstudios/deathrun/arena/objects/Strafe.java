@@ -76,7 +76,7 @@ public class Strafe {
                 return;
             }
 
-            if (this.time > 1) {
+            if (this.time >= 1) {
 
                 this.user.getPlayer().getInventory().setItem(this.strafe.getType().getSlotId(), new ItemUtil(Material.SKULL_ITEM, time, (byte) 3).name(this.strafe.type.usedStrafeName.replace("<strafeDelay>", String.valueOf(time))).headTexture(this.strafe.getType().getUsedStrafeTexture()).itemFlag(ItemFlag.HIDE_ATTRIBUTES).build());
                 this.time--;
