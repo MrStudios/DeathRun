@@ -1,3 +1,9 @@
+<!-- HEADER INFO -->
+<center>
+    <h2>PLANNED UPDATE (Complete plugin rewrite)</h2>
+    <p>When? Not earlier than 2023 year, because I don't have much time.</p>
+</center>
+
 <!-- INFORMATIONS -->
 <center>
     <h2>INFORMATIONS</h2>
