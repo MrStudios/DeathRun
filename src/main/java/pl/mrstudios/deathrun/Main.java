@@ -79,7 +79,8 @@ public class Main extends JavaPlugin {
                 new ArenaPlayerQuitEvent(),
                 new ArenaServerPingEvent(),
                 new ArenaPlayerUseStrafeEvent(),
-                new ArenaPlayerUseItemEvent()
+                new ArenaPlayerUseItemEvent(),
+                new ArenaPlayerHitByArrowEvent()
         ));
         this.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r   &f&l* &7Loaded listeners successfully."));
 
