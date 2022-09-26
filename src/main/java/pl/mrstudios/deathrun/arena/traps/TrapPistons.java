@@ -6,6 +6,7 @@ import pl.mrstudios.deathrun.Main;
 import pl.mrstudios.deathrun.arena.enums.Role;
 import pl.mrstudios.deathrun.arena.objects.Location;
 import pl.mrstudios.deathrun.arena.objects.Trap;
+import pl.mrstudios.deathrun.utils.SoundUtil;
 
 public class TrapPistons extends Trap {
 
@@ -23,7 +24,7 @@ public class TrapPistons extends Trap {
 
                 if (player.getLocation().distanceSquared(location.bukkit()) <= 10 && !soundPlayed) {
                     soundPlayed = true;
-                    player.playSound(location.bukkit(), Sound.PISTON_EXTEND, 1, 1);
+                    SoundUtil.playSound(player, "PISTON_EXTEND");
                 }
 
                 if (Main.instance().getArena().getUser(player).getRole().equals(Role.RUNNER)) {
