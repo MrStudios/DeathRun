@@ -68,7 +68,9 @@ public class Trap {
         WATER(TrapWater.class),
         LAVA(TrapLava.class),
         FIRE(TrapFire.class),
+        ARROWS(TrapArrows.class),
         PISTONS(TrapPistons.class);
+
 
         private final Class<? extends Trap> cast;
 
