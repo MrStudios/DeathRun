@@ -1,0 +1,30 @@
+name: 'DeathRun Build'
+on:
+  push:
+    branches: [ "version/development" ]
+  pull_request:
+    branches: [ "version/development" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+      - name: 'Install Java Development Kit (17)'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: 'Build (Maven)'
+        run: 'mvn clean package'
+      - name: Upload (API)
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: 'DeathRun (API)'
+          path: 'api/target/*.jar'
+      - name: Upload (Core)
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: 'DeathRun (Core)'
+          path: 'core/target/*.jar'
