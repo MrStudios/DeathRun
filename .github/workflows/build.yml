@@ -19,12 +19,12 @@ jobs:
       - name: 'Build (Maven)'
         run: 'mvn clean package'
       - name: Upload (API)
-        uses: actions/download-artifact@v2.1.1
+        uses: actions/upload-artifact@v3
         with:
           name: 'DeathRun (API)'
           path: 'api/target/*.jar'
       - name: Upload (Core)
-        uses: actions/download-artifact@v2.1.1
+        uses: actions/upload-artifact@v3
         with:
           name: 'DeathRun (Core)'
           path: 'core/target/*.jar'
