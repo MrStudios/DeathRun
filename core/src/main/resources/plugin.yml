@@ -1,0 +1,15 @@
+# Plugin Information
+name: '${project.name}'
+description: '${project.description}'
+version: '${project.parent.version}'
+
+# Plugin Data
+load: 'POSTWORLD'
+api-version: '1.16'
+main: '${project.parent.groupId}.${project.name}'
+
+# Commands
+commands:
+  deathrun:
+    aliases:
+      - 'dr'
