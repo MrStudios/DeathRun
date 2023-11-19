@@ -8,9 +8,8 @@
     <modules>
         <module>api</module>
         <module>core</module>
-        <module>version-common</module>
     </modules>
-
+    
     <dependencies>
 
         <!-- ANNOTATIONS -->
