@@ -18,6 +18,7 @@ import pl.mrstudios.deathrun.api.API;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 import pl.mrstudios.deathrun.arena.Arena;
+import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
@@ -31,7 +32,6 @@ import pl.mrstudios.deathrun.config.impl.LanguageConfiguration;
 import pl.mrstudios.deathrun.config.impl.MapConfiguration;
 import pl.mrstudios.deathrun.config.impl.PluginConfiguration;
 import pl.mrstudios.deathrun.exception.MissingDependencyException;
-import pl.mrstudios.deathrun.listener.annotations.RegistrableListener;
 
 @SuppressWarnings("all")
 public class Bootstrap extends JavaPlugin {
@@ -122,7 +122,7 @@ public class Bootstrap extends JavaPlugin {
         /* Register Listeners */
         if (!this.configuration.map().arenaSetupEnabled)
         new Reflections<Listener>("pl.mrstudios.deathrun")
-                .getClassesAnnotatedWith(RegistrableListener.class)
+                .getClassesAnnotatedWith(ArenaRegistrableListener.class)
                 .forEach((listener) -> this.injector.inject(listener));
 
         /* Register Traps */ // TODO: annotation reflection

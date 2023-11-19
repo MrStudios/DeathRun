@@ -27,6 +27,10 @@ public interface IUser {
     ICheckpoint getCheckpoint();
     void setCheckpoint(ICheckpoint checkpoint);
 
+    /* Arena */
+    int getDeaths();
+    void setDeaths(int deaths);
+
     /* Bukkit Player */
     @Nullable Player asBukkit();
 

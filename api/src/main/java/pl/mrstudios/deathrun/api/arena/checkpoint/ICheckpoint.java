@@ -7,6 +7,7 @@ import java.util.List;
 public interface ICheckpoint {
 
     int id();
+    Location spawn();
     List<Location> locations();
 
 }

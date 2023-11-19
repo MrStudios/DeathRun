@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
 import pl.mrstudios.deathrun.api.arena.sidebar.ISidebar;
-import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
+import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.sidebar.Sidebar;
 
 import java.util.UUID;
@@ -25,6 +25,7 @@ public class User implements IUser {
     private Role role;
     private ISidebar sidebar;
     private ICheckpoint checkpoint;
+    private int deaths;
 
     public User(@NotNull Player player) {
 
@@ -33,6 +34,7 @@ public class User implements IUser {
         this.uniqueId = player.getUniqueId();
 
         /* Set User Arena Data */
+        this.deaths = 0;
         this.role = Role.UNKNOWN;
 
         /* Create Sidebar */

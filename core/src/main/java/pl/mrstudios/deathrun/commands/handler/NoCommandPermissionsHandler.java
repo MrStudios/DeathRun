@@ -7,7 +7,6 @@ import dev.rollczi.litecommands.permission.MissingPermissionsHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.config.Configuration;
 

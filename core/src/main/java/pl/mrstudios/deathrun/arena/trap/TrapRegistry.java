@@ -4,7 +4,9 @@ import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class TrapRegistry implements ITrapRegistry {
 

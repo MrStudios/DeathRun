@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.listener.annotations;
+package pl.mrstudios.deathrun.arena.listener.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,4 +7,4 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RegistrableListener {}
+public @interface ArenaRegistrableListener {}

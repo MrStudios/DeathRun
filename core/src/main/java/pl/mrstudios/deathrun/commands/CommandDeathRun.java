@@ -104,7 +104,7 @@ public class CommandDeathRun {
         }
 
         this.configuration.map().arenaCheckpoints.add(
-                new Checkpoint(this.configuration.map().arenaCheckpoints.size(), this.locations(player))
+                new Checkpoint(this.configuration.map().arenaCheckpoints.size(), player.getLocation(), this.locations(player))
         );
 
         this.message(player, "<reset> <dark_green><b>*</b> <green>Arena checkpoint has been added.");
