@@ -1,12 +1,10 @@
-package pl.mrstudios.deathrun.data.annotations;
+package pl.mrstudios.deathrun.listener.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RegistrableListener {
-    boolean register_on_setup() default false;
-}
+public @interface RegistrableListener {}

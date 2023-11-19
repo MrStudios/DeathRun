@@ -38,15 +38,39 @@
                             <relocations>
                                 <relocation>
                                     <pattern>eu.okaeri.configs</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.data.lib.okaeri-configs</shadedPattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.okaeri-configs</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.intellij.lang.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.data.lib.intellij-lang-annotations</shadedPattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.intellij-lang-annotations</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.jetbrains.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.data.lib.jetbrains-annotations</shadedPattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.jetbrains-annotations</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>pl.mrstudios.commons.inject</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.commons-inject</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>pl.mrstudios.commons.reflection</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.commons-reflection</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.rollczi.litecommands</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.litecommands</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>panda.std</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.panda-std</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.kyori-adventure</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.examination</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.kyori-examination</shadedPattern>
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -65,28 +89,26 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>codemc-nms-repo</id>
-            <url>https://repo.codemc.io/repository/nms/</url>
+            <id>mrstudios-public</id>
+            <url>https://repo.mrproxy.net/public</url>
         </repository>
         <repository>
             <id>okaeri-repo</id>
             <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>panda-repository</id>
+            <url>https://repo.panda-lang.org/releases</url>
+        </repository>
+        <repository>
+            <id>enginehub-maven</id>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
     </repositories>
 
     <dependencies>
 
         <!-- PLATFORM -->
-        <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper</artifactId>
@@ -101,11 +123,28 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- VERSION SUPPORT -->
+        <!-- COMMONS -->
         <dependency>
-            <groupId>pl.mrstudios.deathrun</groupId>
-            <artifactId>deathrun-version-common</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>pl.mrstudios.commons</groupId>
+            <artifactId>commons-inject</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.mrstudios.commons</groupId>
+            <artifactId>commons-reflection</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- LITE COMMANDS -->
+        <dependency>
+            <groupId>dev.rollczi</groupId>
+            <artifactId>litecommands-core</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.rollczi</groupId>
+            <artifactId>litecommands-bukkit</artifactId>
+            <version>3.0.2</version>
         </dependency>
 
         <!-- CONFIG -->
@@ -118,6 +157,31 @@
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-serdes-bukkit</artifactId>
             <version>5.0.0-beta.5</version>
+        </dependency>
+
+        <!-- KYORI -->
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+
+        <!-- WORLD EDIT -->
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.9</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

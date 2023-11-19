@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.arena.data.sidebar;
+package pl.mrstudios.deathrun.arena.sidebar;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +10,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
-import pl.mrstudios.deathrun.api.arena.data.sidebar.ISidebar;
-import pl.mrstudios.deathrun.api.arena.data.sidebar.ISidebarLine;
-import pl.mrstudios.deathrun.api.arena.interfaces.IUser;
+import pl.mrstudios.deathrun.api.arena.sidebar.ISidebar;
+import pl.mrstudios.deathrun.api.arena.sidebar.ISidebarLine;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
 
 import java.time.Duration;
 import java.util.*;

@@ -5,8 +5,8 @@ import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import lombok.NonNull;
-import pl.mrstudios.deathrun.api.arena.data.checkpoint.ICheckpoint;
-import pl.mrstudios.deathrun.arena.data.checkpoint.Checkpoint;
+import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
+import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class CheckpointSerializer implements ObjectSerializer<ICheckpoint> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public ICheckpoint deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
         return new Checkpoint(
                 data.get("id", Integer.class),

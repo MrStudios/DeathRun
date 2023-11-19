@@ -1,9 +1,9 @@
-package pl.mrstudios.deathrun.arena.data.sidebar;
+package pl.mrstudios.deathrun.arena.sidebar;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
-import pl.mrstudios.deathrun.api.arena.data.sidebar.ISidebarLine;
+import pl.mrstudios.deathrun.api.arena.sidebar.ISidebarLine;
 
 import java.util.concurrent.Callable;
 

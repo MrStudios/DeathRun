@@ -1,10 +1,10 @@
-package pl.mrstudios.deathrun.arena.data.trap;
+package pl.mrstudios.deathrun.arena.trap;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import pl.mrstudios.deathrun.api.arena.interfaces.ITrap;
-import pl.mrstudios.deathrun.api.data.annotations.Serializable;
+import pl.mrstudios.deathrun.api.arena.trap.ITrap;
+import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package pl.mrstudios.deathrun.arena.data.checkpoint;
+package pl.mrstudios.deathrun.arena.checkpoint;
 
 import org.bukkit.Location;
-import pl.mrstudios.deathrun.api.arena.data.checkpoint.ICheckpoint;
+import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
 
 import java.util.List;
 

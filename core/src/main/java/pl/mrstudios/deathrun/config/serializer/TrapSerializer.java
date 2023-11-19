@@ -6,8 +6,8 @@ import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import lombok.NonNull;
 import org.yaml.snakeyaml.serializer.SerializerException;
-import pl.mrstudios.deathrun.api.arena.interfaces.ITrap;
-import pl.mrstudios.deathrun.api.data.annotations.Serializable;
+import pl.mrstudios.deathrun.api.arena.trap.ITrap;
+import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

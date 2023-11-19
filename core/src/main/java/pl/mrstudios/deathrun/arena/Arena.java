@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
-import pl.mrstudios.deathrun.api.arena.interfaces.IArena;
-import pl.mrstudios.deathrun.api.arena.interfaces.IUser;
+import pl.mrstudios.deathrun.api.arena.IArena;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
 
 import java.util.List;
 import java.util.UUID;

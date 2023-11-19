@@ -1,11 +1,10 @@
 package pl.mrstudios.deathrun.config.impl;
 
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.CustomKey;
-import eu.okaeri.configs.annotation.Header;
+import eu.okaeri.configs.annotation.*;
 import org.bukkit.Location;
-import pl.mrstudios.deathrun.api.arena.interfaces.ITrap;
-import pl.mrstudios.deathrun.arena.data.checkpoint.Checkpoint;
+import pl.mrstudios.deathrun.api.arena.trap.ITrap;
+import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,36 +20,27 @@ import java.util.List;
         " ",
         "--------------------------------------------------------------------------",
         " "
-})
+}) @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class MapConfiguration extends OkaeriConfig {
 
-    @CustomKey("arena_name")
-    public String ARENA_NAME;
+    public String arenaName;
 
     /* Spawns */
-    @CustomKey("arena_waiting_lobby_location")
-    public Location ARENA_WAITING_LOBBY_LOCATION;
+    public Location arenaWaitingLobbyLocation;
 
-    @CustomKey("arena_runner_spawn_locations")
-    public List<Location> ARENA_RUNNER_SPAWN_LOCATIONS = Collections.emptyList();
-
-    @CustomKey("arena_death_spawn_locations")
-    public List<Location> ARENA_DEATH_SPAWN_LOCATIONS = Collections.emptyList();
+    public List<Location> arenaRunnerSpawnLocations = Collections.emptyList();
+    public List<Location> arenaDeathSpawnLocations = Collections.emptyList();
 
     /* Traps */
-    @CustomKey("arena_traps")
-    public List<ITrap> ARENA_TRAPS = Collections.emptyList();
+    public List<ITrap> arenaTraps = Collections.emptyList();
 
     /* Checkpoints */
-    @CustomKey("arena_checkpoints")
-    public List<Checkpoint> ARENA_CHECKPOINTS = Collections.emptyList();
+    public List<Checkpoint> arenaCheckpoints = Collections.emptyList();
 
     /* Misc */
-    @CustomKey("arena_start_barrier_blocks")
-    public List<Location> ARENA_START_BARRIER_BLOCKS = Collections.emptyList();
+    public List<Location> arenaStartBarrierBlocks = Collections.emptyList();
 
     /* Setup Status */
-    @CustomKey("arena_setup_enabled")
-    public boolean ARENA_SETUP_ENABLED = true;
+    public boolean arenaSetupEnabled = true;
 
 }

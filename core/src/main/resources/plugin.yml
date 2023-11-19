@@ -3,13 +3,11 @@ name: '${project.name}'
 description: '${project.description}'
 version: '${project.parent.version}'
 
+# Dependencies
+softdepend:
+  - 'WorldEdit'
+
 # Plugin Data
 load: 'POSTWORLD'
 api-version: '1.16'
-main: '${project.parent.groupId}.${project.name}'
-
-# Commands
-commands:
-  deathrun:
-    aliases:
-      - 'dr'
+main: 'pl.mrstudios.deathrun.plugin.Bootstrap'

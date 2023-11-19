@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.arena.data.user;
+package pl.mrstudios.deathrun.arena.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,11 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.mrstudios.deathrun.api.arena.data.checkpoint.ICheckpoint;
-import pl.mrstudios.deathrun.api.arena.data.sidebar.ISidebar;
-import pl.mrstudios.deathrun.api.arena.enums.Role;
-import pl.mrstudios.deathrun.api.arena.interfaces.IUser;
-import pl.mrstudios.deathrun.arena.data.sidebar.Sidebar;
+import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
+import pl.mrstudios.deathrun.api.arena.sidebar.ISidebar;
+import pl.mrstudios.deathrun.api.arena.user.enums.Role;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
+import pl.mrstudios.deathrun.arena.sidebar.Sidebar;
 
 import java.util.UUID;
 
