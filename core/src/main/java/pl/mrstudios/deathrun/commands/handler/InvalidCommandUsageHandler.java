@@ -23,7 +23,7 @@ public class InvalidCommandUsageHandler implements InvalidUsageHandler<CommandSe
     @Override
     public void handle(Invocation<CommandSender> invocation, InvalidUsage<CommandSender> result, ResultHandlerChain<CommandSender> chain) {
         this.audiences.sender(invocation.sender()).sendMessage(this.miniMessage.deserialize(
-                String.format("<#ff0000>Invalid command usage, correct usage is <#b40a00>%s</#b40a00>.</#ff0000>", result.getSchematic().first())
+                String.format("<reset> <dark_red><b>*</b> <red>Invalid command usage, correct usage is <dark_red>%s<red>.", result.getSchematic().first())
         ));
     }
 
