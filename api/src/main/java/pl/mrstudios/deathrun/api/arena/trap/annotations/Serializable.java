@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.api.data.annotations;
+package pl.mrstudios.deathrun.api.arena.trap.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

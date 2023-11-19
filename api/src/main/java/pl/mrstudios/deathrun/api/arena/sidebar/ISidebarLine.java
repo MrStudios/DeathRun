@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.api.arena.data.sidebar;
+package pl.mrstudios.deathrun.api.arena.sidebar;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

@@ -7,8 +7,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
-import pl.mrstudios.deathrun.api.arena.interfaces.IArena;
-import pl.mrstudios.deathrun.api.arena.interfaces.ITrap;
+import pl.mrstudios.deathrun.api.arena.IArena;
+import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 
 @Getter
 @AllArgsConstructor

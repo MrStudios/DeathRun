@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.api.arena.data.checkpoint;
+package pl.mrstudios.deathrun.api.arena.checkpoint;
 
 import org.bukkit.Location;
 

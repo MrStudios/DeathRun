@@ -5,8 +5,8 @@ import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
-import pl.mrstudios.deathrun.api.arena.interfaces.IArena;
-import pl.mrstudios.deathrun.api.arena.interfaces.IUser;
+import pl.mrstudios.deathrun.api.arena.IArena;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
 
 @Getter
 @AllArgsConstructor

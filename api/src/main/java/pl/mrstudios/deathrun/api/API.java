@@ -1,27 +1,25 @@
 package pl.mrstudios.deathrun.api;
 
-import pl.mrstudios.deathrun.api.arena.interfaces.IArena;
-import pl.mrstudios.deathrun.api.arena.interfaces.ITrap;
-import pl.mrstudios.deathrun.api.version.IVersionSupport;
-
-import java.util.HashMap;
-import java.util.Map;
+import lombok.AccessLevel;
+import lombok.Setter;
+import pl.mrstudios.deathrun.api.arena.IArena;
+import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 
 public class API {
 
-    /* Plugin Data */
-    public IArena ARENA;
-    public IVersionSupport VERSION;
+    public IArena arena;
+    public ITrapRegistry trapRegistry;
 
-    /* Registry */
-    public Map<String, Class<? extends ITrap>> TRAP_REGISTRY = new HashMap<>();
+    public API(IArena arena, ITrapRegistry trapRegistry) {
 
-    /* Instance */
-    public static API INSTANCE;
+        setInstance(this);
 
-    /* Trap Registry */
-    public void registerTrap(ITrap trap) {
-        this.TRAP_REGISTRY.put(trap.getId(), trap.getClass());
+        this.arena = arena;
+        this.trapRegistry = trapRegistry;
+
     }
+
+    @Setter(AccessLevel.PRIVATE)
+    public static API instance;
 
 }

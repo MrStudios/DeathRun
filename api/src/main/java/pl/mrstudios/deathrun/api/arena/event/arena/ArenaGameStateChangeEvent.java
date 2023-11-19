@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
-import pl.mrstudios.deathrun.api.arena.interfaces.IArena;
+import pl.mrstudios.deathrun.api.arena.IArena;
 
 @Getter
 @AllArgsConstructor

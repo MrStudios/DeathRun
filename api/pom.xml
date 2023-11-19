@@ -26,24 +26,14 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>codemc-nms-repo</id>
-            <url>https://repo.codemc.io/repository/nms/</url>
+            <id>mrstudios-public</id>
+            <url>https://repo.mrproxy.net/public</url>
         </repository>
     </repositories>
 
     <dependencies>
 
         <!-- PLATFORM -->
-        <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper</artifactId>

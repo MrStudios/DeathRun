@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.api.arena.enums;
+package pl.mrstudios.deathrun.api.arena.user.enums;
 
 import lombok.NoArgsConstructor;
 

@@ -1,11 +1,11 @@
-package pl.mrstudios.deathrun.api.arena.interfaces;
+package pl.mrstudios.deathrun.api.arena.user;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.mrstudios.deathrun.api.arena.data.checkpoint.ICheckpoint;
-import pl.mrstudios.deathrun.api.arena.data.sidebar.ISidebar;
-import pl.mrstudios.deathrun.api.arena.enums.Role;
+import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
+import pl.mrstudios.deathrun.api.arena.sidebar.ISidebar;
+import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 
 import java.util.UUID;
 
@@ -28,7 +28,6 @@ public interface IUser {
     void setCheckpoint(ICheckpoint checkpoint);
 
     /* Bukkit Player */
-    @Nullable
-    Player asBukkit();
+    @Nullable Player asBukkit();
 
 }

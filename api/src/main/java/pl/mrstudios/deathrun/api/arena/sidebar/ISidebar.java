@@ -1,9 +1,9 @@
-package pl.mrstudios.deathrun.api.arena.data.sidebar;
+package pl.mrstudios.deathrun.api.arena.sidebar;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
-import pl.mrstudios.deathrun.api.arena.interfaces.IUser;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
 
 import java.time.Duration;
 import java.util.List;

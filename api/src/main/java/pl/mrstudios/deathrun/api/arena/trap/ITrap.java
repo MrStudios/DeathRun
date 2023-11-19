@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.api.arena.interfaces;
+package pl.mrstudios.deathrun.api.arena.trap;
 
 import org.bukkit.Location;
 
