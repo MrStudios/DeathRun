@@ -3,8 +3,10 @@ package pl.mrstudios.deathrun.plugin;
 import com.sk89q.worldedit.WorldEdit;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.annotations.LiteCommandsAnnotations;
+import dev.rollczi.litecommands.argument.ArgumentKey;
 import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
 import dev.rollczi.litecommands.schematic.SchematicFormat;
+import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Server;
@@ -98,6 +100,11 @@ public class Bootstrap extends JavaPlugin {
                 .register(ITrapRegistry.class, this.trapRegistry)
                 .register(Configuration.class, this.configuration);
 
+        /* Register Traps */ // TODO: annotation reflection
+        this.trapRegistry.register("TRAP_TNT", TrapTNT.class);
+        this.trapRegistry.register("TRAP_APPEARING_BLOCKS", TrapAppearingBlocks.class);
+        this.trapRegistry.register("TRAP_DISAPPEARING_BLOCKS", TrapDisappearingBlocks.class);
+
         /* Register Commands */
         this.liteCommands = LiteCommandsBukkit.builder()
 
@@ -116,6 +123,9 @@ public class Bootstrap extends JavaPlugin {
                 /* Schematic */
                 .schematicGenerator(SchematicFormat.angleBrackets())
 
+                /* Suggesters */
+                .argumentSuggester(String.class, ArgumentKey.of("type"), SuggestionResult.of(this.trapRegistry.list()))
+
                 /* Build */
                 .build();
 
@@ -124,11 +134,6 @@ public class Bootstrap extends JavaPlugin {
         new Reflections<Listener>("pl.mrstudios.deathrun")
                 .getClassesAnnotatedWith(ArenaRegistrableListener.class)
                 .forEach((listener) -> this.injector.inject(listener));
-
-        /* Register Traps */ // TODO: annotation reflection
-        this.trapRegistry.register("TRAP_TNT", TrapTNT.class);
-        this.trapRegistry.register("TRAP_APPEARING_BLOCKS", TrapAppearingBlocks.class);
-        this.trapRegistry.register("TRAP_DISAPPEARING_BLOCKS", TrapDisappearingBlocks.class);
 
         /* Initialize API */
         new API(
