@@ -27,7 +27,7 @@
     <repositories>
         <repository>
             <id>mrstudios-public</id>
-            <url>https://repo.mrproxy.net/public</url>
+            <url>https://repo.mrstudios.pl/public</url>
         </repository>
     </repositories>
 
