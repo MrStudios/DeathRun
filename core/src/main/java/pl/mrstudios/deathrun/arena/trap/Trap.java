@@ -22,7 +22,7 @@ public abstract class Trap implements ITrap {
     private List<Location> locations;
 
     /* Constructor */
-    public Trap(String id) {
+    protected Trap(String id) {
         this.id = id;
     }
 
