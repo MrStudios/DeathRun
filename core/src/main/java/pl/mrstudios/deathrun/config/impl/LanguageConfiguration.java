@@ -29,27 +29,27 @@ public class LanguageConfiguration extends OkaeriConfig {
     public String chatMessageArenaPlayerJoined = "<gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)";
     public String chatMessageArenaPlayerLeft = "<gray><player> <yellow>has quit.";
     public String chatMessageArenaStartingTimer = "<yellow>Game starts in <gold><timer> seconds<yellow>.";
-    public String chatMessageArenaPlayerFinished = "&r <white><b>FINISH > <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)";
+    public String chatMessageArenaPlayerFinished = "<reset> <white><b>FINISH > <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)";
 
     public List<String> chatMessageArenaGameStartRunner = List.of(
-            "&r",
-            "&r   <gold><b>* <gray>You are <green>Runner<gray>.",
-            "&r   <white><b>* <gray>Your task is complete run in shortest possible time, during this task interfering player will trigger various traps.",
-            "&r"
+            "<reset>",
+            "<reset>   <gold><b>* <gray>You are <green>Runner<gray>.",
+            "<reset>   <white><b>* <gray>Your task is complete run in shortest possible time, during this task interfering player will trigger various traps.",
+            "<reset>"
     );
 
     public List<String> chatMessageArenaGameStartDeath = List.of(
-            "&r",
-            "&r   <gold><b>* <gray>You are <red>Death<gray>.",
-            "&r   <white><b>* <gray>Your task is to disturb runners by launching traps.",
-            "&r"
+            "<reset>",
+            "<reset>   <gold><b>* <gray>You are <red>Death<gray>.",
+            "<reset>   <white><b>* <gray>Your task is to disturb runners by launching traps.",
+            "<reset>"
     );
 
     public List<String> chatMessageGameEndSpectator = List.of(
-            "&r",
-            "&r   <gold><b>* <gray>You are <dark_gray>Spectator<gray>.",
-            "&r   <white><b>* <gray>Now you can follow other players.",
-            "&r"
+            "<reset>",
+            "<reset>   <gold><b>* <gray>You are <dark_gray>Spectator<gray>.",
+            "<reset>   <white><b>* <gray>Now you can follow other players.",
+            "<reset>"
     );
 
     @Comment({
@@ -60,10 +60,10 @@ public class LanguageConfiguration extends OkaeriConfig {
             ""
     })
     public String arenaPreStartingTitle = "<red><timer>";
-    public String arenaPreStartingSubtitle = "&r";
+    public String arenaPreStartingSubtitle = "<reset>";
 
     public String arenaStartingTitle = "<red><timer>";
-    public String arenaStartingSubtitle = "&r";
+    public String arenaStartingSubtitle = "<reset>";
 
     public String arenaDeathTitle = "<red>YOU DIED!";
     public String arenaDeathSubtitle = "<yellow>Don't give up! Try again!";
@@ -75,7 +75,7 @@ public class LanguageConfiguration extends OkaeriConfig {
     public String arenaFinishSubtitle = "<gray>Your position is <white>#<position><gray>.";
 
     public String arenaGameEndTitle = "<red><b>GAME END!";
-    public String arenaGameEndSubtitle = "&r";
+    public String arenaGameEndSubtitle = "<reset>";
 
     public String arenaMoveServerTitle = "<aqua>Waiting..";
     public String arenaMoveServerSubtitle = "<gray>You will be transferred to lobby in <white><endTimer> seconds<gray>.";
@@ -90,35 +90,35 @@ public class LanguageConfiguration extends OkaeriConfig {
     public String arenaScoreboardTitle = "<yellow><b>DEATH RUN";
 
     public List<String> arenaScoreboardLinesWaiting = List.of(
-            "&r",
+            "<reset>",
             "<white>Map: <green><map>",
             "<white>Players: <green><currentPlayers>/<maxPlayers>",
-            "&r",
+            "<reset>",
             "<white>Waiting..",
-            "&r",
+            "<reset>",
             "<yellow>www.mrstudios.pl"
     );
 
     public List<String> arenaScoreboardLinesStarting = List.of(
-            "&r",
+            "<reset>",
             "<white>Map: <green><map>",
             "<white>Players: <green><currentPlayers>/<maxPlayers>",
-            "&r",
+            "<reset>",
             "<white>Start in <green><timer> seconds",
-            "&r",
+            "<reset>",
             "<yellow>www.mrstudios.pl"
     );
 
     public List<String> arenaScoreboardLinesPlaying = List.of(
-            "&r",
-            "<white>Time: <green><time>",
+            "<reset>",
+            "<white>Time: <green><timeFormatted>",
             "<white>Role: <green><role>",
-            "&r",
+            "<reset>",
             "<white>Runners: <green><runners>",
             "<white>Deaths: <red><deaths>",
-            "&r",
+            "<reset>",
             "<white>Map: <green><map>",
-            "&r",
+            "<reset>",
             "<yellow>www.mrstudios.pl"
     );
 
