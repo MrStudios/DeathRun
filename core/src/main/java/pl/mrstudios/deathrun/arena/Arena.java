@@ -2,6 +2,9 @@ package pl.mrstudios.deathrun.arena;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.catcoder.sidebar.ProtocolSidebar;
+import me.catcoder.sidebar.Sidebar;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +23,7 @@ public class Arena implements IArena {
 
     /* Arena Data */
     private String name;
+    private Sidebar<Component> sidebar;
 
     private long startTime;
     private int finishedRuns;
@@ -30,9 +34,8 @@ public class Arena implements IArena {
     @Override
     public @Nullable IUser getUser(@NotNull String string) {
         return this.users.stream()
-                .filter(
-                        (user) -> user.getName().equals(string)
-                ).findFirst()
+                .filter((user) -> user.getName().equals(string))
+                .findFirst()
                 .orElse(null);
     }
 
@@ -48,28 +51,27 @@ public class Arena implements IArena {
     @Override
     public @Nullable IUser getUser(@NotNull Player player) {
         return this.users.stream()
-                .filter(
-                        (user) -> user.getName().equals(player.getName()) && user.getUniqueId().equals(player.getUniqueId())
-                ).findFirst()
+                .filter((user) -> user.getName().equals(player.getName()) && user.getUniqueId().equals(player.getUniqueId()))
+                .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public Collection<IUser> getRunners() {
+    public List<IUser> getRunners() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.RUNNER))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<IUser> getDeaths() {
+    public List<IUser> getDeaths() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.DEATH))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<IUser> getSpectators() {
+    public List<IUser> getSpectators() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.SPECTATOR))
                 .collect(Collectors.toList());
