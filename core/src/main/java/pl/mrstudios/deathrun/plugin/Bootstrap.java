@@ -20,6 +20,7 @@ import pl.mrstudios.deathrun.api.API;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 import pl.mrstudios.deathrun.arena.Arena;
+import pl.mrstudios.deathrun.arena.ArenaServiceRunnable;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
@@ -131,9 +132,13 @@ public class Bootstrap extends JavaPlugin {
 
         /* Register Listeners */
         if (!this.configuration.map().arenaSetupEnabled)
-        new Reflections<Listener>("pl.mrstudios.deathrun")
-                .getClassesAnnotatedWith(ArenaRegistrableListener.class)
-                .forEach((listener) -> this.injector.inject(listener));
+            new Reflections<Listener>("pl.mrstudios.deathrun")
+                    .getClassesAnnotatedWith(ArenaRegistrableListener.class)
+                    .forEach((listener) -> this.injector.inject(listener));
+
+        /* Start Arena Service */
+        if (!this.configuration.map().arenaSetupEnabled) // TODO: Multiple arenas on single server.
+            this.getServer().getScheduler().runTaskTimer(this, this.injector.inject(ArenaServiceRunnable.class).arena(this.arena), 0L, 20L);
 
         /* Initialize API */
         new API(
