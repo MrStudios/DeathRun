@@ -7,10 +7,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
-import pl.mrstudios.deathrun.api.arena.sidebar.ISidebar;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
-import pl.mrstudios.deathrun.arena.sidebar.Sidebar;
 
 import java.util.UUID;
 
@@ -23,7 +21,6 @@ public class User implements IUser {
 
     /* User Arena Data */
     private Role role;
-    private ISidebar sidebar;
     private ICheckpoint checkpoint;
     private int deaths;
 
@@ -36,10 +33,6 @@ public class User implements IUser {
         /* Set User Arena Data */
         this.deaths = 0;
         this.role = Role.UNKNOWN;
-
-        /* Create Sidebar */
-        this.sidebar = new Sidebar()
-                .setViewer(this);
 
     }
 
