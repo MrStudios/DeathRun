@@ -5,20 +5,18 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.event.player.PlayerQuitEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.IArena;
-import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserJoinedEvent;
+import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserLeftEvent;
+import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
-import pl.mrstudios.deathrun.arena.user.User;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.util.Objects;
 
 @ArenaRegistrableListener
-public class ArenaPlayerJoinListener implements Listener {
+public class ArenaPlayerQuitListener implements Listener {
 
     private final IArena arena;
     private final Server server;
@@ -27,7 +25,7 @@ public class ArenaPlayerJoinListener implements Listener {
     private final Configuration configuration;
 
     @Inject
-    public ArenaPlayerJoinListener(IArena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaPlayerQuitListener(IArena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
         this.arena = arena;
         this.server = server;
         this.audiences = audiences;
@@ -36,28 +34,25 @@ public class ArenaPlayerJoinListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerQuit(PlayerQuitEvent event) {
 
-        event.joinMessage(null);
+        event.quitMessage(null);
         if (this.arena.getUser(event.getPlayer()) != null)
             return;
 
-        User user = new User(event.getPlayer());
+        IUser user = this.arena.getUser(event.getPlayer());
 
-        this.arena.getUsers().add(user);
+        this.arena.getUsers().remove(user);
         this.arena.getUsers().forEach((target) ->
                 this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.parse(
-                        this.configuration.language().chatMessageArenaPlayerJoined
+                        this.configuration.language().chatMessageArenaPlayerLeft
                                 .replace("<player>", event.getPlayer().getName())
                                 .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
                                 .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()
         )))));
 
-        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 1, false, false));
-        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
-
-        this.arena.getSidebar().addViewer(event.getPlayer());
-        this.server.getPluginManager().callEvent(new ArenaUserJoinedEvent(this.arena, user));
+        this.arena.getSidebar().removeViewer(event.getPlayer());
+        this.server.getPluginManager().callEvent(new ArenaUserLeftEvent(this.arena, user));
 
     }
 
