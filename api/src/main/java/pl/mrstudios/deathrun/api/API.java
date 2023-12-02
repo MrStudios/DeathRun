@@ -1,14 +1,16 @@
 package pl.mrstudios.deathrun.api;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 
+@Getter
 public class API {
 
-    public IArena arena;
-    public ITrapRegistry trapRegistry;
+    private final IArena arena;
+    private final ITrapRegistry trapRegistry;
 
     public API(IArena arena, ITrapRegistry trapRegistry) {
 
