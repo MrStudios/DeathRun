@@ -73,6 +73,10 @@
                                     <pattern>net.kyori.examination</pattern>
                                     <shadedPattern>pl.mrstudios.deathrun.libraries.kyori-examination</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>me.catcoder.sidebar</pattern>
+                                    <shadedPattern>pl.mrstudios.deathrun.libraries.protocol-sidebar</shadedPattern>
+                                </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
