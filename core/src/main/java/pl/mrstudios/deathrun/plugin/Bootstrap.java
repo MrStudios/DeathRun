@@ -77,7 +77,7 @@ public class Bootstrap extends JavaPlugin {
                 .build();
 
         /* Create Arena Instance */
-        this.arena = new Arena();
+        this.arena = new Arena(this.configuration.map().arenaName);
 
         /* Trap Registry */
         this.trapRegistry = new TrapRegistry();
@@ -138,7 +138,8 @@ public class Bootstrap extends JavaPlugin {
 
         /* Start Arena Service */
         if (!this.configuration.map().arenaSetupEnabled) // TODO: Multiple arenas on single server.
-            this.getServer().getScheduler().runTaskTimer(this, this.injector.inject(ArenaServiceRunnable.class).arena(this.arena), 0L, 20L);
+            this.injector.inject(ArenaServiceRunnable.class)
+                    .runTaskTimer(this, 0, 20);
 
         /* Initialize API */
         new API(

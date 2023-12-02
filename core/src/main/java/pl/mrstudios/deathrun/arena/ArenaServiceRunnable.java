@@ -6,9 +6,11 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
@@ -24,16 +26,18 @@ import java.util.stream.IntStream;
 
 public class ArenaServiceRunnable extends BukkitRunnable {
 
-    private IArena arena;
-
+    private final IArena arena;
     private final Plugin plugin;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
 
-    @Inject
-    public ArenaServiceRunnable(Plugin plugin, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    private BukkitTask sidebarTask;
 
+    @Inject
+    public ArenaServiceRunnable(IArena arena, Plugin plugin, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+
+        this.arena = arena;
         this.plugin = plugin;
         this.audiences = audiences;
         this.miniMessage = miniMessage;
@@ -211,6 +215,11 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                 .filter(Objects::nonNull)
                 .forEach(this.arena.getSidebar()::addViewer);
 
+        if (this.sidebarTask != null)
+            this.sidebarTask.cancel();
+
+        this.sidebarTask = this.arena.getSidebar().updateLinesPeriodically(0, 20);
+
     }
 
     private void addLine(String content) {
@@ -236,12 +245,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
             );
 
         });
-    }
-
-    /* Assigners */
-    public ArenaServiceRunnable arena(IArena arena) {
-        this.arena = arena;
-        return this;
     }
 
     /* Formatters */

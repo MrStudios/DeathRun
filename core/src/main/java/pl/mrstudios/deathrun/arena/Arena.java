@@ -13,6 +13,7 @@ import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +31,12 @@ public class Arena implements IArena {
 
     private List<IUser> users;
     private GameState gameState;
+
+    public Arena(String name) {
+        this.name = name;
+        this.users = new ArrayList<>();
+        this.gameState = GameState.WAITING;
+    }
 
     @Override
     public @Nullable IUser getUser(@NotNull String string) {
