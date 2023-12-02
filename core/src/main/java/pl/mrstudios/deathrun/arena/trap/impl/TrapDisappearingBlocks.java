@@ -52,8 +52,8 @@ public class TrapDisappearingBlocks extends Trap {
         if (objects.length == 0)
             return;
 
-        if (objects[0] instanceof Material)
-            this.material = (Material) objects[0];
+        if (objects[0] instanceof Material extraMaterial)
+            this.material = extraMaterial;
 
     }
 
