@@ -18,7 +18,6 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
-import pl.mrstudios.deathrun.arena.user.User;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.time.Duration;
