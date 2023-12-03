@@ -2,7 +2,6 @@ package pl.mrstudios.deathrun.arena;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.catcoder.sidebar.ProtocolSidebar;
 import me.catcoder.sidebar.Sidebar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -14,10 +13,8 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter @Setter
 public class Arena implements IArena {
@@ -26,8 +23,9 @@ public class Arena implements IArena {
     private String name;
     private Sidebar<Component> sidebar;
 
-    private long startTime;
+    private int elapsedTime;
     private int finishedRuns;
+    private int remainingTime;
 
     private List<IUser> users;
     private GameState gameState;
@@ -36,6 +34,9 @@ public class Arena implements IArena {
         this.name = name;
         this.users = new ArrayList<>();
         this.gameState = GameState.WAITING;
+        this.elapsedTime = 0;
+        this.finishedRuns = 0;
+        this.remainingTime = 0;
     }
 
     @Override
@@ -67,21 +68,21 @@ public class Arena implements IArena {
     public List<IUser> getRunners() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.RUNNER))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<IUser> getDeaths() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.DEATH))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<IUser> getSpectators() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.SPECTATOR))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

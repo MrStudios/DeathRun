@@ -22,7 +22,6 @@ public class TrapSerializer implements ObjectSerializer<ITrap> {
 
         List<Field> fields = new ArrayList<>(Arrays.asList(object.getClass().getDeclaredFields()));
 
-        data.add("id", object.getId());
         data.add("button", object.getButton());
         data.addCollection("locations", object.getLocations(), Location.class);
         fields.forEach((field) -> {
@@ -51,7 +50,6 @@ public class TrapSerializer implements ObjectSerializer<ITrap> {
             ITrap trap = (ITrap) Class.forName(data.get("class", String.class)).getDeclaredConstructor().newInstance();
             List<Field> fields = new ArrayList<>(Arrays.asList(trap.getClass().getDeclaredFields()));
 
-            trap.setId(data.get("id", String.class));
             trap.setButton(data.get("button", Location.class));
             trap.setLocations(data.getAsList("locations", Location.class));
             fields.forEach((field) -> {

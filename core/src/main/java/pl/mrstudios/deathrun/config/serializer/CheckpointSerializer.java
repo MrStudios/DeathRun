@@ -9,8 +9,6 @@ import org.bukkit.Location;
 import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
 import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 
-import java.util.List;
-
 public class CheckpointSerializer implements ObjectSerializer<ICheckpoint> {
 
     @Override
