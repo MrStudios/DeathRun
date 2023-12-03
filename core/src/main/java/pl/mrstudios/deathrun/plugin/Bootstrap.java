@@ -60,6 +60,9 @@ public class Bootstrap extends JavaPlugin {
         if (!this.getServer().getPluginManager().isPluginEnabled("WorldEdit"))
             throw new MissingDependencyException("You must have WorldEdit (v7.2.9+) installed on your server to use this plugin.");
 
+        if (!this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"))
+            throw new MissingDependencyException("You must have ProtocolLib (v4.6.0+) installed on your server to use this plugin.");
+
         /* World Edit */
         this.worldEdit = WorldEdit.getInstance();
 
@@ -134,7 +137,7 @@ public class Bootstrap extends JavaPlugin {
         if (!this.configuration.map().arenaSetupEnabled)
             new Reflections<Listener>("pl.mrstudios.deathrun")
                     .getClassesAnnotatedWith(ArenaRegistrableListener.class)
-                    .forEach((listener) -> this.injector.inject(listener));
+                    .forEach((listener) -> this.getServer().getPluginManager().registerEvents(this.injector.inject(listener), this));
 
         /* Start Arena Service */
         if (!this.configuration.map().arenaSetupEnabled) // TODO: Multiple arenas on single server.

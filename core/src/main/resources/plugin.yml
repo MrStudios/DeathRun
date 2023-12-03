@@ -6,6 +6,7 @@ version: '${project.parent.version}'
 # Dependencies
 softdepend:
   - 'WorldEdit'
+  - 'ProtocolLib'
 
 # Plugin Data
 load: 'POSTWORLD'
