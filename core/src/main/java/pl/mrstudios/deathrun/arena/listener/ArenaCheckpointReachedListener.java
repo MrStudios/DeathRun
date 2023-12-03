@@ -3,11 +3,13 @@ package pl.mrstudios.deathrun.arena.listener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaCheckpointEvent;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaFinishedEvent;
@@ -21,17 +23,19 @@ import java.time.Duration;
 import java.util.Objects;
 
 @ArenaRegistrableListener
-public class ArenaCheckpointReachedEvent implements Listener {
+public class ArenaCheckpointReachedListener implements Listener {
 
     private final Arena arena;
+    private final Plugin plugin;
     private final Server server;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
 
     @Inject
-    public ArenaCheckpointReachedEvent(Arena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaCheckpointReachedListener(Arena arena, Plugin plugin, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
         this.arena = arena;
+        this.plugin = plugin;
         this.server = server;
         this.audiences = audiences;
         this.miniMessage = miniMessage;
@@ -125,6 +129,18 @@ public class ArenaCheckpointReachedEvent implements Listener {
                                             .replace("<seconds>", String.valueOf(time))
                                             .replace("<finishPosition>", String.valueOf(position))
                             )));
+
+                    this.configuration.language().chatMessageGameEndSpectator.stream()
+                            .map(this.miniMessage::deserialize)
+                            .forEach((component) -> this.audiences.player(event.getPlayer()).sendMessage(component));
+
+                    event.getPlayer().setAllowFlight(true);
+                    event.getPlayer().setGameMode(GameMode.ADVENTURE);
+                    this.arena.getUsers()
+                            .stream()
+                            .map(IUser::asBukkit)
+                            .filter(Objects::nonNull)
+                            .forEach((target) -> target.hidePlayer(this.plugin, event.getPlayer()));
 
                 });
 
