@@ -1,6 +1,6 @@
 package pl.mrstudios.deathrun.arena.listener;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
@@ -8,12 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaTrapActivateEvent;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
+import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 
@@ -22,23 +23,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @ArenaRegistrableListener
 public class ArenaButtonClickListener implements Listener {
 
-    private final IArena arena;
+    private final Arena arena;
+    private final Plugin plugin;
     private final Server server;
-    private final MiniMessage miniMessage;
     private final Configuration configuration;
 
     @Inject
-    public ArenaButtonClickListener(IArena arena, Server server, MiniMessage miniMessage, Configuration configuration) {
+    public ArenaButtonClickListener(Arena arena, Plugin plugin, Server server, Configuration configuration) {
         this.arena = arena;
+        this.plugin = plugin;
         this.server = server;
-        this.miniMessage = miniMessage;
         this.configuration = configuration;
     }
 
@@ -81,40 +79,41 @@ public class ArenaButtonClickListener implements Listener {
                         return;
 
                     trap.start();
-
-                    ScheduledExecutorService main = Executors.newSingleThreadScheduledExecutor(),
-                            delay = Executors.newSingleThreadScheduledExecutor();
-
-                    ArmorStand armorStand = event.getPlayer().getWorld().spawn(trap.getButton().clone().add(0, 1, 0), ArmorStand.class, (entity) -> {
+                    ArmorStand armorStand = event.getPlayer().getWorld().spawn(trap.getButton().clone().toCenterLocation().add(0, -1, 0), ArmorStand.class, (entity) -> {
 
                         entity.setGravity(false);
                         entity.setInvisible(true);
                         entity.setInvulnerable(true);
                         entity.setCustomNameVisible(true);
-                        entity.customName(this.miniMessage.parse(
-                                this.configuration.language().arenaHologramTrapDelayed
-                                        .replace("<delay>", String.valueOf(this.configuration.plugin().arenaTrapDelay)))
+                        entity.setCustomName(
+                                this.miniMessageToLegacy(
+                                        this.configuration.language().arenaHologramTrapDelayed
+                                                .replace("<delay>", String.valueOf(this.configuration.plugin().arenaTrapDelay))
+                                )
                         );
 
                     });
 
-                    main.schedule(trap::end, trap.getDuration().toMillis(), TimeUnit.MILLISECONDS);
-                    delay.scheduleAtFixedRate(() -> {
+                    this.server.getScheduler().scheduleSyncDelayedTask(this.plugin, trap::end, trap.getDuration().toMillis() / 50L);
+                    this.server.getScheduler().scheduleSyncRepeatingTask(this.plugin, () -> {
 
-                        armorStand.customName(this.miniMessage.parse(
-                                this.configuration.language().arenaHologramTrapDelayed
-                                        .replace("<delay>", String.valueOf(Duration.ofMillis(this.delays.getOrDefault(trap, 0L) - System.currentTimeMillis()).toSeconds()))
-                        ));
+                        if (System.currentTimeMillis() < this.delays.getOrDefault(trap, 0L))
+                            armorStand.setCustomName(
+                                    this.miniMessageToLegacy(
+                                            this.configuration.language().arenaHologramTrapDelayed
+                                                    .replace("<delay>", String.valueOf(Duration.ofMillis(this.delays.getOrDefault(trap, 0L) - System.currentTimeMillis()).toSeconds()))
+                                    )
+                            );
 
-                        if (System.currentTimeMillis() > this.delays.getOrDefault(trap, 0L)) {
-                            this.delays.remove(trap);
-                            armorStand.remove();
-                            delay.shutdown();
-                        }
+                        if (System.currentTimeMillis() <= this.delays.getOrDefault(trap, 0L))
+                            return;
 
-                    }, 0, 1000, TimeUnit.MILLISECONDS);
+                        armorStand.remove();
+                        this.delays.remove(trap);
+
+                    }, 0, 20L);
+
                     this.delays.put(trap, System.currentTimeMillis() + Duration.ofSeconds(this.configuration.plugin().arenaTrapDelay).toMillis());
-
 
                 });
 
@@ -131,5 +130,31 @@ public class ArenaButtonClickListener implements Listener {
             Material.SPRUCE_BUTTON,
             Material.WARPED_BUTTON
     );
+
+    private String miniMessageToLegacy(String message) { // TODO: i have no idea how to do this
+        return ChatColor.translateAlternateColorCodes('&', message.replace("<red>", "&c")
+                .replace("<green>", "&a")
+                .replace("<yellow>", "&e")
+                .replace("<blue>", "&9")
+                .replace("<white>", "&f")
+                .replace("<black>", "&0")
+                .replace("<gray>", "&7")
+                .replace("<dark_gray>", "&8")
+                .replace("<gold>", "&6")
+                .replace("<dark_red>", "&4")
+                .replace("<dark_green>", "&2")
+                .replace("<dark_blue>", "&1")
+                .replace("<dark_aqua>", "&3")
+                .replace("<dark_purple>", "&5")
+                .replace("<aqua>", "&b")
+                .replace("<light_purple>", "&d")
+                .replace("<bold>", "&l")
+                .replace("<italic>", "&o")
+                .replace("<strikethrough>", "&m")
+                .replace("<underline>", "&n")
+                .replace("<reset>", "&r")
+                .replace("<magic>", "&k")
+                .replace("<b>", "&b"));
+    }
 
 }
