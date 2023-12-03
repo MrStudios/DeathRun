@@ -85,7 +85,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     private void starting() {
 
-        if (this.arena.getUsers().size() <= this.configuration.plugin().arenaMinPlayers) {
+        if (this.arena.getUsers().size() < this.configuration.plugin().arenaMinPlayers) {
             this.setState(GameState.WAITING);
             this.startingTimer = this.configuration.plugin().arenaPreStartingTime;
             return;
@@ -153,7 +153,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                                 .forEach((component) -> this.audiences.player(player).sendMessage(component));
 
                     if (user.getRole() == Role.DEATH)
-                        this.configuration.language().chatMessageArenaGameStartRunner.stream()
+                        this.configuration.language().chatMessageArenaGameStartDeath.stream()
                                 .map(this.miniMessage::deserialize)
                                 .forEach((component) -> this.audiences.player(player).sendMessage(component));
 
@@ -191,6 +191,9 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         if (this.arena.getGameState() == GameState.ENDING)
             return;
 
+        if (this.sidebarTask != null)
+            this.sidebarTask.cancel();
+
         if (this.arena.getSidebar() != null)
             this.arena.getSidebar().destroy();
 
@@ -215,9 +218,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                 .filter(Objects::nonNull)
                 .forEach(this.arena.getSidebar()::addViewer);
 
-        if (this.sidebarTask != null)
-            this.sidebarTask.cancel();
-
         this.sidebarTask = this.arena.getSidebar().updateLinesPeriodically(0, 20);
 
     }
@@ -235,6 +235,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
             return this.miniMessage.deserialize(
                     content.replace("<map>", this.configuration.map().arenaName)
+                            .replace("<role>", user.getRole().name())
                             .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
                             .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
                             .replace("<timer>", String.valueOf(this.startingTimer))
