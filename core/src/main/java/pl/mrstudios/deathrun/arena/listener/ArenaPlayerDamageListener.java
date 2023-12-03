@@ -9,11 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaDeathEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
+import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 
@@ -22,14 +22,14 @@ import java.time.Duration;
 @ArenaRegistrableListener
 public class ArenaPlayerDamageListener implements Listener {
 
-    private final IArena arena;
+    private final Arena arena;
     private final Server server;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
 
     @Inject
-    public ArenaPlayerDamageListener(IArena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaPlayerDamageListener(Arena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
         this.arena = arena;
         this.server = server;
         this.audiences = audiences;

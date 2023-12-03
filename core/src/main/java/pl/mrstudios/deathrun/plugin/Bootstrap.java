@@ -17,11 +17,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.mrstudios.commons.inject.Injector;
 import pl.mrstudios.commons.reflection.Reflections;
 import pl.mrstudios.deathrun.api.API;
-import pl.mrstudios.deathrun.api.arena.IArena;
-import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
+import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.ArenaServiceRunnable;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
+import pl.mrstudios.deathrun.arena.trap.Trap;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
@@ -36,11 +36,13 @@ import pl.mrstudios.deathrun.config.impl.MapConfiguration;
 import pl.mrstudios.deathrun.config.impl.PluginConfiguration;
 import pl.mrstudios.deathrun.exception.MissingDependencyException;
 
+import java.util.Arrays;
+
 @SuppressWarnings("all")
 public class Bootstrap extends JavaPlugin {
 
-    private IArena arena;
-    private ITrapRegistry trapRegistry;
+    private Arena arena;
+    private TrapRegistry trapRegistry;
 
 
     private MiniMessage miniMessage;
@@ -59,9 +61,6 @@ public class Bootstrap extends JavaPlugin {
         /* Dependency Check */
         if (!this.getServer().getPluginManager().isPluginEnabled("WorldEdit"))
             throw new MissingDependencyException("You must have WorldEdit (v7.2.9+) installed on your server to use this plugin.");
-
-        if (!this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"))
-            throw new MissingDependencyException("You must have ProtocolLib (v4.6.0+) installed on your server to use this plugin.");
 
         /* World Edit */
         this.worldEdit = WorldEdit.getInstance();
@@ -100,14 +99,16 @@ public class Bootstrap extends JavaPlugin {
                 .register(WorldEdit.class, this.worldEdit)
 
                 /* Plugin Stuff */
-                .register(IArena.class, this.arena)
-                .register(ITrapRegistry.class, this.trapRegistry)
+                .register(Arena.class, this.arena)
+                .register(TrapRegistry.class, this.trapRegistry)
                 .register(Configuration.class, this.configuration);
 
-        /* Register Traps */ // TODO: annotation reflection
-        this.trapRegistry.register("TRAP_TNT", TrapTNT.class);
-        this.trapRegistry.register("TRAP_APPEARING_BLOCKS", TrapAppearingBlocks.class);
-        this.trapRegistry.register("TRAP_DISAPPEARING_BLOCKS", TrapDisappearingBlocks.class);
+        /* Register Traps */
+        Arrays.asList(
+                TrapTNT.class,
+                TrapAppearingBlocks.class,
+                TrapDisappearingBlocks.class
+        ).forEach(this.trapRegistry::register);
 
         /* Register Commands */
         this.liteCommands = LiteCommandsBukkit.builder()
