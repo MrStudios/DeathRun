@@ -8,6 +8,8 @@ public interface ITrapRegistry {
 
     @Nullable Class<? extends ITrap> get(String identifier);
 
+    void register(Class<? extends ITrap> trapClass);
+
     void register(String identifier, Class<? extends ITrap> trapClass);
 
     Set<String> list();
