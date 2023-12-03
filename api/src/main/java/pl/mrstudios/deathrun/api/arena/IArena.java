@@ -15,10 +15,6 @@ public interface IArena {
 
     /* Arena Data */
     String getName();
-    long getStartTime();
-
-    int getFinishedRuns();
-    void setFinishedRuns(int amount);
 
     GameState getGameState();
     void setGameState(@NotNull GameState gameState);

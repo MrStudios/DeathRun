@@ -5,14 +5,7 @@ import org.bukkit.Location;
 import java.time.Duration;
 import java.util.List;
 
-import static org.jetbrains.annotations.ApiStatus.Internal;
-
 public interface ITrap {
-
-    @Internal
-    void setId(String id);
-
-    String getId();
 
     Location getButton();
     void setButton(Location location);
