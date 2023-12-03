@@ -24,10 +24,8 @@ public class TrapAppearingBlocks extends Trap {
     @Override
     public void start() {
 
-        super.getLocations().forEach((location) -> {
-            this.backup.put(location, location.getBlock().getBlockData());
-            location.getBlock().setType(material);
-        });
+        super.getLocations().forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
+        super.getLocations().forEach((location) -> location.getBlock().setType(this.material));
 
     }
 

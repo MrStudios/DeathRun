@@ -166,7 +166,7 @@ public class Bootstrap extends JavaPlugin {
     public void onLoad() {
 
         try {
-            
+
             Stream.of(new File(this.getDataFolder(), "backup").listFiles())
                     .filter((file) -> file.getName().endsWith(".zip"))
                     .forEach((file) -> {
