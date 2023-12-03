@@ -55,6 +55,9 @@ public class ArenaCheckpointReachedEvent implements Listener {
                     if (user == null)
                         return;
 
+                    if (user.getRole() != Role.RUNNER)
+                        return;
+
                     if (user.getCheckpoint().id() >= checkpoint.id())
                         return;
 
