@@ -29,26 +29,26 @@ public class LanguageConfiguration extends OkaeriConfig {
     public String chatMessageArenaPlayerJoined = "<gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)";
     public String chatMessageArenaPlayerLeft = "<gray><player> <yellow>has quit.";
     public String chatMessageArenaStartingTimer = "<yellow>Game starts in <gold><timer> seconds<yellow>.";
-    public String chatMessageArenaPlayerFinished = "<reset> <white><b>FINISH > <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)";
+    public String chatMessageArenaPlayerFinished = "<reset> <white><b>FINISH ></b> <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)";
 
     public List<String> chatMessageArenaGameStartRunner = List.of(
             "<reset>",
-            "<reset>   <gold><b>* <gray>You are <green>Runner<gray>.",
-            "<reset>   <white><b>* <gray>Your task is complete run in shortest possible time, during this task interfering player will trigger various traps.",
+            "<reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.",
+            "<reset>   <white><b>*</b> <gray>Your task is complete run in shortest possible time, during this task interfering player will trigger various traps.",
             "<reset>"
     );
 
     public List<String> chatMessageArenaGameStartDeath = List.of(
             "<reset>",
-            "<reset>   <gold><b>* <gray>You are <red>Death<gray>.",
-            "<reset>   <white><b>* <gray>Your task is to disturb runners by launching traps.",
+            "<reset>   <gold><b>*</b> <gray>You are <red>Death<gray>.",
+            "<reset>   <white><b>*</b> <gray>Your task is to disturb runners by launching traps.",
             "<reset>"
     );
 
     public List<String> chatMessageGameEndSpectator = List.of(
             "<reset>",
-            "<reset>   <gold><b>* <gray>You are <dark_gray>Spectator<gray>.",
-            "<reset>   <white><b>* <gray>Now you can follow other players.",
+            "<reset>   <gold><b>*</b> <gray>You are <dark_gray>Spectator<gray>.",
+            "<reset>   <white><b>*</b> <gray>Now you can follow other players.",
             "<reset>"
     );
 
