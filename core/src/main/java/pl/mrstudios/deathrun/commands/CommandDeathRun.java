@@ -23,7 +23,11 @@ import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.config.Configuration;
+import pl.mrstudios.deathrun.exception.PluginCriticalException;
+import pl.mrstudios.deathrun.util.ZipUtil;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -259,6 +263,10 @@ public class CommandDeathRun {
 
         this.configuration.map().arenaSetupEnabled = false;
         this.configuration.map().save();
+
+        ZipUtil.zip(new File(this.plugin.getDataFolder(), "backup/" + player.getWorld().getName() + ".zip"), new Path[] {
+                player.getWorld().getWorldFolder().toPath()
+        });
 
         this.message(player, "<reset> <dark_green><b>*</b> <green>Arena configuration saved successfully, please restart server to apply changes.");
 

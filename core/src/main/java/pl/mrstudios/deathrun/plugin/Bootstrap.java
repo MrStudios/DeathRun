@@ -9,6 +9,7 @@ import dev.rollczi.litecommands.schematic.SchematicFormat;
 import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
@@ -17,11 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.mrstudios.commons.inject.Injector;
 import pl.mrstudios.commons.reflection.Reflections;
 import pl.mrstudios.deathrun.api.API;
-import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.ArenaServiceRunnable;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
-import pl.mrstudios.deathrun.arena.trap.Trap;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
@@ -35,8 +34,11 @@ import pl.mrstudios.deathrun.config.impl.LanguageConfiguration;
 import pl.mrstudios.deathrun.config.impl.MapConfiguration;
 import pl.mrstudios.deathrun.config.impl.PluginConfiguration;
 import pl.mrstudios.deathrun.exception.MissingDependencyException;
+import pl.mrstudios.deathrun.util.ZipUtil;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @SuppressWarnings("all")
 public class Bootstrap extends JavaPlugin {
@@ -157,6 +159,32 @@ public class Bootstrap extends JavaPlugin {
 
         if (this.audiences != null)
             this.audiences.close();
+
+    }
+
+    @Override
+    public void onLoad() {
+
+        Stream.of(new File(this.getDataFolder(), "backup").listFiles())
+                .filter((file) -> file.getName().endsWith(".zip"))
+                .forEach((file) -> {
+
+                    long startTime = System.currentTimeMillis();
+                    this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup.");
+
+                    try {
+
+                        File worldFile = new File(file.getName().replace(".zip", ""));
+                        FileUtils.deleteDirectory(worldFile);
+
+                        ZipUtil.unzip(file, worldFile.toPath());
+                        this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (System.currentTimeMillis() - startTime) + "ms]");
+
+                    } catch (Exception exception) {
+                        this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                    }
+
+                });
 
     }
 
