@@ -9,11 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaCheckpointEvent;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaFinishedEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
+import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 
@@ -23,14 +23,14 @@ import java.util.Objects;
 @ArenaRegistrableListener
 public class ArenaCheckpointReachedEvent implements Listener {
 
-    private final IArena arena;
+    private final Arena arena;
     private final Server server;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
 
     @Inject
-    public ArenaCheckpointReachedEvent(IArena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaCheckpointReachedEvent(Arena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
         this.arena = arena;
         this.server = server;
         this.audiences = audiences;
@@ -67,8 +67,14 @@ public class ArenaCheckpointReachedEvent implements Listener {
                     user.setCheckpoint(checkpoint);
                     this.audiences.player(event.getPlayer()).showTitle(
                             Title.title(
-                                    this.miniMessage.deserialize(this.configuration.language().arenaCheckpointTitle),
-                                    this.miniMessage.deserialize(this.configuration.language().arenaCheckpointSubtitle),
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaCheckpointTitle
+                                                    .replace("<checkpoint>", String.valueOf(checkpoint.id()))
+                                    ),
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaCheckpointSubtitle
+                                                    .replace("<checkpoint>", String.valueOf(checkpoint.id()))
+                                    ),
                                     Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
                             )
                     );
@@ -78,15 +84,28 @@ public class ArenaCheckpointReachedEvent implements Listener {
 
                     this.arena.setFinishedRuns(this.arena.getFinishedRuns() + 1);
 
-                    int position = this.arena.getFinishedRuns(), time = (int) Duration.ofMillis(System.currentTimeMillis() - this.arena.getStartTime()).toSeconds();
+                    int position = this.arena.getFinishedRuns(), time = this.arena.getElapsedTime();
                     this.server.getPluginManager().callEvent(
                             new UserArenaFinishedEvent(user, time, position)
                     );
 
+                    if (position == 1)
+                        if (this.arena.getRemainingTime() >= 60)
+                            this.arena.setRemainingTime(60);
+
+
                     this.audiences.player(event.getPlayer()).showTitle(
                             Title.title(
-                                    this.miniMessage.deserialize(this.configuration.language().arenaFinishTitle),
-                                    this.miniMessage.deserialize(this.configuration.language().arenaFinishSubtitle),
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaFinishTitle
+                                                    .replace("<position>", String.valueOf(position))
+                                                    .replace("<seconds>", String.valueOf(time))
+                                    ),
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaFinishSubtitle
+                                                    .replace("<position>", String.valueOf(position))
+                                                    .replace("<seconds>", String.valueOf(time))
+                                    ),
                                     Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
                             )
                     );
@@ -99,7 +118,7 @@ public class ArenaCheckpointReachedEvent implements Listener {
                             .forEach((target) -> this.audiences.player(target).sendMessage(this.miniMessage.deserialize(
                                     this.configuration.language().chatMessageArenaPlayerFinished
                                             .replace("<player>", event.getPlayer().getName())
-                                            .replace("<time>", String.valueOf(time))
+                                            .replace("<seconds>", String.valueOf(time))
                                             .replace("<finishPosition>", String.valueOf(position))
                             )));
 
