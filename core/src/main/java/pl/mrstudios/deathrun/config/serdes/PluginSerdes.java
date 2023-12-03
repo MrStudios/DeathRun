@@ -4,6 +4,7 @@ import eu.okaeri.configs.serdes.OkaeriSerdesPack;
 import eu.okaeri.configs.serdes.SerdesRegistry;
 import lombok.NonNull;
 import pl.mrstudios.deathrun.config.serializer.CheckpointSerializer;
+import pl.mrstudios.deathrun.config.serializer.TeleportPadSerializer;
 import pl.mrstudios.deathrun.config.serializer.TrapSerializer;
 
 public class PluginSerdes implements OkaeriSerdesPack {
@@ -12,6 +13,7 @@ public class PluginSerdes implements OkaeriSerdesPack {
     public void register(@NonNull SerdesRegistry registry) {
         registry.register(new TrapSerializer());
         registry.register(new CheckpointSerializer());
+        registry.register(new TeleportPadSerializer());
     }
 
 }

@@ -8,8 +8,9 @@ import eu.okaeri.configs.annotation.Names;
 import org.bukkit.Location;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
+import pl.mrstudios.deathrun.arena.pad.TeleportPad;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Header({
@@ -31,17 +32,18 @@ public class MapConfiguration extends OkaeriConfig {
     /* Spawns */
     public Location arenaWaitingLobbyLocation;
 
-    public List<Location> arenaRunnerSpawnLocations = Collections.emptyList();
-    public List<Location> arenaDeathSpawnLocations = Collections.emptyList();
+    public List<Location> arenaRunnerSpawnLocations = new ArrayList<>();;
+    public List<Location> arenaDeathSpawnLocations = new ArrayList<>();;
 
     /* Traps */
-    public List<ITrap> arenaTraps = Collections.emptyList();
+    public List<ITrap> arenaTraps = new ArrayList<>();;
 
     /* Checkpoints */
-    public List<Checkpoint> arenaCheckpoints = Collections.emptyList();
+    public List<Checkpoint> arenaCheckpoints = new ArrayList<>();;
 
     /* Misc */
-    public List<Location> arenaStartBarrierBlocks = Collections.emptyList();
+    public List<TeleportPad> teleportPads = new ArrayList<>();
+    public List<Location> arenaStartBarrierBlocks = new ArrayList<>();;
 
     /* Setup Status */
     public boolean arenaSetupEnabled = true;

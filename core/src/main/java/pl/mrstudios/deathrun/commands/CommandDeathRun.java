@@ -21,9 +21,9 @@ import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
+import pl.mrstudios.deathrun.arena.pad.TeleportPad;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.config.Configuration;
-import pl.mrstudios.deathrun.exception.PluginCriticalException;
 import pl.mrstudios.deathrun.util.ZipUtil;
 
 import java.io.File;
@@ -93,6 +93,7 @@ public class CommandDeathRun {
                 "<reset> <b>*</b> <white>/deathrun setup addspawn <death/runner>",
                 "<reset> <b>*</b> <white>/deathrun setup addtrap <type> (material)",
                 "<reset> <b>*</b> <white>/deathrun setup addcheckpoint",
+                "<reset> <b>*</b> <white>/deathrun setup addteleport",
                 "<reset> <b>*</b> <white>/deathrun setup save",
                 "<reset>"
         ), this.plugin.getDescription().getVersion());
@@ -249,6 +250,20 @@ public class CommandDeathRun {
 
         this.configuration.map().arenaWaitingLobbyLocation = player.getLocation().toCenterLocation();
         this.message(player, "<reset> <dark_green><b>*</b> <green>Arena waiting lobby has been set.");
+
+    }
+
+    @Execute(name = "setup addteleport")
+    @Permission("mrstudios.command.deathrun.setup")
+    public void addTeleportPad(@Context Player player) {
+
+        if (!this.configuration.map().arenaSetupEnabled) {
+            this.audiences.player(player).sendMessage(this.miniMessage.deserialize("<reset> <dark_red><b>*</b> <red>You can't use that command while setup is disabled."));
+            return;
+        }
+
+        this.configuration.map().teleportPads.add(new TeleportPad(locations(player).get(0), player.getLocation().toCenterLocation().add(0, -0.5, 0)));
+        this.message(player, "<reset> <dark_green><b>*</b> <green>Added arena teleport pad.");
 
     }
 
