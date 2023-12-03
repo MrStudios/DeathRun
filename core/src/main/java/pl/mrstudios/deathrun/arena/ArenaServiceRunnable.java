@@ -1,18 +1,17 @@
 package pl.mrstudios.deathrun.arena;
 
 import me.catcoder.sidebar.ProtocolSidebar;
-import me.catcoder.sidebar.Sidebar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
@@ -26,7 +25,7 @@ import java.util.stream.IntStream;
 
 public class ArenaServiceRunnable extends BukkitRunnable {
 
-    private final IArena arena;
+    private final Arena arena;
     private final Plugin plugin;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
@@ -35,7 +34,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     private BukkitTask sidebarTask;
 
     @Inject
-    public ArenaServiceRunnable(IArena arena, Plugin plugin, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaServiceRunnable(Arena arena, Plugin plugin, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
 
         this.arena = arena;
         this.plugin = plugin;
@@ -44,10 +43,9 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         this.configuration = configuration;
         this.setState(GameState.WAITING);
 
-        this.elapsedTime = 0;
-        this.startingTimer = configuration.plugin().arenaPreStartingTime;
         this.barrierTimer = configuration.plugin().arenaStartingTime;
-        this.remainingTime = configuration.plugin().arenaGameTime;
+        this.arena.setRemainingTime(configuration.plugin().arenaGameTime);
+        this.startingTimer = configuration.plugin().arenaPreStartingTime + 1;
 
     }
 
@@ -87,10 +85,11 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
         if (this.arena.getUsers().size() < this.configuration.plugin().arenaMinPlayers) {
             this.setState(GameState.WAITING);
-            this.startingTimer = this.configuration.plugin().arenaPreStartingTime;
+            this.startingTimer = this.configuration.plugin().arenaPreStartingTime + 1;
             return;
         }
 
+        this.startingTimer--;
         if (Arrays.stream(messageTimes).anyMatch((i) -> this.startingTimer == i))
             this.arena.getUsers()
                     .forEach((user) -> {
@@ -119,7 +118,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
                     });
 
-        this.startingTimer--;
         if (this.startingTimer > 0)
             return;
 
@@ -157,24 +155,26 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                                 .map(this.miniMessage::deserialize)
                                 .forEach((component) -> this.audiences.player(player).sendMessage(component));
 
+                    user.setCheckpoint(this.configuration.map().arenaCheckpoints.get(0));
+                    if (user.getRole() == Role.DEATH)
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
+
                 });
 
     }
 
     /* Playing */
-    private int elapsedTime;
     private int barrierTimer;
-    private int remainingTime;
 
     private void playing() {
 
-        this.elapsedTime++;
-        this.remainingTime--;
+        this.arena.setElapsedTime(this.arena.getElapsedTime() + 1);
+        this.arena.setRemainingTime(this.arena.getRemainingTime() - 1);
 
-        if (this.remainingTime <= 0)
+        if (this.arena.getRemainingTime() <= 0)
             this.setState(GameState.ENDING);
 
-        if (this.remainingTime <= 0)
+        if (this.arena.getRemainingTime() <= 0)
             return;
 
     }
@@ -235,12 +235,12 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
             return this.miniMessage.deserialize(
                     content.replace("<map>", this.configuration.map().arenaName)
-                            .replace("<role>", user.getRole().name())
+                            .replace("<role>", this.rolePrefix(user.getRole()))
                             .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
                             .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
                             .replace("<timer>", String.valueOf(this.startingTimer))
-                            .replace("<time>", String.valueOf(this.remainingTime))
-                            .replace("<timeFormatted>", this.formatTime(this.remainingTime))
+                            .replace("<time>", String.valueOf(this.arena.getRemainingTime()))
+                            .replace("<timeFormatted>", this.formatTime(this.arena.getRemainingTime()))
                             .replace("<runners>", String.valueOf(this.arena.getRunners().size()))
                             .replace("<deaths>", String.valueOf(user.getDeaths()))
             );
@@ -248,7 +248,24 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         });
     }
 
-    /* Formatters */
+    private String rolePrefix(Role role) {
+        return switch (role) {
+
+            case RUNNER ->
+                    this.configuration.language().arenaRolesRunnerName;
+
+            case DEATH ->
+                    this.configuration.language().arenaRolesDeathName;
+
+            case SPECTATOR ->
+                    this.configuration.language().arenaRolesSpectatorName;
+
+            default ->
+                    role.name();
+
+        };
+    }
+
     private String formatTime(int time) {
         int minutes = time / 60, seconds = time % 60;
         return String.format("%02d:%02d", minutes, seconds);
