@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
-import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
+import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.util.ArrayList;
@@ -42,11 +42,11 @@ public class CommandDeathRun {
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
 
-    private final ITrapRegistry trapRegistry;
+    private final TrapRegistry  trapRegistry;
     private final Configuration configuration;
 
     @Inject
-    public CommandDeathRun(Plugin plugin, WorldEdit worldEdit, BukkitAudiences audiences, MiniMessage miniMessage, ITrapRegistry trapRegistry, Configuration configuration) {
+    public CommandDeathRun(Plugin plugin, WorldEdit worldEdit, BukkitAudiences audiences, MiniMessage miniMessage, TrapRegistry  trapRegistry, Configuration configuration) {
         this.plugin = plugin;
         this.worldEdit = worldEdit;
         this.audiences = audiences;
@@ -104,7 +104,7 @@ public class CommandDeathRun {
         }
 
         this.configuration.map().arenaCheckpoints.add(
-                new Checkpoint(this.configuration.map().arenaCheckpoints.size(), player.getLocation(), this.locations(player))
+                new Checkpoint(this.configuration.map().arenaCheckpoints.size(), player.getLocation().toCenterLocation(), this.locations(player))
         );
 
         this.message(player, "<reset> <dark_green><b>*</b> <green>Arena checkpoint has been added.");
@@ -123,10 +123,10 @@ public class CommandDeathRun {
         switch (role) {
 
             case RUNNER ->
-                    this.configuration.map().arenaRunnerSpawnLocations.add(player.getLocation());
+                    this.configuration.map().arenaRunnerSpawnLocations.add(player.getLocation().toCenterLocation());
 
             case DEATH ->
-                    this.configuration.map().arenaDeathSpawnLocations.add(player.getLocation());
+                    this.configuration.map().arenaDeathSpawnLocations.add(player.getLocation().toCenterLocation());
 
             default ->
                     this.message(player, "<reset> <dark_red><b>*</b> <red>You must select <dark_red>RUNNER <red>or <dark_red>DEATH <red>role.");
@@ -243,7 +243,7 @@ public class CommandDeathRun {
             return;
         }
 
-        this.configuration.map().arenaWaitingLobbyLocation = player.getLocation();
+        this.configuration.map().arenaWaitingLobbyLocation = player.getLocation().toCenterLocation();
         this.message(player, "<reset> <dark_green><b>*</b> <green>Arena waiting lobby has been set.");
 
     }
