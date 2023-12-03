@@ -57,8 +57,8 @@ public class ArenaPlayerJoinListener implements Listener {
 
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().teleport(this.configuration.map().arenaWaitingLobbyLocation);
-        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 1, false, false));
-        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
+        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 1, false, false, false));
+        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, false));
 
         this.arena.getSidebar().addViewer(event.getPlayer());
         this.server.getPluginManager().callEvent(new ArenaUserJoinedEvent(this.arena, user));

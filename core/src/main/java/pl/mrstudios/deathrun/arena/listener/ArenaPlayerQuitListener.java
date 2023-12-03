@@ -33,23 +33,24 @@ public class ArenaPlayerQuitListener implements Listener {
         this.configuration = configuration;
     }
 
+    @Deprecated
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
 
-        event.quitMessage(null);
-        if (this.arena.getUser(event.getPlayer()) != null)
+        event.setQuitMessage("");
+        if (this.arena.getUser(event.getPlayer()) == null)
             return;
 
         IUser user = this.arena.getUser(event.getPlayer());
 
         this.arena.getUsers().remove(user);
         this.arena.getUsers().forEach((target) ->
-                this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.parse(
+                this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.deserialize(
                         this.configuration.language().chatMessageArenaPlayerLeft
                                 .replace("<player>", event.getPlayer().getName())
                                 .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
-                                .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()
-        )))));
+                                .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
+                )));
 
         this.arena.getSidebar().removeViewer(event.getPlayer());
         this.server.getPluginManager().callEvent(new ArenaUserLeftEvent(this.arena, user));
