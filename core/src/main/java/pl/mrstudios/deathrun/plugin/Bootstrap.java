@@ -165,26 +165,30 @@ public class Bootstrap extends JavaPlugin {
     @Override
     public void onLoad() {
 
-        Stream.of(new File(this.getDataFolder(), "backup").listFiles())
-                .filter((file) -> file.getName().endsWith(".zip"))
-                .forEach((file) -> {
+        try {
+            
+            Stream.of(new File(this.getDataFolder(), "backup").listFiles())
+                    .filter((file) -> file.getName().endsWith(".zip"))
+                    .forEach((file) -> {
 
-                    long startTime = System.currentTimeMillis();
-                    this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup.");
+                        long startTime = System.currentTimeMillis();
+                        this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup.");
 
-                    try {
+                        try {
 
-                        File worldFile = new File(file.getName().replace(".zip", ""));
-                        FileUtils.deleteDirectory(worldFile);
+                            File worldFile = new File(file.getName().replace(".zip", ""));
+                            FileUtils.deleteDirectory(worldFile);
 
-                        ZipUtil.unzip(file, worldFile.toPath());
-                        this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                            ZipUtil.unzip(file, worldFile.toPath());
+                            this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (System.currentTimeMillis() - startTime) + "ms]");
 
-                    } catch (Exception exception) {
-                        this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (System.currentTimeMillis() - startTime) + "ms]");
-                    }
+                        } catch (Exception exception) {
+                            this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                        }
 
-                });
+                    });
+
+        } catch (Exception ignored) {}
 
     }
 
