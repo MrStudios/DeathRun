@@ -12,10 +12,6 @@ import java.time.Duration;
 @Getter @Setter
 public class TrapTNT extends Trap {
 
-    public TrapTNT() {
-        super("TRAP_TNT");
-    }
-
     @Override
     public void start() {
 

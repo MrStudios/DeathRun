@@ -22,6 +22,11 @@ public class TrapRegistry implements ITrapRegistry {
     }
 
     @Override
+    public void register(Class<? extends ITrap> trapClass) {
+        this.register(trapClass.getSimpleName().replace("Trap", ""), trapClass);
+    }
+
+    @Override
     public void register(String identifier, Class<? extends ITrap> trapClass) {
         this.traps.put(identifier.toUpperCase(), trapClass);
     }

@@ -9,7 +9,7 @@ import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 import pl.mrstudios.deathrun.arena.trap.Trap;
 
 import java.time.Duration;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter @Setter
@@ -19,11 +19,7 @@ public class TrapDisappearingBlocks extends Trap {
     private Material material;
 
     /* Data */
-    private Map<Location, BlockData> backup = Collections.emptyMap();
-
-    public TrapDisappearingBlocks() {
-        super("TRAP_DISAPPEARING_BLOCKS");
-    }
+    private final Map<Location, BlockData> backup = new HashMap<>();
 
     @Override
     public void start() {
