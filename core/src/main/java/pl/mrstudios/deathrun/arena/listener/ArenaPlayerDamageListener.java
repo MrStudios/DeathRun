@@ -3,11 +3,13 @@ package pl.mrstudios.deathrun.arena.listener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaDeathEvent;
@@ -44,6 +46,9 @@ public class ArenaPlayerDamageListener implements Listener {
             return;
 
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
+            event.setCancelled(true);
+
+        if (event.isCancelled())
             return;
 
         IUser user = this.arena.getUser(player);
@@ -71,6 +76,37 @@ public class ArenaPlayerDamageListener implements Listener {
         );
 
         event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+
+        if (event.getTo().getBlock().getType() != Material.WATER && event.getTo().getBlock().getType() != Material.LAVA)
+            return;
+
+        IUser user = this.arena.getUser(event.getPlayer());
+        if (user == null)
+            return;
+
+        if (user.getRole() != Role.RUNNER)
+            return;
+
+        if (this.arena.getGameState() != GameState.PLAYING)
+            return;
+
+        user.setDeaths(user.getDeaths() + 1);
+        event.getPlayer().teleport(user.getCheckpoint().spawn());
+        event.getPlayer().playSound(event.getPlayer().getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
+
+        this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user));
+        this.audiences.player(event.getPlayer()).showTitle(
+                Title.title(
+                        this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),
+                        this.miniMessage.deserialize(this.configuration.language().arenaDeathSubtitle),
+                        Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
+                )
+        );
 
     }
 

@@ -114,7 +114,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                                 this.configuration.language().chatMessageArenaStartingTimer
                                         .replace("<timer>", String.valueOf(this.startingTimer))
                         ));
-                        player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundStarting, 1.0f, 1.0f);
+                        player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPreStarting, 1.0f, 1.0f);
 
                     });
 
@@ -158,6 +158,8 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                     user.setCheckpoint(this.configuration.map().arenaCheckpoints.get(0));
                     if (user.getRole() == Role.DEATH)
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
+
+                    player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundStarted, 1, 1);
 
                 });
 

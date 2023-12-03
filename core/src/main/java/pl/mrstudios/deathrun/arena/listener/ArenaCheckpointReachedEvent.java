@@ -82,6 +82,7 @@ public class ArenaCheckpointReachedEvent implements Listener {
                             )
                     );
 
+                    event.getPlayer().playSound(event.getPlayer().getLocation(), this.configuration.plugin().arenaSoundCheckpointReached, 1, 1);
                     if (checkpoint.id() != this.configuration.map().arenaCheckpoints.get(this.configuration.map().arenaCheckpoints.size() - 1).id())
                         return;
 
