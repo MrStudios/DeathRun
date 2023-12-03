@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
@@ -17,9 +18,11 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
+import pl.mrstudios.deathrun.arena.user.User;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @ArenaRegistrableListener
 public class ArenaPlayerDamageListener implements Listener {
@@ -64,17 +67,7 @@ public class ArenaPlayerDamageListener implements Listener {
         if (event.isCancelled())
             return;
 
-        user.setDeaths(user.getDeaths() + 1);
-        player.teleport(user.getCheckpoint().spawn());
-        this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user));
-        this.audiences.player(player).showTitle(
-                Title.title(
-                        this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),
-                        this.miniMessage.deserialize(this.configuration.language().arenaDeathSubtitle),
-                        Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
-                )
-        );
-
+        this.playerDeath(user, player);
         event.setCancelled(true);
 
     }
@@ -95,16 +88,38 @@ public class ArenaPlayerDamageListener implements Listener {
         if (this.arena.getGameState() != GameState.PLAYING)
             return;
 
+        this.playerDeath(user, event.getPlayer());
+
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+
+        if (this.arena.getGameState() != GameState.PLAYING)
+            return;
+
+        event.getLocation().getNearbyEntitiesByType(Player.class, 1)
+                .stream()
+                .map(this.arena::getUser)
+                .filter(Objects::nonNull)
+                .filter((user) -> user.getRole() == Role.RUNNER)
+                .filter((user) -> user.asBukkit() != null)
+                .forEach((user) -> this.playerDeath(user, user.asBukkit()));
+
+    }
+
+    private void playerDeath(IUser user, Player player) {
+
         user.setDeaths(user.getDeaths() + 1);
-        event.getPlayer().teleport(user.getCheckpoint().spawn());
-        event.getPlayer().playSound(event.getPlayer().getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
+        player.teleport(user.getCheckpoint().spawn());
+        player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
 
         this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user));
-        this.audiences.player(event.getPlayer()).showTitle(
+        this.audiences.player(player).showTitle(
                 Title.title(
                         this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),
                         this.miniMessage.deserialize(this.configuration.language().arenaDeathSubtitle),
-                        Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
+                        Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(2), Duration.ofMillis(250))
                 )
         );
 
