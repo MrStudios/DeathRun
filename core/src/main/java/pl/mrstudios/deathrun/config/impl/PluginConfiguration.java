@@ -52,6 +52,9 @@ public class PluginConfiguration extends OkaeriConfig {
     @Comment({ "", "Amount of time before strafe can be used again." })
     public int arenaStrafeDelay = 30;
 
+    @Comment({ "", "Max ,,survivable`` distance that player can fall." })
+    public int arenaMaxFallDistance = 8;
+
     @Comment({
             "",
             "------------------------------------------------------------------------",

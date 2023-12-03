@@ -43,6 +43,9 @@ public class ArenaPlayerDamageListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
+            return;
+
         IUser user = this.arena.getUser(player);
         if (user == null)
             return;
