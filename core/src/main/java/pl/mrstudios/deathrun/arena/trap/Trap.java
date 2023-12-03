@@ -11,14 +11,8 @@ import java.util.List;
 @Getter @Setter
 public abstract class Trap implements ITrap {
 
-    @Serializable
     private String id;
-
-    /* Instance Data */
-    @Serializable
     private Location button;
-
-    @Serializable
     private List<Location> locations;
 
     /* Constructor */

@@ -17,16 +17,15 @@ public class CheckpointSerializer implements ObjectSerializer<ICheckpoint> {
     public void serialize(@NonNull ICheckpoint object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
         data.add("id", object.id());
         data.add("spawn", object.spawn());
-        data.add("locations", object.locations());
+        data.addCollection("locations", object.locations(), Location.class);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public ICheckpoint deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
         return new Checkpoint(
                 data.get("id", Integer.class),
                 data.get("spawn", Location.class),
-                data.get("locations", List.class)
+                data.getAsList("locations", Location.class)
         );
     }
 

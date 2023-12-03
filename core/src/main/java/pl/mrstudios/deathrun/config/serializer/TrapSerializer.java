@@ -5,6 +5,7 @@ import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import lombok.NonNull;
+import org.bukkit.Location;
 import org.yaml.snakeyaml.serializer.SerializerException;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
@@ -19,10 +20,11 @@ public class TrapSerializer implements ObjectSerializer<ITrap> {
     @Override
     public void serialize(@NonNull ITrap object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
 
-        List<Field> fields = new ArrayList<>();
+        List<Field> fields = new ArrayList<>(Arrays.asList(object.getClass().getDeclaredFields()));
 
-        fields.addAll(Arrays.asList(object.getClass().getSuperclass().getDeclaredFields()));
-        fields.addAll(Arrays.asList(object.getClass().getDeclaredFields()));
+        data.add("id", object.getId());
+        data.add("button", object.getButton());
+        data.addCollection("locations", object.getLocations(), Location.class);
         fields.forEach((field) -> {
 
             if (!field.isAnnotationPresent(Serializable.class))
@@ -46,11 +48,12 @@ public class TrapSerializer implements ObjectSerializer<ITrap> {
 
         try {
 
-            List<Field> fields = new ArrayList<>();
             ITrap trap = (ITrap) Class.forName(data.get("class", String.class)).getDeclaredConstructor().newInstance();
+            List<Field> fields = new ArrayList<>(Arrays.asList(trap.getClass().getDeclaredFields()));
 
-            fields.addAll(Arrays.asList(trap.getClass().getSuperclass().getDeclaredFields()));
-            fields.addAll(Arrays.asList(trap.getClass().getDeclaredFields()));
+            trap.setId(data.get("id", String.class));
+            trap.setButton(data.get("button", Location.class));
+            trap.setLocations(data.getAsList("locations", Location.class));
             fields.forEach((field) -> {
 
                 if (!field.isAnnotationPresent(Serializable.class))
