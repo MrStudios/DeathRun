@@ -143,7 +143,7 @@ public class Bootstrap extends JavaPlugin {
                     .forEach((listener) -> this.getServer().getPluginManager().registerEvents(this.injector.inject(listener), this));
 
         /* Start Arena Service */
-        if (!this.configuration.map().arenaSetupEnabled) // TODO: Multiple arenas on single server.
+        if (!this.configuration.map().arenaSetupEnabled)
             this.injector.inject(ArenaServiceRunnable.class)
                     .runTaskTimer(this, 0, 20);
 

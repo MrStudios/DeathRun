@@ -131,7 +131,7 @@ public class ArenaButtonClickListener implements Listener {
             Material.WARPED_BUTTON
     );
 
-    private String miniMessageToLegacy(String message) { // TODO: i have no idea how to do this
+    private String miniMessageToLegacy(String message) {
         return ChatColor.translateAlternateColorCodes('&', message.replace("<red>", "&c")
                 .replace("<green>", "&a")
                 .replace("<yellow>", "&e")
