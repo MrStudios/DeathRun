@@ -5,6 +5,9 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -13,6 +16,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
+import pl.mrstudios.deathrun.api.arena.event.arena.ArenaGameStateChangeEvent;
+import pl.mrstudios.deathrun.api.arena.event.arena.ArenaShutdownStartedEvent;
+import pl.mrstudios.deathrun.api.arena.event.user.UserArenaRoleAssignedEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.config.Configuration;
@@ -27,6 +33,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     private final Arena arena;
     private final Plugin plugin;
+    private final Server server;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
@@ -34,9 +41,10 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     private BukkitTask sidebarTask;
 
     @Inject
-    public ArenaServiceRunnable(Arena arena, Plugin plugin, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaServiceRunnable(Arena arena, Plugin plugin, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
 
         this.arena = arena;
+        this.server = server;
         this.plugin = plugin;
         this.audiences = audiences;
         this.miniMessage = miniMessage;
@@ -46,6 +54,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         this.barrierTimer = configuration.plugin().arenaStartingTime;
         this.arena.setRemainingTime(configuration.plugin().arenaGameTime);
         this.startingTimer = configuration.plugin().arenaPreStartingTime + 1;
+        this.endDelayTimer = this.configuration.plugin().arenaEndDelay + 5;
 
     }
 
@@ -159,7 +168,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                     if (user.getRole() == Role.DEATH)
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
 
-                    player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundStarted, 1, 1);
+                    this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
 
                 });
 
@@ -170,6 +179,49 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     private void playing() {
 
+        if (this.barrierTimer != -1) {
+
+            if (this.barrierTimer >= 0)
+                this.barrierTimer--;
+
+            if (Arrays.stream(messageTimes).anyMatch((i) -> this.barrierTimer == i))
+                this.arena.getUsers()
+                        .stream()
+                        .map(IUser::asBukkit)
+                        .filter(Objects::nonNull)
+                        .forEach((player) -> {
+
+                            player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundStarting, 1.0f, 1.0f);
+                            this.audiences.player(player).showTitle(Title.title(
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaStartingTitle
+                                                    .replace("<timer>", String.valueOf(this.barrierTimer))),
+                                    this.miniMessage.deserialize(
+                                            this.configuration.language().arenaStartingSubtitle
+                                                    .replace("<timer>", String.valueOf(this.barrierTimer))
+                                    ),
+                                    Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(1000), Duration.ofMillis(250))
+                            ));
+
+                        });
+
+            if (this.barrierTimer == 0) {
+                this.configuration.map().arenaStartBarrierBlocks
+                        .stream()
+                        .map(Location::getBlock)
+                        .forEach((block) -> block.setType(Material.AIR));
+                this.arena.getUsers()
+                        .stream()
+                        .map(IUser::asBukkit)
+                        .filter(Objects::nonNull)
+                        .forEach((player) -> player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundStarted, 1.0f, 1.0f));
+            }
+
+            if (this.barrierTimer > 0)
+                return;
+
+        }
+
         this.arena.setElapsedTime(this.arena.getElapsedTime() + 1);
         this.arena.setRemainingTime(this.arena.getRemainingTime() - 1);
 
@@ -177,13 +229,68 @@ public class ArenaServiceRunnable extends BukkitRunnable {
             this.setState(GameState.ENDING);
 
         if (this.arena.getRemainingTime() <= 0)
-            return;
+            this.arena.getSidebar().destroy();
+
+        if (this.arena.getRemainingTime() <= 0)
+            this.arena.getUsers()
+                    .stream()
+                    .map(IUser::asBukkit)
+                    .filter(Objects::nonNull)
+                    .forEach((player) ->
+                        this.audiences.player(player).showTitle(Title.title(
+                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndTitle),
+                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndSubtitle),
+                                Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(1000), Duration.ofMillis(250))
+                        ))
+                    );
+
+        if (this.arena.getRunners().isEmpty())
+            this.setState(GameState.ENDING);
 
     }
 
     /* Ending */
+    private int endDelayTimer;
+
     private void ending() {
-        this.cancel();
+
+        this.endDelayTimer--;
+        if (this.endDelayTimer > this.configuration.plugin().arenaEndDelay)
+            return;
+
+        if (this.endDelayTimer > 0)
+            this.arena.getUsers()
+                    .stream()
+                    .map(IUser::asBukkit)
+                    .filter(Objects::nonNull)
+                    .forEach(
+                            (player) ->
+                                    this.audiences.player(player).showTitle(Title.title(
+                                            this.miniMessage.deserialize(
+                                                    this.configuration.language().arenaMoveServerTitle
+                                                            .replace("<endTimer>", String.valueOf(this.endDelayTimer))),
+                                            this.miniMessage.deserialize(
+                                                    this.configuration.language().arenaMoveServerSubtitle
+                                                            .replace("<endTimer>", String.valueOf(this.endDelayTimer))
+                                            ),
+                                            Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(1000), Duration.ofMillis(250))
+                                    ))
+                    );
+
+        if (this.endDelayTimer > 0)
+            return;
+
+        if (this.endDelayTimer > -5)
+            return;
+
+        ArenaShutdownStartedEvent event = new ArenaShutdownStartedEvent(this.arena, true);
+        this.server.getPluginManager().callEvent(event);
+
+        if (!event.isDefaultProcedure())
+            return;
+
+        this.server.shutdown();
+
     }
 
     /* Internal */
@@ -221,6 +328,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                 .forEach(this.arena.getSidebar()::addViewer);
 
         this.sidebarTask = this.arena.getSidebar().updateLinesPeriodically(0, 20);
+        this.server.getPluginManager().callEvent(new ArenaGameStateChangeEvent(this.arena, this.arena.getGameState()));
 
     }
 
