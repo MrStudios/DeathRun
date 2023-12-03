@@ -138,19 +138,9 @@ public class LanguageConfiguration extends OkaeriConfig {
             "------------------------------------------------------------------------",
             ""
     })
-    public String arenaRolesLobbyTabPrefix = "<gray>";
-
-    @Comment("")
     public String arenaRolesRunnerName = "<green>Runner";
-    public String arenaRolesRunnerTabPrefix = "<gray>";
-
-    @Comment("")
     public String arenaRolesDeathName = "<red>Death";
-    public String arenaRolesDeathTabPrefix = "<gray>";
-
-    @Comment("")
     public String arenaRolesSpectatorName = "<gray>Spectator";
-    public String arenaRolesSpectatorTabPrefix = "<dark_gray>[SPECTATOR] <gray>";
 
     @Comment({
             "",
