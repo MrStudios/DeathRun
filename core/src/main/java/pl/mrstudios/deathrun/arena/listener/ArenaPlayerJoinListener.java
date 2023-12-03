@@ -10,8 +10,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserJoinedEvent;
+import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.user.User;
 import pl.mrstudios.deathrun.config.Configuration;
@@ -21,14 +21,14 @@ import java.util.Objects;
 @ArenaRegistrableListener
 public class ArenaPlayerJoinListener implements Listener {
 
-    private final IArena arena;
+    private final Arena arena;
     private final Server server;
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
     private final Configuration configuration;
 
     @Inject
-    public ArenaPlayerJoinListener(IArena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaPlayerJoinListener(Arena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
         this.arena = arena;
         this.server = server;
         this.audiences = audiences;
@@ -55,6 +55,12 @@ public class ArenaPlayerJoinListener implements Listener {
                                 .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
                 )));
 
+        event.getPlayer().getActivePotionEffects()
+                .stream()
+                .map(PotionEffect::getType)
+                .forEach(event.getPlayer()::removePotionEffect);
+
+        event.getPlayer().getInventory().clear();
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().teleport(this.configuration.map().arenaWaitingLobbyLocation);
         event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 1, false, false, false));
