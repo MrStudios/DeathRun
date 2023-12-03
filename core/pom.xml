@@ -136,53 +136,53 @@
         <dependency>
             <groupId>pl.mrstudios.commons</groupId>
             <artifactId>commons-inject</artifactId>
-            <version>1.0.0</version>
+            <version>${mrstudios.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.mrstudios.commons</groupId>
             <artifactId>commons-reflection</artifactId>
-            <version>1.0.0</version>
+            <version>${mrstudios.commons.version}</version>
         </dependency>
 
         <!-- LITE COMMANDS -->
         <dependency>
             <groupId>dev.rollczi</groupId>
             <artifactId>litecommands-core</artifactId>
-            <version>3.0.3</version>
+            <version>${rollczi.litecommands.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.rollczi</groupId>
             <artifactId>litecommands-bukkit</artifactId>
-            <version>3.0.3</version>
+            <version>${rollczi.litecommands.version}</version>
         </dependency>
 
         <!-- CONFIG -->
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-yaml-bukkit</artifactId>
-            <version>5.0.0-beta.5</version>
+            <version>${okaeri.configs.version}</version>
         </dependency>
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-serdes-bukkit</artifactId>
-            <version>5.0.0-beta.5</version>
+            <version>${okaeri.configs.version}</version>
         </dependency>
 
         <!-- KYORI -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
-            <version>4.14.0</version>
+            <version>${kyori.adventure.version}</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.14.0</version>
+            <version>${kyori.adventure.version}</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.3.1</version>
+            <version>${adventure.platform.version}</version>
         </dependency>
 
         <!-- WORLDEDIT -->
@@ -194,6 +194,15 @@
         </dependency>
 
     </dependencies>
+
+    <properties>
+        <kyori.adventure.version>4.14.0</kyori.adventure.version>
+        <mrstudios.commons.version>1.0.0</mrstudios.commons.version>
+        <okaeri.configs.version>5.0.0-beta.5</okaeri.configs.version>
+        <adventure.platform.version>4.3.1</adventure.platform.version>
+        <rollczi.litecommands.version>3.1.2</rollczi.litecommands.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <modelVersion>4.0.0</modelVersion>
 
