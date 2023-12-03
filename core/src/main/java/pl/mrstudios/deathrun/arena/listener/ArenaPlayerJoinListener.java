@@ -2,6 +2,7 @@ package pl.mrstudios.deathrun.arena.listener;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,10 +36,11 @@ public class ArenaPlayerJoinListener implements Listener {
         this.configuration = configuration;
     }
 
+    @Deprecated
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        event.joinMessage(null);
+        event.setJoinMessage("");
         if (this.arena.getUser(event.getPlayer()) != null)
             return;
 
@@ -46,13 +48,14 @@ public class ArenaPlayerJoinListener implements Listener {
 
         this.arena.getUsers().add(user);
         this.arena.getUsers().forEach((target) ->
-                this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.parse(
+                this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.deserialize(
                         this.configuration.language().chatMessageArenaPlayerJoined
                                 .replace("<player>", event.getPlayer().getName())
                                 .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
-                                .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()
-        )))));
+                                .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
+                )));
 
+        event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 1, false, false));
         event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
 

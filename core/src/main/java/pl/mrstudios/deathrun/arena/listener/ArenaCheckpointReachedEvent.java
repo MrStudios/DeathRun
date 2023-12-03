@@ -67,8 +67,8 @@ public class ArenaCheckpointReachedEvent implements Listener {
                     user.setCheckpoint(checkpoint);
                     this.audiences.player(event.getPlayer()).showTitle(
                             Title.title(
-                                    this.miniMessage.parse(this.configuration.language().arenaCheckpointTitle),
-                                    this.miniMessage.parse(this.configuration.language().arenaCheckpointSubtitle),
+                                    this.miniMessage.deserialize(this.configuration.language().arenaCheckpointTitle),
+                                    this.miniMessage.deserialize(this.configuration.language().arenaCheckpointSubtitle),
                                     Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
                             )
                     );
@@ -85,8 +85,8 @@ public class ArenaCheckpointReachedEvent implements Listener {
 
                     this.audiences.player(event.getPlayer()).showTitle(
                             Title.title(
-                                    this.miniMessage.parse(this.configuration.language().arenaFinishTitle),
-                                    this.miniMessage.parse(this.configuration.language().arenaFinishSubtitle),
+                                    this.miniMessage.deserialize(this.configuration.language().arenaFinishTitle),
+                                    this.miniMessage.deserialize(this.configuration.language().arenaFinishSubtitle),
                                     Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
                             )
                     );
@@ -96,7 +96,7 @@ public class ArenaCheckpointReachedEvent implements Listener {
                     this.arena.getUsers().stream()
                             .map(IUser::asBukkit)
                             .filter(Objects::nonNull)
-                            .forEach((target) -> this.audiences.player(target).sendMessage(this.miniMessage.parse(
+                            .forEach((target) -> this.audiences.player(target).sendMessage(this.miniMessage.deserialize(
                                     this.configuration.language().chatMessageArenaPlayerFinished
                                             .replace("<player>", event.getPlayer().getName())
                                             .replace("<time>", String.valueOf(time))

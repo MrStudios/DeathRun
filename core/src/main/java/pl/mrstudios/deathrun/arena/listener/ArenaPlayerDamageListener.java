@@ -61,8 +61,8 @@ public class ArenaPlayerDamageListener implements Listener {
         this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user));
         this.audiences.player(player).showTitle(
                 Title.title(
-                        this.miniMessage.parse(this.configuration.language().arenaDeathTitle),
-                        this.miniMessage.parse(this.configuration.language().arenaDeathSubtitle),
+                        this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),
+                        this.miniMessage.deserialize(this.configuration.language().arenaDeathSubtitle),
                         Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(3), Duration.ofMillis(250))
                 )
         );
