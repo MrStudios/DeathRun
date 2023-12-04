@@ -206,7 +206,7 @@ arena-item-leave-name: <red>Leave <gray>(Right Click)
 </details>
 
 ### Sponsoring
-If you want to sponsor this project you can do it by clicking Support button. You can also support us by clicking on the star button on the top of this page.
+If you want to sponsor this project you can do it by clicking ``Sponsor`` button. You can also support us by clicking on the star button on the top of this page.
 
 ### Used Libraries
 Libraries that is used in this project, most of them are open source libraries.
