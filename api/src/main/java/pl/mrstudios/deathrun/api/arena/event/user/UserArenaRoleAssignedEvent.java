@@ -23,4 +23,8 @@ public class UserArenaRoleAssignedEvent extends Event {
         return HANDLERS;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
 }

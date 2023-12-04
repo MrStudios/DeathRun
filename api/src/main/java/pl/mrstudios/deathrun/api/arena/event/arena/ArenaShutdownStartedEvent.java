@@ -27,4 +27,8 @@ public class ArenaShutdownStartedEvent extends Event {
         return HANDLERS;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
 }

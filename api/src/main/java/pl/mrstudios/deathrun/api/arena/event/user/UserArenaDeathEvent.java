@@ -23,4 +23,8 @@ public class UserArenaDeathEvent extends Event {
         return HANDLERS;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
 }
