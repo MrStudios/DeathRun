@@ -237,11 +237,11 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                     .map(IUser::asBukkit)
                     .filter(Objects::nonNull)
                     .forEach((player) ->
-                        this.audiences.player(player).showTitle(Title.title(
-                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndTitle),
-                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndSubtitle),
-                                Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(1000), Duration.ofMillis(250))
-                        ))
+                            this.audiences.player(player).showTitle(Title.title(
+                                    this.miniMessage.deserialize(this.configuration.language().arenaGameEndTitle),
+                                    this.miniMessage.deserialize(this.configuration.language().arenaGameEndSubtitle),
+                                    Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(2500), Duration.ofMillis(250))
+                            ))
                     );
 
         if (this.arena.getRunners().isEmpty())
