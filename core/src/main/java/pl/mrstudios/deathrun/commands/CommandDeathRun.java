@@ -24,6 +24,7 @@ import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 import pl.mrstudios.deathrun.arena.pad.TeleportPad;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.config.Configuration;
+import pl.mrstudios.deathrun.util.ChannelUtil;
 import pl.mrstudios.deathrun.util.ZipUtil;
 
 import java.io.File;
@@ -67,10 +68,15 @@ public class CommandDeathRun {
                 "<reset>    <gold>DeathRun <dark_gray>(v%s) <gray>by <white>MrStudios Industries",
                 "<reset>",
                 "<reset> <b>*</b> <white>/deathrun leave",
-                "<reset> <b>*</b> <white>/deathrun start",
                 "<reset> <b>*</b> <white>/deathrun setup",
                 "<reset>"
         ), this.plugin.getDescription().getVersion());
+    }
+
+    @Execute(name = "leave")
+    @Permission("mrstudios.command.deathrun.leave")
+    public void leave(@Context Player player) {
+        ChannelUtil.connect(this.plugin, player, this.configuration.plugin().server);
     }
 
     /* Setup Command */

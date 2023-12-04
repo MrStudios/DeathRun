@@ -156,6 +156,10 @@ public class Bootstrap extends JavaPlugin {
         if (!this.configuration.map().arenaSetupEnabled)
             this.getServer().setMaxPlayers(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size());
 
+        /* Register Channel */
+        if (!this.configuration.map().arenaSetupEnabled)
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
     }
 
     @Override

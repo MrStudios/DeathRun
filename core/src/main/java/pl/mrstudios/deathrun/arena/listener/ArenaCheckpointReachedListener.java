@@ -18,6 +18,7 @@ import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
+import pl.mrstudios.deathrun.util.ItemUtil;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -104,7 +105,6 @@ public class ArenaCheckpointReachedListener implements Listener {
                         if (this.arena.getRemainingTime() >= 60)
                             this.arena.setRemainingTime(60);
 
-
                     this.audiences.player(event.getPlayer()).showTitle(
                             Title.title(
                                     this.miniMessage.deserialize(
@@ -144,6 +144,9 @@ public class ArenaCheckpointReachedListener implements Listener {
                             .map(IUser::asBukkit)
                             .filter(Objects::nonNull)
                             .forEach((target) -> target.hidePlayer(this.plugin, event.getPlayer()));
+
+                    event.getPlayer().getInventory().clear();
+                    event.getPlayer().getInventory().setItem(8, ItemUtil.createItemStack(Material.RED_BED, this.configuration.language().arenaItemLeaveName));
 
                 });
 

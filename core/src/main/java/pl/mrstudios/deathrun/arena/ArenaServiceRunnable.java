@@ -23,6 +23,7 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
+import pl.mrstudios.deathrun.util.ItemUtil;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -170,6 +171,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
 
                     this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
+                    player.getInventory().clear();
 
                 });
 
