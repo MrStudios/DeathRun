@@ -152,6 +152,10 @@ public class Bootstrap extends JavaPlugin {
                 this.arena, this.trapRegistry
         );
 
+        /* Set Max Players */
+        if (!this.configuration.map().arenaSetupEnabled)
+            this.getServer().setMaxPlayers(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size());
+
     }
 
     @Override
