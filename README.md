@@ -1,233 +1,210 @@
-<!-- HEADER INFO -->
-<center>
-    <h2>PLANNED UPDATE (PLUGIN REWRITE)</h2>
-    <p>When? Currently is delayed but not cancelled.</p>
-</center>
+![Header](./.github/assets/image/header.png)
 
-<!-- INFORMATIONS -->
-<center>
-    <h2>INFORMATIONS</h2>
-    <p><strong>Death Run</strong> is a minigame that first appeared on the HiveMC server and became popular right away. In this game idea is that as death we have to make the game difficult for runners who will try to reach finish line in shortest time possible.</p>
-</center>
+### What is that?
+DeathRun is a plugin for well known minigame from the HiveMC Network server where players are divided into two teams, runners and deaths. As a runner, you have to run through the entire map, avoiding traps that is triggered by players with the death role will use against you.
 
-<!-- TRAPS -->
-<center>
-    <h2>TRAPS</h2>
-    <p>Below are list of available traps.</p>
-</center>
+### Information
+This plugin works on ``1.16+`` servers with ``Paper`` or ``Spigot`` server software, ``Java 17`` and ``WorldEdit (v7.2.9+)`` plugin.
 
-<br>
-<details>
-    <summary>Trap Blocks</summary>
-</details>
-<br>
-<details>
-    <summary>Trap TNT</summary>
-</details>
-<br>
-<details>
-    <summary>Trap Giant</summary>
-</details>
-<br>
-<details>
-    <summary>Trap Lava</summary>
-</details>
-<br>
-<details>
-    <summary>Trap Water</summary>
-</details>
-<br>
-<details>
-    <summary>Trap Wall</summary>
-</details>
-<br>
-<details>
-    <summary>Trap Pistons</summary>
-</details>
+### Support
+If you need support contact us on our [Discord](https://discord.gg/C8dF6zkYff) server or visit our [Documentation](https://www.mrstudios.pl/documentation) page. If you want to contribute this repository please read [CONTRIBUTING](CONTRIBUTING.md) file.
 
-<!-- CONFIGURATION -->
-<center>
-    <h2>CONFIGURATION</h2>
-</center>
+### Configuration
 
-```json
-{
-  "settings": {
-    "server": {
-      "thisServer": "dr-arena-1",
-      "lobbyServer": "lobby"
-    },
-    "arena": {
-      "limits": {
-        "minPlayers": 5,
-        "maxPlayers": 16,
-        "maxDeathPlayers": 1
-      },
-      "timers": {
-        "arenaInGameTime": 300,
-        "arenaStartingTime": 30,
-        "arenaEndMoveServerDelay": 15,
-        "arenaTrapDelay": 20,
-        "arenaStrafeDelay": 50
-      },
-      "effects": {
-        "jumpBoostAmplifier": 15,
-        "jumpBoostTime": 1.5,
-        "speedAmplifier": 5,
-        "speedTime": 5
-      }
-    },
-    "sounds": {
-      "arenaStarting": "NOTE_PLING",
-      "arenaStartGlass": "ORB_PICKUP",
-      "arenaStartGlassRemoved": "ENDERDRAGON_GROWL",
-      "arenaCheckpointReached": "ORB_PICKUP",
-      "arenaTrapDelayEvent": "VILLAGER_NO",
-      "arenaPlayerStrafeUse": "BLAZE_BREATH",
-      "arenaPlayerDeath": "SKELETON_DEATH"
-    }
-  },
-  "messages": {
-    "chat": {
-      "noPermissions": "&cYou don't have permissions to this command.",
-      "playerJoined": "&7<player> &ehas joined. &b(<currentPlayers>/<maxPlayers>)",
-      "playerLeft": "&7<player> &ehas quit.",
-      "startingTimer": "&eThe game starts in &6<startTimer> seconds&e.",
-      "playerFinishedGame": "&r &f&lFINISH > &7Player &6<player> &7has finished game with &f<finishTime> &7time. &8(#<finishPosition>)",
-      "commandStartCantUsageAtThisMoment": "&cYou can't use this command at this moment.",
-      "startShorted": "&aStart has been shorted to &e<startTimer> seconds &aby &e<player>&a.",
-      "gameStartRunner": [
-        "&r",
-        "&r   &6&l* &7You are &aRunner&7.",
-        "&r   &f&l* &7Your task is complete run in shortest possible time, during this task interfering player will trigger various traps.",
-        "&r"
-      ],
-      "gameStartDeath": [
-        "&r",
-        "&r   &6&l* &7You are &cDeath&7.",
-        "&r   &f&l* &7Your task is to disturb runners by launching traps.",
-        "&r"
-      ],
-      "gameEndSpectator": [
-        "&r",
-        "&r   &6&l* &7You are &8Spectator&7.",
-        "&r   &f&l* &7Now you can follow other players.",
-        "&r"
-      ]
-    },
-    "title": {
-      "startingTitle": "&c<startTimer>",
-      "startingSubTitle": "&r",
-      "deathTitle": "&cYOU DIED!",
-      "deathSubTitle": "&eTry again!",
-      "checkpointTitle": "&eCheckpoint #<checkpointNumber>",
-      "checkpointSubTitle": "&r",
-      "finishTitle": "&3&lFINISH",
-      "finishSubTitle": "&7Finished game at &f#<finishPosition>&7.",
-      "gameEndTitle": "&c&lGAME END!",
-      "gameEndSubTitle": "&r",
-      "endMoveServerTitle": "&bWaiting..",
-      "endMoveServerSubTitle": "&7You will be transfered to lobby in &f<endTimer> seconds&7."
-    },
-    "scoreboard": {
-      "title": "&e&lDEATH RUN",
-      "waiting": [
-        "&r",
-        "&fMap: &a<mapName>",
-        "&fPlayers: &a<currentPlayers>/<maxPlayers>",
-        "&r",
-        "&fWaiting..",
-        "&r",
-        "&ewww.mrstudios.pl"
-      ],
-      "starting": [
-        "&r",
-        "&fMap: &a<mapName>",
-        "&fPlayers: &a<currentPlayers>/<maxPlayers>",
-        "&r",
-        "&fStart in &a<startTimer> seconds",
-        "&r",
-        "&ewww.mrstudios.pl"
-      ],
-      "playing": [
-        "&r",
-        "&fTime: &a<timeLeft>",
-        "&fRole: &a<playerRole>",
-        "&r",
-        "&fRunners: &a<runnersLeft>",
-        "&fDeaths: &c<deathsAmount>",
-        "&r",
-        "&fMap: &a<mapName>",
-        "&r",
-        "&ewww.mrstudios.pl"
-      ]
-    },
-    "items": {
-      "teleport": "&aTeleport &7(Right Click)",
-      "strafeLeftAvailable": "&aStrafe Left &7(Right Click)",
-      "strafeBackAvailable": "&aStrafe Back &7(Right Click)",
-      "strafeRightAvailable": "&aStrafe Right &7(Right Click)",
-      "strafeLeftDelay": "&aStrafe Left &8(<strafeDelay> seconds)",
-      "strafeBackDelay": "&aStrafe Back &8(<strafeDelay> seconds)",
-      "strafeRightDelay": "&aStrafe Right &8(<strafeDelay> seconds)",
-      "leave": "&cLeave &7(Right Click)"
-    },
-    "holograms": {
-      "trapDelayHologram": "&c<trapDelayTimer> seconds"
-    },
-    "roles": {
-      "lobby": {
-        "tabListPrefix": "&7"
-      },
-      "runner": {
-        "displayName": "&aRunner",
-        "tabListPrefix": "&7"
-      },
-      "death": {
-        "displayName": "&cDeath",
-        "tabListPrefix": "&7"
-      },
-      "spectator": {
-        "displayName": "&7Spectator",
-        "tabListPrefix": "&8[SPECTATOR] &7"
-      }
-    },
-    "kick": {
-      "serverIsFull": "&cThis arena is full.",
-      "gameInProgress": "&cThis arena is in play."
-    }
-  },
-  "configVersion": 4
-}
+Plugin configuration files using [YAML](https://yaml.org/) format. Configuration files is described bellow.
+
+<details>
+    <summary>File: <code>config.yml</code></summary>
+
+```yaml
+#  
+# ------------------------------------------------------------------------
+#                               INFORMATION
+# ------------------------------------------------------------------------
+#  
+#  This is configuration file for DeathRun plugin, if you found any issue 
+#  contact with us through Discord or create issue on GitHub. If you need
+#  help with configuration visit https://mrstudios.pl/documentation.
+#  
+
+# ------------------------------------------------------------------------
+#                                GENERAL
+# ------------------------------------------------------------------------
+
+# Lobby Server Name
+server: dr-lobby-1
+
+# Minimum amount of players that is needed to game start.
+arena-min-players: 5
+
+# Amount of players with 'DEATH' role on arena.
+arena-deaths-amount: 1
+
+# Amount of time that runners have to complete run. (in seconds)
+arena-game-time: 600
+
+# Amount of time that is needed to game start.
+arena-pre-starting-time: 30
+
+# Amount of time before start barrier will be removed.
+arena-starting-time: 10
+
+# Amount of time before players on server will be moved to lobby.
+arena-end-delay: 10
+
+# Amount of time before trap can be used again.
+arena-trap-delay: 20
+
+# Amount of time before strafe can be used again.
+arena-strafe-delay: 30
+
+# Max ,,survivable`` distance that player can fall.
+arena-max-fall-distance: 8
+
+# ------------------------------------------------------------------------
+#                                 EFFECTS
+# ------------------------------------------------------------------------
+block-effects:
+  - block: EMERALD_BLOCK
+    effect: JUMP
+    amplifier: 7
+    duration: 1.5
+  - block: REDSTONE_BLOCK
+    effect: SPEED
+    amplifier: 5
+    duration: 1.5
+
+# ------------------------------------------------------------------------
+#                                SOUNDS
+# ------------------------------------------------------------------------
+arena-sound-pre-starting: BLOCK_NOTE_BLOCK_PLING
+arena-sound-starting: ENTITY_EXPERIENCE_ORB_PICKUP
+arena-sound-started: ENTITY_ENDER_DRAGON_GROWL
+arena-sound-checkpoint-reached: ENTITY_EXPERIENCE_ORB_PICKUP
+arena-sound-trap-delay: ENTITY_VILLAGER_NO
+arena-sound-player-death: ENTITY_SKELETON_DEATH
 ```
 
-<!-- PLACEHOLDERS -->
-<center>
-    <h2>PLACEHOLDERS</h2>
-    <p>Placeholder list for <a href="https://github.com/PlaceholderAPI/PlaceholderAPI" style="text-decoration: none; color: #ffffff; font-weight: bold;">PlaceholderAPI</a> plugin.</p>
-</center>
+</details>
 
+<details>
+    <summary>File: <code>language.yml</code></summary>
+
+```yaml
+#  
+# ------------------------------------------------------------------------
+#                               INFORMATION
+# ------------------------------------------------------------------------
+#  
+#  This is configuration file for DeathRun plugin, if you found any issue 
+#  contact with us through Discord or create issue on GitHub. If you need
+#  help with configuration visit https://mrstudios.pl/documentation.
+#  
+
+# ------------------------------------------------------------------------
+#                                  GENERAL
+# ------------------------------------------------------------------------
+chat-message-no-permissions: <red>You don't have permissions to this command.
+chat-message-arena-player-joined: <gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)
+chat-message-arena-player-left: <gray><player> <yellow>has quit.
+chat-message-arena-starting-timer: <yellow>Game starts in <gold><timer> seconds<yellow>.
+chat-message-arena-player-finished: <reset> <white><b>FINISH ></b> <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)
+chat-message-arena-game-start-runner:
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.
+  - <reset>   <white><b>*</b> <gray>Your task is complete run in shortest possible time,
+    during this task interfering player will trigger various traps.
+  - <reset>
+chat-message-arena-game-start-death:
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <red>Death<gray>.
+  - <reset>   <white><b>*</b> <gray>Your task is to disturb runners by launching traps.
+  - <reset>
+chat-message-game-end-spectator:
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <dark_gray>Spectator<gray>.
+  - <reset>   <white><b>*</b> <gray>Now you can follow other players.
+  - <reset>
+
+# ------------------------------------------------------------------------
+#                                  TITLES
+# ------------------------------------------------------------------------
+arena-pre-starting-title: <red><timer>
+arena-pre-starting-subtitle: <reset>
+arena-starting-title: <red><timer>
+arena-starting-subtitle: <reset>
+arena-death-title: <red>YOU DIED!
+arena-death-subtitle: <yellow>Don't give up! Try again!
+arena-checkpoint-title: <yellow>CHECKPOINT!
+arena-checkpoint-subtitle: <gold>You reached <yellow>#<checkpoint> checkpoint<gold>.
+arena-finish-title: <dark_aqua><b>FINISH
+arena-finish-subtitle: <gray>Your position is <white>#<position><gray>.
+arena-game-end-title: <red><b>GAME END!
+arena-game-end-subtitle: <reset>
+arena-move-server-title: <aqua>Waiting..
+arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><endTimer> seconds<gray>.
+
+# ------------------------------------------------------------------------
+#                               SCOREBOARD
+# ------------------------------------------------------------------------
+arena-scoreboard-title: <yellow><b>DEATH RUN
+arena-scoreboard-lines-waiting:
+  - <reset>
+  - '<white>Map: <green><map>'
+  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
+  - <reset>
+  - <white>Waiting..
+  - <reset>
+  - <yellow>www.mrstudios.pl
+arena-scoreboard-lines-starting:
+  - <reset>
+  - '<white>Map: <green><map>'
+  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
+  - <reset>
+  - <white>Start in <green><timer> seconds
+  - <reset>
+  - <yellow>www.mrstudios.pl
+arena-scoreboard-lines-playing:
+  - <reset>
+  - '<white>Time: <green><timeFormatted>'
+  - '<white>Role: <green><role>'
+  - <reset>
+  - '<white>Runners: <green><runners>'
+  - '<white>Deaths: <red><deaths>'
+  - <reset>
+  - '<white>Map: <green><map>'
+  - <reset>
+  - <yellow>www.mrstudios.pl
+
+# ------------------------------------------------------------------------
+#                               HOLOGRAMS
+# ------------------------------------------------------------------------
+arena-hologram-trap-delayed: <red><delay> seconds
+
+# ------------------------------------------------------------------------
+#                                 ROLES
+# ------------------------------------------------------------------------
+arena-roles-runner-name: <green>Runner
+arena-roles-death-name: <red>Death
+arena-roles-spectator-name: <gray>Spectator
+
+# ------------------------------------------------------------------------
+#                                 ITEMS
+# ------------------------------------------------------------------------
+arena-item-leave-name: <red>Leave <gray>(Right Click)
 ```
-%deathrun_arena_name%       | Return player current arena name.     (String)
-%deathrun_role_name%        | Return player current role in game.   (String)
-%deathrun_role%             | Return player current role in game.   (Enum)
-%deathrun_deaths%           | Return player deaths count.           (Integer)
-%deathrun_checkpoint%       | Return player checkpoint number.      (Integer)
-%deathrun_finish_position%  | Return player finish position.        (Integer)
-%deathrun_version%          | Return plugin version.                (String)
-%deathrun_runner_amount%    | Return amount of runners in arena.    (Integer)
-%deathrun_death_amount%     | Return amount of death in arena.      (Integer)
-%deathrun_spectator_amount% | Return amount of spectators in arena. (Integer)
-%deathrun_players_amount%   | Return amount of players in arena.    (Integer)
-%deathrun_gamestate%        | Return arena gamestate.               (Enum)
-```
 
-<!-- DISCORD -->
-<center>
-    <h2>DISCORD SERVER</h2>
-    <a href="https://discord.com/invite/C8dF6zkYff" style="text-decoration: none;">
-        <img src="https://discord.com/api/guilds/908864960698921000/widget.png?style=banner2">
-    </a>
-</center>
+</details>
 
-#
+### Sponsoring
+If you want to sponsor this project you can do it by clicking ``Sponsor`` button. You can also support us by clicking on the star button on the top of this page.
+
+### Used Libraries
+Libraries that is used in this project, most of them are open source libraries.
+- [LiteCommands](https://github.com/Rollczi/LiteCommands) by Rollczi
+- [ProtocolSidebar](https://github.com/CatCoderr/ProtocolSidebar) by CatCoderr
+- [Kyori Adventure](https://github.com/KyoriPowered/adventure) by Kyori
+- [Java Annotations](https://github.com/JetBrains/java-annotations) by JetBrains
+- [lombok](https://github.com/projectlombok/lombok) by Project Lombok
+- [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) by Okaeri
+- [commons-io](https://github.com/apache/commons-io) by Apache Software Foundation

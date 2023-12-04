@@ -1,0 +1,23 @@
+name: 'Feature'
+description: 'Select if you want an feature in our plugin.'
+title: "[FEATURE] "
+labels: [ 'feature' ]
+body:
+  - type: 'dropdown'
+    id: 'module'
+    attributes:
+      label: 'Module'
+      description: 'Select module to which this feature pertains.'
+      multiple: false
+      options:
+        - 'API (Developers)'
+        - 'Core (Standard Users)'
+    validations:
+      required: true
+  - type: 'textarea'
+    id: 'details'
+    attributes:
+      label: 'Feature Details'
+      description: 'Describe your idea and how it works .'
+    validations:
+      required: true
