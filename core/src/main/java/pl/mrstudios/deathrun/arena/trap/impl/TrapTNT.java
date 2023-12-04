@@ -2,12 +2,16 @@ package pl.mrstudios.deathrun.arena.trap.impl;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.arena.trap.Trap;
 
 import java.time.Duration;
+import java.util.List;
 
 @Getter @Setter
 public class TrapTNT extends Trap {
@@ -32,7 +36,14 @@ public class TrapTNT extends Trap {
     public void setExtra(Object... objects) {}
 
     @Override
-    public Duration getDuration() {
+    public @NotNull List<Location> filter(@NotNull List<Location> locations, @Nullable Object... objects) {
+        return locations.stream()
+                .filter((location) -> location.getBlock().getType() == Material.TNT)
+                .toList();
+    }
+
+    @Override
+    public @NotNull Duration getDuration() {
         return Duration.ZERO;
     }
 

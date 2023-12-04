@@ -186,9 +186,7 @@ public class CommandDeathRun {
 
         ITrap trap = trapClass.getDeclaredConstructor().newInstance();
 
-        if (material != null)
-            locations.removeIf((location) -> !location.getBlock().getType().equals(material));
-
+        trap.filter(locations, material);
         trap.setButton(target.getLocation());
         trap.setLocations(locations);
 
