@@ -82,7 +82,6 @@ arena-sound-starting: ENTITY_EXPERIENCE_ORB_PICKUP
 arena-sound-started: ENTITY_ENDER_DRAGON_GROWL
 arena-sound-checkpoint-reached: ENTITY_EXPERIENCE_ORB_PICKUP
 arena-sound-trap-delay: ENTITY_VILLAGER_NO
-arena-sound-strafe-use: ENTITY_BLAZE_AMBIENT
 arena-sound-player-death: ENTITY_SKELETON_DEATH
 ```
 
@@ -192,13 +191,6 @@ arena-roles-spectator-name: <gray>Spectator
 # ------------------------------------------------------------------------
 #                                 ITEMS
 # ------------------------------------------------------------------------
-arena-item-teleport-name: <green>Teleport <gray>(Right Click)
-arena-item-strafe-left-available-name: <green>Strafe Left <gray>(Right Click)
-arena-item-strafe-left-unavailable-name: <green>Strafe Left <dark_gray>(<delay> seconds)
-arena-item-strafe-back-available-name: <green>Strafe Back <gray>(Right Click)
-arena-item-strafe-back-unavailable-name: <green>Strafe Back <dark_gray>(<delay> seconds)
-arena-item-strafe-right-available-name: <green>Strafe Right <gray>(Right Click)
-arena-item-strafe-right-unavailable-name: <green>Strafe Right <dark_gray>(<delay> seconds)
 arena-item-leave-name: <red>Leave <gray>(Right Click)
 ```
 

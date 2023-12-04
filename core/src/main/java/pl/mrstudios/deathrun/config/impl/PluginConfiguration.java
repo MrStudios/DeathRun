@@ -84,7 +84,7 @@ public class PluginConfiguration extends OkaeriConfig {
     public Sound arenaSoundStarted = Sound.ENTITY_ENDER_DRAGON_GROWL;
     public Sound arenaSoundCheckpointReached = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
     public Sound arenaSoundTrapDelay = Sound.ENTITY_VILLAGER_NO;
-    public Sound arenaSoundStrafeUse = Sound.ENTITY_BLAZE_AMBIENT;
+    /* public Sound arenaSoundStrafeUse = Sound.ENTITY_BLAZE_AMBIENT; */ // TODO: Add this feature in future.
     public Sound arenaSoundPlayerDeath = Sound.ENTITY_SKELETON_DEATH;
 
 }
