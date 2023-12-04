@@ -4,6 +4,10 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.potion.PotionEffectType;
+import pl.mrstudios.deathrun.arena.effect.BlockEffect;
+
+import java.util.List;
 
 @Header({
         " ",
@@ -62,15 +66,11 @@ public class PluginConfiguration extends OkaeriConfig {
             "------------------------------------------------------------------------",
             ""
     })
-    @Comment({ "Jump Boost Effect" })
-    public Material effectsJumpBoostBlock = Material.EMERALD_BLOCK;
-    public int effectsJumpBoostAmplifier = 5;
-    public float effectsJumpBoostDuration = 1.5f;
 
-    @Comment({ "", "Speed Effect" })
-    public Material effectsSpeedBlock = Material.REDSTONE_BLOCK;
-    public int effectsSpeedAmplifier = 5;
-    public float effectsSpeedDuration = 1.5f;
+    public List<BlockEffect> blockEffects = List.of(
+            new BlockEffect(Material.EMERALD_BLOCK, PotionEffectType.JUMP, 7, 1.5f),
+            new BlockEffect(Material.REDSTONE_BLOCK, PotionEffectType.SPEED, 5, 1.5f)
+    );
 
     @Comment({
             "",

@@ -74,6 +74,9 @@ public class ArenaPlayerDamageListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getPitch() != event.getTo().getPitch() && event.getFrom().getYaw() != event.getTo().getYaw())
+            return;
+
         if (event.getTo().getBlock().getType() != Material.WATER && event.getTo().getBlock().getType() != Material.LAVA)
             return;
 

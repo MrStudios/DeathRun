@@ -48,6 +48,9 @@ public class ArenaCheckpointReachedListener implements Listener {
         if (event.getTo().getBlock().getType() != Material.NETHER_PORTAL)
             return;
 
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getPitch() != event.getTo().getPitch() && event.getFrom().getYaw() != event.getTo().getYaw())
+            return;
+
         this.configuration.map().arenaCheckpoints.stream()
                 .filter((checkpoint) -> checkpoint.locations().stream().anyMatch(
                         (location) -> location.getBlockX() == event.getTo().getBlockX() && location.getBlockY() == event.getTo().getBlockY() && location.getBlockZ() == event.getTo().getBlockZ()

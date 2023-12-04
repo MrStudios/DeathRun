@@ -5,7 +5,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
@@ -21,26 +20,16 @@ public class ArenaBlockEffectListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onSpeedEffectBlock(PlayerMoveEvent event) {
+    public void onStepOnBlockEffect(PlayerMoveEvent event) {
 
-        if (event.getTo().clone().add(0, -1, 0).getBlock().getType() != this.configuration.plugin().effectsSpeedBlock)
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getPitch() != event.getTo().getPitch() && event.getFrom().getYaw() != event.getTo().getYaw())
             return;
 
-        event.getPlayer().addPotionEffect(
-                new PotionEffect(PotionEffectType.SPEED, (int) (20 * this.configuration.plugin().effectsSpeedDuration), this.configuration.plugin().effectsSpeedAmplifier, false, false, true)
-        );
-
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onJumpBoostEffectBlock(PlayerMoveEvent event) {
-
-        if (event.getTo().clone().add(0, -1, 0).getBlock().getType() != this.configuration.plugin().effectsJumpBoostBlock)
-            return;
-
-        event.getPlayer().addPotionEffect(
-                new PotionEffect(PotionEffectType.JUMP, (int) (20 * this.configuration.plugin().effectsJumpBoostDuration), this.configuration.plugin().effectsJumpBoostAmplifier, false, false, true)
-        );
+        this.configuration.plugin().blockEffects
+                .stream()
+                .filter((effect) -> effect.blockType() == event.getTo().clone().add(0, -1, 0).getBlock().getType())
+                .findFirst()
+                .ifPresent((effect) -> event.getPlayer().addPotionEffect(new PotionEffect(effect.effectType(), (int) (20 * effect.duration()), effect.amplifier(), false, false, true)));
 
     }
 

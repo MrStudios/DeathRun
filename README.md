@@ -64,16 +64,15 @@ arena-max-fall-distance: 8
 # ------------------------------------------------------------------------
 #                                 EFFECTS
 # ------------------------------------------------------------------------
-
-# Jump Boost Effect
-effects-jump-boost-block: EMERALD_BLOCK
-effects-jump-boost-amplifier: 5
-effects-jump-boost-duration: 1.5
-
-# Speed Effect
-effects-speed-block: REDSTONE_BLOCK
-effects-speed-amplifier: 5
-effects-speed-duration: 1.5
+block-effects:
+  - block: EMERALD_BLOCK
+    effect: JUMP
+    amplifier: 7
+    duration: 1.5
+  - block: REDSTONE_BLOCK
+    effect: SPEED
+    amplifier: 5
+    duration: 1.5
 
 # ------------------------------------------------------------------------
 #                                SOUNDS
