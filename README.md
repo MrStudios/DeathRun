@@ -1,23 +1,21 @@
-## IMPORTANT!
-This is version under development, if you want stable version use [version/0.4-alpha](https://github.com/MrStudios/DeathRun/tree/version/0.4-alpha).
+![Header](./.github/assets/image/header.png)
 
-## WHAT IS THIS?
-**Death Run** is a minigame that first appeared on **HiveMC Network** and become popular instantly. In this game idea is that as death we have to make the game difficult for runners who will try to reach finish line in shortest time possible.
+### What is that?
+DeathRun is a plugin for well known minigame from the HiveMC Network server where players are divided into two teams, runners and deaths. As a runner, you have to run through the entire map, avoiding traps that is triggered by players with the death role will use against you.
 
-## PROGRESS
-- [ ] Game System
-- [x] Development API
-- [x] Arena Setup
-- [x] Modern Version Support (1.16+)
-- [ ] ~~Legacy Version Support (<1.16)~~ (Cancelled)
-- [ ] Game Backend Server/Client (BungeeCord/Velocity + Netty Application)
-- [ ] Extensions
-- - [ ] Private Games
-- - [ ] Map Voting
-- - [ ] Statistics
+### Information
+This plugin works on ``1.16+`` servers with ``Paper`` or ``Spigot`` server software, ``Java 17`` and ``WorldEdit (v7.2.9+)`` plugin.
 
-## CONFIGURATION FILES
-* Main Configuration File `(config.yml)`
+### Support
+If you need support contact us on our [Discord](https://discord.gg/C8dF6zkYff) server or visit our [Documentation](https://www.mrstudios.pl/documentation) page. If you want to contribute this repository please read [CONTRIBUTING](CONTRIBUTING.md) file.
+
+### Configuration
+
+Plugin configuration files using [YAML](https://yaml.org/) format. Configuration files is described bellow.
+
+<details>
+    <summary>File: <code>config.yml</code></summary>
+
 ```yaml
 #  
 # ------------------------------------------------------------------------
@@ -60,6 +58,9 @@ arena-trap-delay: 20
 # Amount of time before strafe can be used again.
 arena-strafe-delay: 30
 
+# Max ,,survivable`` distance that player can fall.
+arena-max-fall-distance: 8
+
 # ------------------------------------------------------------------------
 #                                 EFFECTS
 # ------------------------------------------------------------------------
@@ -86,7 +87,11 @@ arena-sound-strafe-use: ENTITY_BLAZE_AMBIENT
 arena-sound-player-death: ENTITY_SKELETON_DEATH
 ```
 
-* Language File `(language.yml)`
+</details>
+
+<details>
+    <summary>File: <code>language.yml</code></summary>
+
 ```yaml
 #  
 # ------------------------------------------------------------------------
@@ -105,32 +110,31 @@ chat-message-no-permissions: <red>You don't have permissions to this command.
 chat-message-arena-player-joined: <gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)
 chat-message-arena-player-left: <gray><player> <yellow>has quit.
 chat-message-arena-starting-timer: <yellow>Game starts in <gold><timer> seconds<yellow>.
-chat-message-arena-player-finished: '&r <white><b>FINISH > <gray>Player <gold><player>
-  <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)'
+chat-message-arena-player-finished: <reset> <white><b>FINISH ></b> <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)
 chat-message-arena-game-start-runner:
-- '&r'
-- '&r   <gold><b>* <gray>You are <green>Runner<gray>.'
-- '&r   <white><b>* <gray>Your task is complete run in shortest possible time, during
-  this task interfering player will trigger various traps.'
-- '&r'
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.
+  - <reset>   <white><b>*</b> <gray>Your task is complete run in shortest possible time,
+    during this task interfering player will trigger various traps.
+  - <reset>
 chat-message-arena-game-start-death:
-- '&r'
-- '&r   <gold><b>* <gray>You are <red>Death<gray>.'
-- '&r   <white><b>* <gray>Your task is to disturb runners by launching traps.'
-- '&r'
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <red>Death<gray>.
+  - <reset>   <white><b>*</b> <gray>Your task is to disturb runners by launching traps.
+  - <reset>
 chat-message-game-end-spectator:
-- '&r'
-- '&r   <gold><b>* <gray>You are <dark_gray>Spectator<gray>.'
-- '&r   <white><b>* <gray>Now you can follow other players.'
-- '&r'
+  - <reset>
+  - <reset>   <gold><b>*</b> <gray>You are <dark_gray>Spectator<gray>.
+  - <reset>   <white><b>*</b> <gray>Now you can follow other players.
+  - <reset>
 
 # ------------------------------------------------------------------------
 #                                  TITLES
 # ------------------------------------------------------------------------
 arena-pre-starting-title: <red><timer>
-arena-pre-starting-subtitle: '&r'
+arena-pre-starting-subtitle: <reset>
 arena-starting-title: <red><timer>
-arena-starting-subtitle: '&r'
+arena-starting-subtitle: <reset>
 arena-death-title: <red>YOU DIED!
 arena-death-subtitle: <yellow>Don't give up! Try again!
 arena-checkpoint-title: <yellow>CHECKPOINT!
@@ -138,42 +142,41 @@ arena-checkpoint-subtitle: <gold>You reached <yellow>#<checkpoint> checkpoint<go
 arena-finish-title: <dark_aqua><b>FINISH
 arena-finish-subtitle: <gray>Your position is <white>#<position><gray>.
 arena-game-end-title: <red><b>GAME END!
-arena-game-end-subtitle: '&r'
+arena-game-end-subtitle: <reset>
 arena-move-server-title: <aqua>Waiting..
-arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><endTimer>
-  seconds<gray>.
+arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><endTimer> seconds<gray>.
 
 # ------------------------------------------------------------------------
 #                               SCOREBOARD
 # ------------------------------------------------------------------------
 arena-scoreboard-title: <yellow><b>DEATH RUN
 arena-scoreboard-lines-waiting:
-- '&r'
-- '<white>Map: <green><map>'
-- '<white>Players: <green><currentPlayers>/<maxPlayers>'
-- '&r'
-- <white>Waiting..
-- '&r'
-- <yellow>www.mrstudios.pl
+  - <reset>
+  - '<white>Map: <green><map>'
+  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
+  - <reset>
+  - <white>Waiting..
+  - <reset>
+  - <yellow>www.mrstudios.pl
 arena-scoreboard-lines-starting:
-- '&r'
-- '<white>Map: <green><map>'
-- '<white>Players: <green><currentPlayers>/<maxPlayers>'
-- '&r'
-- <white>Start in <green><timer> seconds
-- '&r'
-- <yellow>www.mrstudios.pl
+  - <reset>
+  - '<white>Map: <green><map>'
+  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
+  - <reset>
+  - <white>Start in <green><timer> seconds
+  - <reset>
+  - <yellow>www.mrstudios.pl
 arena-scoreboard-lines-playing:
-- '&r'
-- '<white>Time: <green><time>'
-- '<white>Role: <green><role>'
-- '&r'
-- '<white>Runners: <green><runners>'
-- '<white>Deaths: <red><deaths>'
-- '&r'
-- '<white>Map: <green><map>'
-- '&r'
-- <yellow>www.mrstudios.pl
+  - <reset>
+  - '<white>Time: <green><timeFormatted>'
+  - '<white>Role: <green><role>'
+  - <reset>
+  - '<white>Runners: <green><runners>'
+  - '<white>Deaths: <red><deaths>'
+  - <reset>
+  - '<white>Map: <green><map>'
+  - <reset>
+  - <yellow>www.mrstudios.pl
 
 # ------------------------------------------------------------------------
 #                               HOLOGRAMS
@@ -183,16 +186,9 @@ arena-hologram-trap-delayed: <red><delay> seconds
 # ------------------------------------------------------------------------
 #                                 ROLES
 # ------------------------------------------------------------------------
-arena-roles-lobby-tab-prefix: <gray>
-
 arena-roles-runner-name: <green>Runner
-arena-roles-runner-tab-prefix: <gray>
-
 arena-roles-death-name: <red>Death
-arena-roles-death-tab-prefix: <gray>
-
 arena-roles-spectator-name: <gray>Spectator
-arena-roles-spectator-tab-prefix: <dark_gray>[SPECTATOR] <gray>
 
 # ------------------------------------------------------------------------
 #                                 ITEMS
@@ -203,8 +199,21 @@ arena-item-strafe-left-unavailable-name: <green>Strafe Left <dark_gray>(<delay> 
 arena-item-strafe-back-available-name: <green>Strafe Back <gray>(Right Click)
 arena-item-strafe-back-unavailable-name: <green>Strafe Back <dark_gray>(<delay> seconds)
 arena-item-strafe-right-available-name: <green>Strafe Right <gray>(Right Click)
-arena-item-strafe-right-unavailable-name: <green>Strafe Right <dark_gray>(<delay>
-  seconds)
+arena-item-strafe-right-unavailable-name: <green>Strafe Right <dark_gray>(<delay> seconds)
 arena-item-leave-name: <red>Leave <gray>(Right Click)
 ```
 
+</details>
+
+### Sponsoring
+If you want to sponsor this project you can do it by clicking Support button. You can also support us by clicking on the star button on the top of this page.
+
+### Used Libraries
+Libraries that is used in this project, most of them are open source libraries.
+- [LiteCommands](https://github.com/Rollczi/LiteCommands) by Rollczi
+- [ProtocolSidebar](https://github.com/CatCoderr/ProtocolSidebar) by CatCoderr
+- [Kyori Adventure](https://github.com/KyoriPowered/adventure) by Kyori
+- [Java Annotations](https://github.com/JetBrains/java-annotations) by JetBrains
+- [lombok](https://github.com/projectlombok/lombok) by Project Lombok
+- [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) by Okaeri
+- [commons-io](https://github.com/apache/commons-io) by Apache Software Foundation

@@ -1,0 +1,45 @@
+name: 'Bug Report'
+description: 'Select if you want to report plugin issue.'
+title: "[BUG] "
+labels: [ 'bug' ]
+body:
+  - type: 'dropdown'
+    id: 'module'
+    attributes:
+      label: 'Module'
+      description: 'With what element do you have problems?'
+      multiple: false
+      options:
+        - 'API (Developers)'
+        - 'Core (Standard Users)'
+    validations:
+      required: true
+  - type: 'input'
+    id: 'plugin-version'
+    attributes:
+      label: 'Plugin Version'
+      description: 'What version of our plugin are you using?'
+    validations:
+      required: true
+  - type: 'input'
+    id: 'software-version'
+    attributes:
+      label: 'Server Version'
+      description: 'Which minecraft version is running on your server?'
+    validations:
+      required: false
+  - type: 'textarea'
+    id: 'details'
+    attributes:
+      label: 'Issue Details'
+      description: 'Describe your problem providing as many as possible details.'
+    validations:
+      required: true
+  - type: 'checkboxes'
+    id: 'terms'
+    attributes:
+      label: 'Confirmation'
+      description: 'By submitting this issue, you agree to follow our Contributing & Issues rules.'
+      options:
+        - label: 'I agree to follow this project Contributing & Issues rules.'
+          required: true
