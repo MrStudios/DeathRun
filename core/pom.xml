@@ -204,6 +204,14 @@
             <version>2.15.1</version>
         </dependency>
 
+        <!-- PROTOCOL SIDEBAR -->
+        <dependency>
+            <groupId>me.catcoder</groupId>
+            <artifactId>bukkit-sidebar</artifactId>
+            <version>6.2.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>

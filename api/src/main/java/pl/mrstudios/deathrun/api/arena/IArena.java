@@ -1,7 +1,5 @@
 package pl.mrstudios.deathrun.api.arena;
 
-import me.catcoder.sidebar.Sidebar;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,10 +16,6 @@ public interface IArena {
 
     @NotNull GameState getGameState();
     void setGameState(@NotNull GameState gameState);
-
-    /* Sidebar */
-    Sidebar<Component> getSidebar();
-    void setSidebar(@NotNull Sidebar<Component> sidebar);
 
     /* Arena User */
     @NotNull List<IUser> getUsers();
