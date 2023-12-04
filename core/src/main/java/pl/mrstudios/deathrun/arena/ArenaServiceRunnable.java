@@ -22,6 +22,7 @@ import pl.mrstudios.deathrun.api.arena.event.user.UserArenaRoleAssignedEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.config.Configuration;
+import pl.mrstudios.deathrun.util.ChannelUtil;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -279,6 +280,11 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
         if (this.endDelayTimer > 0)
             return;
+
+        this.arena.getUsers()
+                .stream()
+                .map(IUser::asBukkit)
+                .forEach((player) -> ChannelUtil.connect(this.plugin, player, this.configuration.plugin().server));
 
         if (this.endDelayTimer > -5)
             return;
