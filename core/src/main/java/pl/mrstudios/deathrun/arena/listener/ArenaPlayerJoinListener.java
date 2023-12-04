@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import pl.mrstudios.commons.inject.annotation.Inject;
+import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserJoinedEvent;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
@@ -41,6 +42,9 @@ public class ArenaPlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         event.setJoinMessage("");
+        if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
+            return;
+
         if (this.arena.getUser(event.getPlayer()) != null)
             return;
 

@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
+import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserLeftEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.arena.Arena;
@@ -38,6 +39,9 @@ public class ArenaPlayerQuitListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         event.setQuitMessage("");
+        if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
+            return;
+
         if (this.arena.getUser(event.getPlayer()) == null)
             return;
 
