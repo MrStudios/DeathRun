@@ -3,6 +3,7 @@ package pl.mrstudios.deathrun.api;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 
@@ -22,6 +23,6 @@ public class API {
     }
 
     @Setter(AccessLevel.PRIVATE)
-    public static API instance;
+    public static @NotNull API instance;
 
 }

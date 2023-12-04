@@ -11,7 +11,7 @@ import pl.mrstudios.deathrun.api.arena.IArena;
 @AllArgsConstructor
 public class ArenaShutdownStartedEvent extends Event {
 
-    private IArena arena;
+    private @NotNull IArena arena;
     private boolean defaultProcedure;
 
     /* Handler List */

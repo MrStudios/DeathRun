@@ -5,13 +5,15 @@ import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 
 @Getter
 @AllArgsConstructor
 public class UserArenaDeathEvent extends Event {
 
-    private IUser user;
+    private @NotNull IUser user;
+    private @NotNull IArena arena;
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();

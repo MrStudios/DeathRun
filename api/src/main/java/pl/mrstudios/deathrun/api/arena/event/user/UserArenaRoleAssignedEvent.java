@@ -12,8 +12,8 @@ import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 @AllArgsConstructor
 public class UserArenaRoleAssignedEvent extends Event {
 
-    private IUser user;
-    private Role role;
+    private @NotNull IUser user;
+    private @NotNull Role role;
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();

@@ -11,7 +11,7 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 @AllArgsConstructor
 public class UserArenaFinishedEvent extends Event {
 
-    private IUser user;
+    private @NotNull IUser user;
     private int time;
     private int position;
 

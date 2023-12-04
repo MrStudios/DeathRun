@@ -11,16 +11,16 @@ import java.util.UUID;
 public interface IUser {
 
     /* User Data */
-    String getName();
-    UUID getUniqueId();
+    @NotNull String getName();
+    @NotNull UUID getUniqueId();
 
     /* Role */
-    Role getRole();
+    @NotNull Role getRole();
     void setRole(@NotNull Role role);
 
     /* Checkpoint */
-    ICheckpoint getCheckpoint();
-    void setCheckpoint(ICheckpoint checkpoint);
+    @NotNull ICheckpoint getCheckpoint();
+    void setCheckpoint(@NotNull ICheckpoint checkpoint);
 
     /* Arena */
     int getDeaths();

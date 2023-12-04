@@ -14,8 +14,8 @@ import pl.mrstudios.deathrun.api.arena.trap.ITrap;
 @AllArgsConstructor
 public class ArenaTrapActivateEvent extends Event implements Cancellable {
 
-    private IArena arena;
-    private ITrap trap;
+    private @NotNull IArena arena;
+    private @NotNull ITrap trap;
 
     @Getter @Setter
     private boolean cancelled;

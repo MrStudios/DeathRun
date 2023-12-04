@@ -12,8 +12,8 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 @AllArgsConstructor
 public class UserArenaCheckpointEvent extends Event {
 
-    private IUser user;
-    private ICheckpoint checkpoint;
+    private @NotNull IUser user;
+    private @NotNull ICheckpoint checkpoint;
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();

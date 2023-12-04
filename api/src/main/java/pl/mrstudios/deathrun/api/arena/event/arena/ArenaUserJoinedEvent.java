@@ -12,8 +12,8 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 @AllArgsConstructor
 public class ArenaUserJoinedEvent extends Event {
 
-    private IArena arena;
-    private IUser user;
+    private @NotNull IArena arena;
+    private @NotNull IUser user;
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();

@@ -14,9 +14,9 @@ import java.util.UUID;
 public interface IArena {
 
     /* Arena Data */
-    String getName();
+    @NotNull String getName();
 
-    GameState getGameState();
+    @NotNull GameState getGameState();
     void setGameState(@NotNull GameState gameState);
 
     /* Sidebar */
@@ -24,10 +24,10 @@ public interface IArena {
     void setSidebar(@NotNull Sidebar<Component> sidebar);
 
     /* Arena User */
-    List<IUser> getUsers();
-    List<IUser> getRunners();
-    List<IUser> getDeaths();
-    List<IUser> getSpectators();
+    @NotNull List<IUser> getUsers();
+    @NotNull List<IUser> getRunners();
+    @NotNull List<IUser> getDeaths();
+    @NotNull List<IUser> getSpectators();
 
     @Nullable IUser getUser(@NotNull String string);
     @Nullable IUser getUser(@NotNull UUID uniqueId);

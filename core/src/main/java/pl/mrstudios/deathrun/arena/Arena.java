@@ -65,21 +65,21 @@ public class Arena implements IArena {
     }
 
     @Override
-    public List<IUser> getRunners() {
+    public @NotNull List<IUser> getRunners() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.RUNNER))
                 .toList();
     }
 
     @Override
-    public List<IUser> getDeaths() {
+    public @NotNull List<IUser> getDeaths() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.DEATH))
                 .toList();
     }
 
     @Override
-    public List<IUser> getSpectators() {
+    public @NotNull List<IUser> getSpectators() {
         return this.users.stream()
                 .filter((user) -> user.getRole().equals(Role.SPECTATOR))
                 .toList();

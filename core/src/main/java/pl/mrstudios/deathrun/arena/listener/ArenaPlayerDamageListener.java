@@ -113,7 +113,7 @@ public class ArenaPlayerDamageListener implements Listener {
         player.teleport(user.getCheckpoint().spawn());
         player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
 
-        this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user));
+        this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user, this.arena));
         this.audiences.player(player).showTitle(
                 Title.title(
                         this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),

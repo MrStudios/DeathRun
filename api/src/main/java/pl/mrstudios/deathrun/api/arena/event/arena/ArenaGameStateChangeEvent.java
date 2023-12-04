@@ -12,8 +12,8 @@ import pl.mrstudios.deathrun.api.arena.enums.GameState;
 @AllArgsConstructor
 public class ArenaGameStateChangeEvent extends Event {
 
-    private IArena arena;
-    private GameState gameState;
+    private @NotNull  IArena arena;
+    private @NotNull GameState gameState;
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();
