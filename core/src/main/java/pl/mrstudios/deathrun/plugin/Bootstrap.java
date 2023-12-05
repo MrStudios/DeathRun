@@ -148,9 +148,7 @@ public class Bootstrap extends JavaPlugin {
                     .runTaskTimer(this, 0, 20);
 
         /* Initialize API */
-        new API(
-                this.arena, this.trapRegistry
-        );
+        new API(this.arena, this.trapRegistry, this.getDescription());
 
         /* Set Max Players */
         if (!this.configuration.map().arenaSetupEnabled)
