@@ -23,7 +23,6 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
-import pl.mrstudios.deathrun.util.ItemUtil;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -89,6 +88,10 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
+    private void stateSwitchToWaiting() {
+        this.startingTimer = this.configuration.plugin().arenaPreStartingTime + 1;
+    }
+
     /* Starting */
     private int startingTimer;
 
@@ -96,7 +99,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
         if (this.arena.getUsers().size() < this.configuration.plugin().arenaMinPlayers) {
             this.setState(GameState.WAITING);
-            this.startingTimer = this.configuration.plugin().arenaPreStartingTime + 1;
             return;
         }
 
@@ -133,49 +135,10 @@ public class ArenaServiceRunnable extends BukkitRunnable {
             return;
 
         this.setState(GameState.PLAYING);
-        for (int i = 0; i < this.configuration.plugin().arenaDeathsAmount; i++)
-            this.arena.getUsers().get(ThreadLocalRandom.current().nextInt(this.arena.getUsers().size())).setRole(Role.DEATH);
-
-        this.arena.getUsers()
-                .stream()
-                .filter((user) -> user.getRole() != Role.DEATH)
-                .forEach((user) -> user.setRole(Role.RUNNER));
-
-        IntStream.range(0, this.arena.getRunners().size())
-                .filter((i) -> this.arena.getRunners().get(i).asBukkit() != null)
-                .forEach((i) -> Objects.requireNonNull(this.arena.getRunners().get(i).asBukkit()).teleport(this.configuration.map().arenaRunnerSpawnLocations.get(i)));
-
-        IntStream.range(0, this.arena.getDeaths().size())
-                .filter((i) -> this.arena.getDeaths().get(i).asBukkit() != null)
-                .forEach((i) -> Objects.requireNonNull(this.arena.getDeaths().get(i).asBukkit()).teleport(this.configuration.map().arenaDeathSpawnLocations.get(i)));
-
-        this.arena.getUsers()
-                .forEach((user) -> {
-
-                    Player player = user.asBukkit();
-                    if (player == null)
-                        return;
-
-                    if (user.getRole() == Role.RUNNER)
-                        this.configuration.language().chatMessageArenaGameStartRunner.stream()
-                                .map(this.miniMessage::deserialize)
-                                .forEach((component) -> this.audiences.player(player).sendMessage(component));
-
-                    if (user.getRole() == Role.DEATH)
-                        this.configuration.language().chatMessageArenaGameStartDeath.stream()
-                                .map(this.miniMessage::deserialize)
-                                .forEach((component) -> this.audiences.player(player).sendMessage(component));
-
-                    user.setCheckpoint(this.configuration.map().arenaCheckpoints.get(0));
-                    if (user.getRole() == Role.DEATH)
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
-
-                    this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
-                    player.getInventory().clear();
-
-                });
 
     }
+
+    private void stateSwitchToStarting() {}
 
     /* Playing */
     private int barrierTimer;
@@ -231,24 +194,54 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         if (this.arena.getRemainingTime() <= 0)
             this.setState(GameState.ENDING);
 
-        if (this.arena.getRemainingTime() <= 0)
-            this.arena.getSidebar().destroy();
-
-        if (this.arena.getRemainingTime() <= 0)
-            this.arena.getUsers()
-                    .stream()
-                    .map(IUser::asBukkit)
-                    .filter(Objects::nonNull)
-                    .forEach((player) ->
-                            this.audiences.player(player).showTitle(Title.title(
-                                    this.miniMessage.deserialize(this.configuration.language().arenaGameEndTitle),
-                                    this.miniMessage.deserialize(this.configuration.language().arenaGameEndSubtitle),
-                                    Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(2500), Duration.ofMillis(250))
-                            ))
-                    );
-
         if (this.arena.getRunners().isEmpty())
             this.setState(GameState.ENDING);
+
+    }
+
+    private void stateSwitchToPlaying() {
+
+        for (int i = 0; i < this.configuration.plugin().arenaDeathsAmount; i++)
+            this.arena.getUsers().get(ThreadLocalRandom.current().nextInt(this.arena.getUsers().size())).setRole(Role.DEATH);
+
+        this.arena.getUsers()
+                .stream()
+                .filter((user) -> user.getRole() != Role.DEATH)
+                .forEach((user) -> user.setRole(Role.RUNNER));
+
+        IntStream.range(0, this.arena.getRunners().size())
+                .filter((i) -> this.arena.getRunners().get(i).asBukkit() != null)
+                .forEach((i) -> Objects.requireNonNull(this.arena.getRunners().get(i).asBukkit()).teleport(this.configuration.map().arenaRunnerSpawnLocations.get(i)));
+
+        IntStream.range(0, this.arena.getDeaths().size())
+                .filter((i) -> this.arena.getDeaths().get(i).asBukkit() != null)
+                .forEach((i) -> Objects.requireNonNull(this.arena.getDeaths().get(i).asBukkit()).teleport(this.configuration.map().arenaDeathSpawnLocations.get(i)));
+
+        this.arena.getUsers()
+                .forEach((user) -> {
+
+                    Player player = user.asBukkit();
+                    if (player == null)
+                        return;
+
+                    if (user.getRole() == Role.RUNNER)
+                        this.configuration.language().chatMessageArenaGameStartRunner.stream()
+                                .map(this.miniMessage::deserialize)
+                                .forEach((component) -> this.audiences.player(player).sendMessage(component));
+
+                    if (user.getRole() == Role.DEATH)
+                        this.configuration.language().chatMessageArenaGameStartDeath.stream()
+                                .map(this.miniMessage::deserialize)
+                                .forEach((component) -> this.audiences.player(player).sendMessage(component));
+
+                    user.setCheckpoint(this.configuration.map().arenaCheckpoints.get(0));
+                    if (user.getRole() == Role.DEATH)
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
+
+                    this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
+                    player.getInventory().clear();
+
+                });
 
     }
 
@@ -301,18 +294,52 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
+    private void stateSwitchToEnding() {
+
+        this.arena.getUsers()
+                .stream()
+                .map(IUser::asBukkit)
+                .filter(Objects::nonNull)
+                .forEach((player) ->
+                        this.audiences.player(player).showTitle(Title.title(
+                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndTitle),
+                                this.miniMessage.deserialize(this.configuration.language().arenaGameEndSubtitle),
+                                Title.Times.of(Duration.ofMillis(250), Duration.ofMillis(2500), Duration.ofMillis(250))
+                        ))
+                );
+
+    }
+
     /* Internal */
     private void setState(GameState gameState) {
 
         this.arena.setGameState(gameState);
-        if (this.arena.getGameState() == GameState.ENDING)
-            return;
+
+        switch (gameState) {
+
+            case WAITING ->
+                this.stateSwitchToWaiting();
+
+            case STARTING ->
+                this.stateSwitchToStarting();
+
+            case PLAYING ->
+                this.stateSwitchToPlaying();
+
+            case ENDING ->
+                this.stateSwitchToEnding();
+
+        }
 
         if (this.sidebarTask != null)
             this.sidebarTask.cancel();
 
         if (this.arena.getSidebar() != null)
             this.arena.getSidebar().destroy();
+
+        this.server.getPluginManager().callEvent(new ArenaGameStateChangeEvent(this.arena, this.arena.getGameState()));
+        if (this.arena.getGameState() == GameState.ENDING)
+            return;
 
         this.arena.setSidebar(ProtocolSidebar.newAdventureSidebar(this.miniMessage.deserialize(this.configuration.language().arenaScoreboardTitle), this.plugin));
 
@@ -336,7 +363,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                 .forEach(this.arena.getSidebar()::addViewer);
 
         this.sidebarTask = this.arena.getSidebar().updateLinesPeriodically(0, 20);
-        this.server.getPluginManager().callEvent(new ArenaGameStateChangeEvent(this.arena, this.arena.getGameState()));
 
     }
 
