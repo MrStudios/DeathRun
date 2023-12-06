@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.commands.handler;
+package pl.mrstudios.deathrun.command.handler;
 
 import dev.rollczi.litecommands.handler.result.ResultHandlerChain;
 import dev.rollczi.litecommands.invalidusage.InvalidUsage;

@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.commands;
+package pl.mrstudios.deathrun.command;
 
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
