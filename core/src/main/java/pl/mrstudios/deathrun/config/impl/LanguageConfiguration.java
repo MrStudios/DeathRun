@@ -150,8 +150,6 @@ public class LanguageConfiguration extends OkaeriConfig {
             ""
     })
     /*
-    public String arenaItemTeleportName = "<green>Teleport <gray>(Right Click)";
-
     public String arenaItemStrafeLeftAvailableName = "<green>Strafe Left <gray>(Right Click)";
     public String arenaItemStrafeLeftUnavailableName = "<green>Strafe Left <dark_gray>(<delay> seconds)";
 

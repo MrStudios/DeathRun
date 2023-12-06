@@ -7,7 +7,7 @@
     <parent>
         <groupId>pl.mrstudios.deathrun</groupId>
         <artifactId>deathrun-parent</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
 
     <artifactId>deathrun-core</artifactId>
@@ -219,7 +219,7 @@
         <mrstudios.commons.version>1.0.0</mrstudios.commons.version>
         <okaeri.configs.version>5.0.0-beta.5</okaeri.configs.version>
         <adventure.platform.version>4.3.1</adventure.platform.version>
-        <rollczi.litecommands.version>3.1.2</rollczi.litecommands.version>
+        <rollczi.litecommands.version>3.2.0-SNAPSHOT</rollczi.litecommands.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

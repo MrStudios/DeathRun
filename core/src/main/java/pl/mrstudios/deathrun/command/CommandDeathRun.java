@@ -1,4 +1,4 @@
-package pl.mrstudios.deathrun.commands;
+package pl.mrstudios.deathrun.command;
 
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -156,52 +156,11 @@ public class CommandDeathRun {
     public void addTrap(@Context Player player, @Arg("type") String type) {
         this.addTrap(player, type, null);
     }
-
-    @SneakyThrows
+    
     @Execute(name = "setup addtrap")
     @Permission("mrstudios.command.deathrun.setup")
     public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material) {
-
-        if (!this.configuration.map().arenaSetupEnabled) {
-            this.audiences.player(player).sendMessage(this.miniMessage.deserialize("<reset> <dark_red><b>*</b> <red>You can't use that command while setup is disabled."));
-            return;
-        }
-
-        Block target = player.getTargetBlock(null, 250);
-        List<Location> locations = this.locations(player);
-        Class<? extends ITrap> trapClass = this.trapRegistry.get(type.toUpperCase());
-
-        if (Stream.of(
-                Material.STONE_BUTTON,
-                Material.OAK_BUTTON,
-                Material.ACACIA_BUTTON,
-                Material.BIRCH_BUTTON,
-                Material.CRIMSON_BUTTON,
-                Material.JUNGLE_BUTTON,
-                Material.SPRUCE_BUTTON,
-                Material.WARPED_BUTTON
-        ).noneMatch((button) -> target.getType().equals(button))) {
-            this.message(player, "<reset> <dark_red><b>*</b> <red>You must look at button that is activating trap.");
-            return;
-        }
-
-        if (trapClass == null) {
-            this.message(player, "<reset> <dark_red><b>*</b> <red>Trap <dark_red>%s <red>is not exists.", type.toUpperCase());
-            return;
-        }
-
-        ITrap trap = trapClass.getDeclaredConstructor().newInstance();
-
-        trap.filter(locations, material);
-        trap.setButton(target.getLocation());
-        trap.setLocations(locations);
-
-        if (material != null)
-            trap.setExtra(material);
-
-        this.configuration.map().arenaTraps.add(trap);
-        this.message(player, "<reset> <dark_green><b>*</b> <green>Added trap <dark_green>%s <green>to arena.", type.toUpperCase());
-
+        this.trap(player, type, material);
     }
 
     @Execute(name = "setup setname")
@@ -295,7 +254,6 @@ public class CommandDeathRun {
         this.audiences.player(player).sendMessage(this.miniMessage.deserialize(String.format(message, args)));
     }
 
-    @SuppressWarnings("all")
     private List<Location> locations(Player player) {
 
         try {
@@ -303,6 +261,8 @@ public class CommandDeathRun {
             List<Location> locations = new ArrayList<>();
 
             LocalSession session = this.worldEdit.getSessionManager().findByName(player.getName());
+
+            assert session != null;
             Region region = session.getSelection(session.getSelectionWorld());
 
             region.forEach((vector) -> locations.add(BukkitAdapter.adapt(player.getWorld(), vector)));
@@ -312,6 +272,51 @@ public class CommandDeathRun {
         } catch (Exception ignored) {}
 
         return Collections.emptyList();
+
+    }
+
+    @SneakyThrows
+    private void trap(Player player, String type, Object... objects) {
+
+        if (!this.configuration.map().arenaSetupEnabled) {
+            this.audiences.player(player).sendMessage(this.miniMessage.deserialize("<reset> <dark_red><b>*</b> <red>You can't use that command while setup is disabled."));
+            return;
+        }
+
+        Block target = player.getTargetBlock(null, 250);
+        List<Location> locations = this.locations(player);
+        Class<? extends ITrap> trapClass = this.trapRegistry.get(type.toUpperCase());
+
+        if (Stream.of(
+                Material.STONE_BUTTON,
+                Material.OAK_BUTTON,
+                Material.ACACIA_BUTTON,
+                Material.BIRCH_BUTTON,
+                Material.CRIMSON_BUTTON,
+                Material.JUNGLE_BUTTON,
+                Material.SPRUCE_BUTTON,
+                Material.WARPED_BUTTON
+        ).noneMatch((button) -> target.getType().equals(button))) {
+            this.message(player, "<reset> <dark_red><b>*</b> <red>You must look at button that is activating trap.");
+            return;
+        }
+
+        if (trapClass == null) {
+            this.message(player, "<reset> <dark_red><b>*</b> <red>Trap <dark_red>%s <red>is not exists.", type.toUpperCase());
+            return;
+        }
+
+        ITrap trap = trapClass.getDeclaredConstructor().newInstance();
+
+        trap.filter(locations, objects);
+        trap.setButton(target.getLocation());
+        trap.setLocations(locations);
+
+        if (objects != null)
+            trap.setExtra(objects);
+
+        this.configuration.map().arenaTraps.add(trap);
+        this.message(player, "<reset> <dark_green><b>*</b> <green>Added trap <dark_green>%s <green>to arena.", type.toUpperCase());
 
     }
 
