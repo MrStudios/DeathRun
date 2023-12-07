@@ -5,6 +5,9 @@ import eu.okaeri.configs.annotation.*;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.potion.PotionEffectType;
+import pl.mrstudios.deathrun.api.arena.booster.enums.Direction;
+import pl.mrstudios.deathrun.arena.booster.Booster;
+import pl.mrstudios.deathrun.arena.booster.BoosterItem;
 import pl.mrstudios.deathrun.arena.effect.BlockEffect;
 
 import java.util.List;
@@ -72,6 +75,31 @@ public class PluginConfiguration extends OkaeriConfig {
     @Comment({
             "",
             "------------------------------------------------------------------------",
+            "                               BOOSTERS",
+            "------------------------------------------------------------------------",
+            ""
+    })
+    public List<Booster> boosters = List.of(
+            new Booster(
+                    0,
+                    2.5f,
+                    10,
+                    new BoosterItem(
+                            "<green>Booster <gray>(Right Click)",
+                            Material.FEATHER
+                    ),
+                    new BoosterItem(
+                            "<red>Booster <gray>(<delay> seconds)",
+                            Material.FEATHER
+                    ),
+                    Direction.FORWARD,
+                    Sound.ENTITY_BLAZE_AMBIENT
+            )
+    );
+
+    @Comment({
+            "",
+            "------------------------------------------------------------------------",
             "                               SOUNDS",
             "------------------------------------------------------------------------",
             ""
@@ -81,7 +109,6 @@ public class PluginConfiguration extends OkaeriConfig {
     public Sound arenaSoundStarted = Sound.ENTITY_ENDER_DRAGON_GROWL;
     public Sound arenaSoundCheckpointReached = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
     public Sound arenaSoundTrapDelay = Sound.ENTITY_VILLAGER_NO;
-    /* public Sound arenaSoundStrafeUse = Sound.ENTITY_BLAZE_AMBIENT; */ // TODO: Add this feature in future.
     public Sound arenaSoundPlayerDeath = Sound.ENTITY_SKELETON_DEATH;
 
 }

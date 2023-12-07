@@ -21,6 +21,7 @@ import pl.mrstudios.deathrun.api.arena.event.arena.ArenaShutdownStartedEvent;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaRoleAssignedEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
+import pl.mrstudios.deathrun.builder.ItemBuilder;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
 
@@ -240,6 +241,15 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
                     this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
                     player.getInventory().clear();
+
+                    if (user.getRole() == Role.RUNNER)
+                        this.configuration.plugin().boosters
+                                .forEach((booster) ->
+                                        player.getInventory().setItem(
+                                                booster.slot(), new ItemBuilder(booster.item().material())
+                                                        .name(booster.item().name())
+                                                        .build()
+                                        ));
 
                 });
 

@@ -32,7 +32,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder name(String name) {
-        this.itemMeta.setDisplayNameComponent(bungeeComponentSerializer.serialize(miniMessage.deserialize(name)));
+        this.itemMeta.setDisplayNameComponent(this.removeItalic(bungeeComponentSerializer.serialize(miniMessage.deserialize(name))));
         return this;
     }
 
@@ -43,29 +43,10 @@ public class ItemBuilder {
         lore.stream()
                 .map(miniMessage::deserialize)
                 .map(bungeeComponentSerializer::serialize)
+                .map(this::removeItalic)
                 .forEach(components::add);
 
         this.itemMeta.setLoreComponents(components);
-
-        return this;
-
-    }
-
-    public ItemBuilder texture(String texture) {
-
-        try {
-
-            if (!(this.itemMeta instanceof SkullMeta skullMeta))
-                return this;
-
-            PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), "Player");
-
-            playerProfile.setProperty(new ProfileProperty("textures", texture));
-
-            skullMeta.setPlayerProfile(playerProfile);
-            itemStack.setItemMeta(skullMeta);
-
-        } catch (Exception ignored) {}
 
         return this;
 
@@ -79,6 +60,15 @@ public class ItemBuilder {
     public ItemStack build() {
         this.itemStack.setItemMeta(this.itemMeta);
         return this.itemStack;
+    }
+
+    protected BaseComponent[] removeItalic(BaseComponent[] components) {
+
+        for (BaseComponent component : components)
+            component.setItalic(false);
+
+        return components;
+
     }
 
     /* Constants */
