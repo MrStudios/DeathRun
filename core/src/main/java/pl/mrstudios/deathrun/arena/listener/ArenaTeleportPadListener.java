@@ -41,7 +41,7 @@ public class ArenaTeleportPadListener implements Listener {
 
     }
 
-    private final Material[] slabs = {
+    protected final Material[] slabs = {
             Material.POLISHED_BLACKSTONE_PRESSURE_PLATE,
             Material.ACACIA_PRESSURE_PLATE,
             Material.BIRCH_PRESSURE_PLATE,

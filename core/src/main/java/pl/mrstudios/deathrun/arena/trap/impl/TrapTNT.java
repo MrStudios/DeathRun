@@ -36,8 +36,8 @@ public class TrapTNT extends Trap {
     public void setExtra(Object... objects) {}
 
     @Override
-    public @NotNull List<Location> filter(@NotNull List<Location> locations, @Nullable Object... objects) {
-        return locations.stream()
+    public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
+        return list.stream()
                 .filter((location) -> location.getBlock().getType() == Material.TNT)
                 .toList();
     }

@@ -110,7 +110,7 @@ public class ArenaPlayerDamageListener implements Listener {
 
     }
 
-    private void playerDeath(IUser user, Player player) {
+    protected void playerDeath(IUser user, Player player) {
 
         user.setDeaths(user.getDeaths() + 1);
         player.teleport(user.getCheckpoint().spawn());

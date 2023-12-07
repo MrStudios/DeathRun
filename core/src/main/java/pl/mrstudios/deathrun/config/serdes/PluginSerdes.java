@@ -3,10 +3,7 @@ package pl.mrstudios.deathrun.config.serdes;
 import eu.okaeri.configs.serdes.OkaeriSerdesPack;
 import eu.okaeri.configs.serdes.SerdesRegistry;
 import lombok.NonNull;
-import pl.mrstudios.deathrun.config.serializer.BlockEffectSerializer;
-import pl.mrstudios.deathrun.config.serializer.CheckpointSerializer;
-import pl.mrstudios.deathrun.config.serializer.TeleportPadSerializer;
-import pl.mrstudios.deathrun.config.serializer.TrapSerializer;
+import pl.mrstudios.deathrun.config.serializer.*;
 
 public class PluginSerdes implements OkaeriSerdesPack {
 
@@ -16,6 +13,8 @@ public class PluginSerdes implements OkaeriSerdesPack {
         registry.register(new CheckpointSerializer());
         registry.register(new TeleportPadSerializer());
         registry.register(new BlockEffectSerializer());
+        registry.register(new BoosterSerializer());
+        registry.register(new BoosterItemSerializer());
     }
 
 }

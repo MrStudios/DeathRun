@@ -250,11 +250,11 @@ public class CommandDeathRun {
 
     }
 
-    private void message(Player player, String message, Object... args) {
+    protected void message(Player player, String message, Object... args) {
         this.audiences.player(player).sendMessage(this.miniMessage.deserialize(String.format(message, args)));
     }
 
-    private List<Location> locations(Player player) {
+    protected List<Location> locations(Player player) {
 
         try {
 
@@ -276,7 +276,7 @@ public class CommandDeathRun {
     }
 
     @SneakyThrows
-    private void trap(Player player, String type, Object... objects) {
+    protected void trap(Player player, String type, Object... objects) {
 
         if (!this.configuration.map().arenaSetupEnabled) {
             this.audiences.player(player).sendMessage(this.miniMessage.deserialize("<reset> <dark_red><b>*</b> <red>You can't use that command while setup is disabled."));
@@ -308,9 +308,8 @@ public class CommandDeathRun {
 
         ITrap trap = trapClass.getDeclaredConstructor().newInstance();
 
-        trap.filter(locations, objects);
         trap.setButton(target.getLocation());
-        trap.setLocations(locations);
+        trap.setLocations(trap.filter(locations, objects));
 
         if (objects != null)
             trap.setExtra(objects);
