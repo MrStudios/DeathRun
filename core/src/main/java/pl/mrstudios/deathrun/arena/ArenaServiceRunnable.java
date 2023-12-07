@@ -81,21 +81,21 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     }
 
     /* Waiting */
-    private void waiting() {
+    protected void waiting() {
 
         if (this.arena.getUsers().size() >= this.configuration.plugin().arenaMinPlayers)
             this.setState(GameState.STARTING);
 
     }
 
-    private void stateSwitchToWaiting() {
+    protected void stateSwitchToWaiting() {
         this.startingTimer = this.configuration.plugin().arenaPreStartingTime + 1;
     }
 
     /* Starting */
     private int startingTimer;
 
-    private void starting() {
+    protected void starting() {
 
         if (this.arena.getUsers().size() < this.configuration.plugin().arenaMinPlayers) {
             this.setState(GameState.WAITING);
@@ -138,12 +138,12 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
-    private void stateSwitchToStarting() {}
+    protected void stateSwitchToStarting() {}
 
     /* Playing */
     private int barrierTimer;
 
-    private void playing() {
+    protected void playing() {
 
         if (this.barrierTimer != -1) {
 
@@ -199,7 +199,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
-    private void stateSwitchToPlaying() {
+    protected void stateSwitchToPlaying() {
 
         for (int i = 0; i < this.configuration.plugin().arenaDeathsAmount; i++)
             this.arena.getUsers().get(ThreadLocalRandom.current().nextInt(this.arena.getUsers().size())).setRole(Role.DEATH);
@@ -248,7 +248,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     /* Ending */
     private int endDelayTimer;
 
-    private void ending() {
+    protected void ending() {
 
         this.endDelayTimer--;
         if (this.endDelayTimer > this.configuration.plugin().arenaEndDelay)
@@ -294,7 +294,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
-    private void stateSwitchToEnding() {
+    protected void stateSwitchToEnding() {
 
         this.arena.getUsers()
                 .stream()
@@ -311,7 +311,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     }
 
     /* Internal */
-    private void setState(GameState gameState) {
+    protected void setState(GameState gameState) {
 
         this.arena.setGameState(gameState);
 
@@ -366,7 +366,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
     }
 
-    private void addLine(String content) {
+    protected void addLine(String content) {
         this.arena.getSidebar().addUpdatableLine((player) -> {
 
             IUser user = this.arena.getUser(player);
@@ -392,7 +392,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         });
     }
 
-    private String rolePrefix(Role role) {
+    protected String rolePrefix(Role role) {
         return switch (role) {
 
             case RUNNER ->
@@ -410,12 +410,12 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         };
     }
 
-    private String formatTime(int time) {
+    protected String formatTime(int time) {
         int minutes = time / 60, seconds = time % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
 
     /* Constants */
-    private static final int[] messageTimes = new int[] { 1, 2, 3, 4, 5, 10, 15, 30, 60, 90 };
+    protected static final int[] messageTimes = new int[] { 1, 2, 3, 4, 5, 10, 15, 30, 60, 90 };
 
 }

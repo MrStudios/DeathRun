@@ -80,7 +80,7 @@ public class ArenaPlayerJoinListener implements Listener {
 
     }
 
-    private String miniMessageToLegacy(String message) {
+    protected String miniMessageToLegacy(String message) {
         return ChatColor.translateAlternateColorCodes('&', message.replace("<red>", "&c")
                 .replace("<green>", "&a")
                 .replace("<yellow>", "&e")

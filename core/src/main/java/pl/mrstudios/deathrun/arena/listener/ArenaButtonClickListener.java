@@ -120,7 +120,7 @@ public class ArenaButtonClickListener implements Listener {
     }
 
     private final Map<ITrap, Long> delays = new HashMap<>();
-    private final Collection<Material> materials = List.of(
+    protected final Collection<Material> materials = List.of(
             Material.STONE_BUTTON,
             Material.OAK_BUTTON,
             Material.ACACIA_BUTTON,
@@ -131,7 +131,7 @@ public class ArenaButtonClickListener implements Listener {
             Material.WARPED_BUTTON
     );
 
-    private String miniMessageToLegacy(String message) {
+    protected String miniMessageToLegacy(String message) {
         return ChatColor.translateAlternateColorCodes('&', message.replace("<red>", "&c")
                 .replace("<green>", "&a")
                 .replace("<yellow>", "&e")

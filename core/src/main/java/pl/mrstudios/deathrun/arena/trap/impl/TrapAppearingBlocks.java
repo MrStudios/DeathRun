@@ -21,7 +21,7 @@ public class TrapAppearingBlocks extends Trap {
     private Material material;
 
     /* Data */
-    private final Map<Location, BlockData> backup = new HashMap<>();
+    protected final Map<Location, BlockData> backup = new HashMap<>();
 
     @Override
     public void start() {
