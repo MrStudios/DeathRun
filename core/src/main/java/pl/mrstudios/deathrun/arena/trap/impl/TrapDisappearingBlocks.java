@@ -27,8 +27,6 @@ public class TrapDisappearingBlocks extends Trap {
     public void start() {
 
         super.getLocations()
-                .stream()
-                .filter((location) -> location.getBlock().getType() == material)
                 .forEach((location) -> {
                     this.backup.put(location, location.getBlock().getBlockData());
                     location.getBlock().setType(Material.AIR);
