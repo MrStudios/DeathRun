@@ -23,6 +23,7 @@ import pl.mrstudios.deathrun.arena.ArenaServiceRunnable;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
+import pl.mrstudios.deathrun.arena.trap.impl.TrapArrows;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapTNT;
 import pl.mrstudios.deathrun.command.CommandDeathRun;
@@ -109,7 +110,8 @@ public class Bootstrap extends JavaPlugin {
         Arrays.asList(
                 TrapTNT.class,
                 TrapAppearingBlocks.class,
-                TrapDisappearingBlocks.class
+                TrapDisappearingBlocks.class,
+                TrapArrows.class
         ).forEach(this.trapRegistry::register);
 
         /* Register Commands */
