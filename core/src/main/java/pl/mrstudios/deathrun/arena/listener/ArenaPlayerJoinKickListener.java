@@ -34,6 +34,10 @@ public class ArenaPlayerJoinKickListener implements Listener {
         if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
             event.disallow(PlayerLoginEvent.Result.KICK_FULL, "");
 
+        if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL)
+            if (this.arena.getGameState() == GameState.WAITING || this.arena.getGameState() == GameState.STARTING)
+                return;
+
         if (event.getPlayer().hasPermission("mrstudios.deathrun.admin"))
             event.allow();
 
