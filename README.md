@@ -55,9 +55,6 @@ arena-end-delay: 10
 # Amount of time before trap can be used again.
 arena-trap-delay: 20
 
-# Amount of time before strafe can be used again.
-arena-strafe-delay: 30
-
 # Max ,,survivable`` distance that player can fall.
 arena-max-fall-distance: 8
 
@@ -73,6 +70,22 @@ block-effects:
     effect: SPEED
     amplifier: 5
     duration: 1.5
+
+# ------------------------------------------------------------------------
+#                                BOOSTERS
+# ------------------------------------------------------------------------
+boosters:
+  - slot: 0
+    power: 2.5
+    delay: 10
+    item:
+      name: <green>Booster <gray>(Right Click)
+      material: FEATHER
+    delayItem:
+      name: <red>Booster <gray>(<delay> seconds)
+      material: FEATHER
+    direction: FORWARD
+    sound: ENTITY_BLAZE_AMBIENT
 
 # ------------------------------------------------------------------------
 #                                SOUNDS
@@ -108,7 +121,8 @@ chat-message-no-permissions: <red>You don't have permissions to this command.
 chat-message-arena-player-joined: <gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)
 chat-message-arena-player-left: <gray><player> <yellow>has quit.
 chat-message-arena-starting-timer: <yellow>Game starts in <gold><timer> seconds<yellow>.
-chat-message-arena-player-finished: <reset> <white><b>FINISH ></b> <gray>Player <gold><player> <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)
+chat-message-arena-player-finished: <reset> <white><b>FINISH ></b> <gray>Player <gold><player>
+  <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)
 chat-message-arena-game-start-runner:
   - <reset>
   - <reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.
@@ -142,7 +156,8 @@ arena-finish-subtitle: <gray>Your position is <white>#<position><gray>.
 arena-game-end-title: <red><b>GAME END!
 arena-game-end-subtitle: <reset>
 arena-move-server-title: <aqua>Waiting..
-arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><endTimer> seconds<gray>.
+arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><endTimer>
+  seconds<gray>.
 
 # ------------------------------------------------------------------------
 #                               SCOREBOARD
