@@ -308,9 +308,8 @@ public class CommandDeathRun {
 
         ITrap trap = trapClass.getDeclaredConstructor().newInstance();
 
-        trap.filter(locations, objects);
         trap.setButton(target.getLocation());
-        trap.setLocations(locations);
+        trap.setLocations(trap.filter(locations, objects));
 
         if (objects != null)
             trap.setExtra(objects);
