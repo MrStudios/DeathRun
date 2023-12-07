@@ -9,6 +9,7 @@ import dev.rollczi.litecommands.schematic.SchematicFormat;
 import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -50,6 +51,7 @@ public class Bootstrap extends JavaPlugin {
 
     private MiniMessage miniMessage;
     private BukkitAudiences audiences;
+    private BungeeComponentSerializer bungeeComponentSerializer;
 
     private Configuration configuration;
     private ConfigurationFactory configurationFactory;
@@ -78,6 +80,7 @@ public class Bootstrap extends JavaPlugin {
 
         /* Kyori */
         this.audiences = BukkitAudiences.create(this);
+        this.bungeeComponentSerializer = BungeeComponentSerializer.get();
         this.miniMessage = MiniMessage.builder()
                 .build();
 
@@ -97,6 +100,7 @@ public class Bootstrap extends JavaPlugin {
                 /* Kyori */
                 .register(MiniMessage.class, this.miniMessage)
                 .register(BukkitAudiences.class, this.audiences)
+                .register(BungeeComponentSerializer.class, this.bungeeComponentSerializer)
 
                 /* World Edit */
                 .register(WorldEdit.class, this.worldEdit)

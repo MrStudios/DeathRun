@@ -9,6 +9,7 @@ import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import pl.mrstudios.commons.inject.annotation.Inject;
@@ -17,8 +18,8 @@ import pl.mrstudios.deathrun.api.arena.event.arena.ArenaUserJoinedEvent;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.user.User;
+import pl.mrstudios.deathrun.builder.ItemBuilder;
 import pl.mrstudios.deathrun.config.Configuration;
-import pl.mrstudios.deathrun.util.ItemUtil;
 
 import java.util.Objects;
 
@@ -76,7 +77,12 @@ public class ArenaPlayerJoinListener implements Listener {
         this.arena.getSidebar().addViewer(event.getPlayer());
         this.server.getPluginManager().callEvent(new ArenaUserJoinedEvent(this.arena, user));
 
-        event.getPlayer().getInventory().setItem(8, ItemUtil.createItemStack(Material.RED_BED, this.configuration.language().arenaItemLeaveName));
+        event.getPlayer().getInventory().setItem(
+                8, new ItemBuilder(Material.RED_BED)
+                        .name(this.configuration.language().arenaItemLeaveName)
+                        .itemFlag(ItemFlag.values())
+                        .build()
+        );
 
     }
 
