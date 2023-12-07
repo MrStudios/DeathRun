@@ -51,8 +51,8 @@ public class TrapAppearingBlocks extends Trap {
     }
 
     @Override
-    public @NotNull List<Location> filter(@NotNull List<Location> locations, Object... objects) {
-        return locations;
+    public @NotNull List<Location> filter(@NotNull List<Location> list, Object... objects) {
+        return list;
     }
 
     @Override

@@ -56,15 +56,15 @@ public class TrapDisappearingBlocks extends Trap {
     }
 
     @Override
-    public @NotNull List<Location> filter(@NotNull List<Location> locations, Object... objects) {
+    public @NotNull List<Location> filter(@NotNull List<Location> list, Object... objects) {
 
         if (objects.length == 0)
-            return locations;
+            return list;
 
         if (!(objects[0] instanceof Material filterMaterial))
-            return locations;
+            return list;
 
-        return locations.stream()
+        return list.stream()
                 .filter((location) -> location.getBlock().getType() == filterMaterial)
                 .toList();
 
