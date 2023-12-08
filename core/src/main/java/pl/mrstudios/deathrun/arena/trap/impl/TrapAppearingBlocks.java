@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 import pl.mrstudios.deathrun.arena.trap.Trap;
 
@@ -45,13 +46,13 @@ public class TrapAppearingBlocks extends Trap {
         if (objects.length == 0)
             return;
 
-        if (objects[0] instanceof Material extraMaterial)
-            this.material = extraMaterial;
+        if (objects[0] instanceof Material fillableMaterial)
+            this.material = fillableMaterial;
 
     }
 
     @Override
-    public @NotNull List<Location> filter(@NotNull List<Location> list, Object... objects) {
+    public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
         return list;
     }
 

@@ -97,7 +97,7 @@ public class CommandDeathRun {
                 "<reset> <b>*</b> <white>/deathrun setup setwaitinglobby",
                 "<reset> <b>*</b> <white>/deathrun setup setstartbarrier (material)",
                 "<reset> <b>*</b> <white>/deathrun setup addspawn <death/runner>",
-                "<reset> <b>*</b> <white>/deathrun setup addtrap <type> (material)",
+                "<reset> <b>*</b> <white>/deathrun setup addtrap <type> (objects)",
                 "<reset> <b>*</b> <white>/deathrun setup addcheckpoint",
                 "<reset> <b>*</b> <white>/deathrun setup addteleport",
                 "<reset> <b>*</b> <white>/deathrun setup save",
@@ -295,7 +295,9 @@ public class CommandDeathRun {
                 Material.CRIMSON_BUTTON,
                 Material.JUNGLE_BUTTON,
                 Material.SPRUCE_BUTTON,
-                Material.WARPED_BUTTON
+                Material.WARPED_BUTTON,
+                Material.POLISHED_BLACKSTONE_BUTTON,
+                Material.DARK_OAK_BUTTON
         ).noneMatch((button) -> target.getType().equals(button))) {
             this.message(player, "<reset> <dark_red><b>*</b> <red>You must look at button that is activating trap.");
             return;

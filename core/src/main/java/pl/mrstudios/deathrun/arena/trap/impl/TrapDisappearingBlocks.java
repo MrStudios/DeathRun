@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 import pl.mrstudios.deathrun.arena.trap.Trap;
 
@@ -54,7 +55,10 @@ public class TrapDisappearingBlocks extends Trap {
     }
 
     @Override
-    public @NotNull List<Location> filter(@NotNull List<Location> list, Object... objects) {
+    public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
+
+        if (objects == null)
+            return list;
 
         if (objects.length == 0)
             return list;

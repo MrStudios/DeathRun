@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.booster.IBooster;
+import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaUseBoosterEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.arena.Arena;
@@ -48,7 +49,9 @@ public class ArenaBoosterListener implements Listener {
 
         this.configuration.plugin().boosters
                 .stream()
-                .filter((booster) -> booster.item().material() == event.getPlayer().getItemInHand().getType())
+                .filter((booster) -> event.getPlayer().getInventory().getItem(booster.slot()) != null)
+                .filter((booster) -> event.getPlayer().getInventory().getItem(booster.slot()).getType() == booster.item().material())
+                .filter((booster) -> booster.slot() == event.getPlayer().getInventory().getHeldItemSlot())
                 .findFirst()
                 .ifPresent((booster) -> {
 
@@ -78,23 +81,36 @@ public class ArenaBoosterListener implements Listener {
                     taskId.set(
                             this.server.getScheduler().scheduleSyncRepeatingTask(this.plugin, () -> {
 
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    this.configuration.plugin().boosters
+                                            .forEach((object) -> event.getPlayer().getInventory().setItem(object.slot(), null));
+
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    if (taskId.get() != -1)
+                                        this.server.getScheduler().cancelTask(taskId.get());
+
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    return;
+
                                 int boosterDelay = (int) (this.delay.get(event.getPlayer().getName()).get(booster) - System.currentTimeMillis()) / 1000;
 
                                 event.getPlayer().getInventory().setItem(
                                         booster.slot(),
-                                        new ItemBuilder(booster.delayItem().material())
+                                        new ItemBuilder(booster.delayItem().material(), boosterDelay)
                                                 .name(booster.delayItem().name().replace("<delay>", String.valueOf(boosterDelay)))
+                                                .texture(booster.delayItem().texture())
                                                 .itemFlag(ItemFlag.values())
                                                 .build()
                                 );
 
-                                if (boosterDelay > 0)
+                                if (boosterDelay >= 1)
                                     return;
 
                                 event.getPlayer().getInventory().setItem(
                                         booster.slot(),
                                         new ItemBuilder(booster.item().material())
                                                 .name(booster.item().name())
+                                                .texture(booster.item().texture())
                                                 .itemFlag(ItemFlag.values())
                                                 .build()
                                 );

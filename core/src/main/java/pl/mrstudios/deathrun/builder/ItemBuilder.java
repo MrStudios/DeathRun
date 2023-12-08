@@ -1,17 +1,18 @@
 package pl.mrstudios.deathrun.builder;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,18 +33,25 @@ public class ItemBuilder {
     }
 
     public ItemBuilder name(String name) {
-        this.itemMeta.setDisplayNameComponent(this.removeItalic(bungeeComponentSerializer.serialize(miniMessage.deserialize(name))));
+
+        if (this.itemMeta == null)
+            return this;
+
+        this.itemMeta.setDisplayNameComponent(bungeeComponentSerializer.serialize(miniMessage.deserialize(name).decoration(TextDecoration.ITALIC, false)));
         return this;
     }
 
     public ItemBuilder lore(List<String> lore) {
 
+        if (this.itemMeta == null)
+            return this;
+
         List<BaseComponent[]> components = new ArrayList<>();
 
         lore.stream()
                 .map(miniMessage::deserialize)
+                .map((component) -> component.decoration(TextDecoration.ITALIC, false))
                 .map(bungeeComponentSerializer::serialize)
-                .map(this::removeItalic)
                 .forEach(components::add);
 
         this.itemMeta.setLoreComponents(components);
@@ -53,21 +61,49 @@ public class ItemBuilder {
     }
 
     public ItemBuilder itemFlag(ItemFlag... itemFlags) {
+
+        if (this.itemMeta == null)
+            return this;
+
         this.itemMeta.addItemFlags(itemFlags);
         return this;
     }
 
-    public ItemStack build() {
-        this.itemStack.setItemMeta(this.itemMeta);
-        return this.itemStack;
+    public ItemBuilder texture(String texture) {
+
+        if (texture == null)
+            return this;
+
+        if (this.itemMeta == null)
+            return this;
+
+        if (!(this.itemMeta instanceof SkullMeta skullMeta))
+            return this;
+
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "Player");
+
+        gameProfile.getProperties().put("textures", new Property("textures", texture));
+
+        try {
+
+            Method method = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+            if (!method.isAccessible())
+                method.setAccessible(true);
+
+            method.invoke(skullMeta, gameProfile);
+
+        } catch (Exception ignored) {}
+
+        return this;
+
     }
 
-    protected BaseComponent[] removeItalic(BaseComponent[] components) {
+    public ItemStack build() {
 
-        for (BaseComponent component : components)
-            component.setItalic(false);
+        if (this.itemMeta != null)
+            this.itemStack.setItemMeta(this.itemMeta);
 
-        return components;
+        return this.itemStack;
 
     }
 
