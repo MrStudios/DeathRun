@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.booster.IBooster;
+import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaUseBoosterEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.arena.Arena;
@@ -77,6 +78,14 @@ public class ArenaBoosterListener implements Listener {
 
                     taskId.set(
                             this.server.getScheduler().scheduleSyncRepeatingTask(this.plugin, () -> {
+
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    this.configuration.plugin().boosters
+                                            .forEach((object) -> event.getPlayer().getInventory().setItem(object.slot(), null));
+
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    if (taskId.get() != -1)
+                                        this.server.getScheduler().cancelTask(taskId.get());
 
                                 int boosterDelay = (int) (this.delay.get(event.getPlayer().getName()).get(booster) - System.currentTimeMillis()) / 1000;
 
