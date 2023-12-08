@@ -97,7 +97,7 @@ public class CommandDeathRun {
                 "<reset> <b>*</b> <white>/deathrun setup setwaitinglobby",
                 "<reset> <b>*</b> <white>/deathrun setup setstartbarrier (material)",
                 "<reset> <b>*</b> <white>/deathrun setup addspawn <death/runner>",
-                "<reset> <b>*</b> <white>/deathrun setup addtrap <type> (material)",
+                "<reset> <b>*</b> <white>/deathrun setup addtrap <type> (objects)",
                 "<reset> <b>*</b> <white>/deathrun setup addcheckpoint",
                 "<reset> <b>*</b> <white>/deathrun setup addteleport",
                 "<reset> <b>*</b> <white>/deathrun setup save",
@@ -161,6 +161,12 @@ public class CommandDeathRun {
     @Permission("mrstudios.command.deathrun.setup")
     public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material) {
         this.trap(player, type, material);
+    }
+
+    @Execute(name = "setup addtrap")
+    @Permission("mrstudios.command.deathrun.setup")
+    public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material, @Arg("material") Material anotherMaterial) {
+        this.trap(player, type, material, material);
     }
 
     @Execute(name = "setup setname")
@@ -295,7 +301,9 @@ public class CommandDeathRun {
                 Material.CRIMSON_BUTTON,
                 Material.JUNGLE_BUTTON,
                 Material.SPRUCE_BUTTON,
-                Material.WARPED_BUTTON
+                Material.WARPED_BUTTON,
+                Material.POLISHED_BLACKSTONE_BUTTON,
+                Material.DARK_OAK_BUTTON
         ).noneMatch((button) -> target.getType().equals(button))) {
             this.message(player, "<reset> <dark_red><b>*</b> <red>You must look at button that is activating trap.");
             return;
