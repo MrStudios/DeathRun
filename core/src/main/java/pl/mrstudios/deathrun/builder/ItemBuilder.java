@@ -1,5 +1,6 @@
 package pl.mrstudios.deathrun.builder;
 
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -31,7 +32,7 @@ public class ItemBuilder {
         if (this.itemMeta == null)
             return this;
 
-        this.itemMeta.setDisplayNameComponent(this.removeItalic(bungeeComponentSerializer.serialize(miniMessage.deserialize(name))));
+        this.itemMeta.setDisplayNameComponent(bungeeComponentSerializer.serialize(miniMessage.deserialize(name).decoration(TextDecoration.ITALIC, false)));
         return this;
     }
 
@@ -44,8 +45,8 @@ public class ItemBuilder {
 
         lore.stream()
                 .map(miniMessage::deserialize)
+                .map((component) -> component.decoration(TextDecoration.ITALIC, false))
                 .map(bungeeComponentSerializer::serialize)
-                .map(this::removeItalic)
                 .forEach(components::add);
 
         this.itemMeta.setLoreComponents(components);
@@ -67,17 +68,8 @@ public class ItemBuilder {
 
         if (this.itemMeta != null)
             this.itemStack.setItemMeta(this.itemMeta);
-        
+
         return this.itemStack;
-
-    }
-
-    protected BaseComponent[] removeItalic(BaseComponent[] components) {
-
-        for (BaseComponent component : components)
-            component.setItalic(false);
-
-        return components;
 
     }
 
