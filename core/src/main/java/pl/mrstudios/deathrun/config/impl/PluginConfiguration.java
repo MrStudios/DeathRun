@@ -86,11 +86,13 @@ public class PluginConfiguration extends OkaeriConfig {
                     10,
                     new BoosterItem(
                             "<green>Booster <gray>(Right Click)",
-                            Material.FEATHER
+                            Material.FEATHER,
+                            null
                     ),
                     new BoosterItem(
                             "<red>Booster <gray>(<delay> seconds)",
-                            Material.FEATHER
+                            Material.FEATHER,
+                            null
                     ),
                     Direction.FORWARD,
                     Sound.ENTITY_BLAZE_AMBIENT
