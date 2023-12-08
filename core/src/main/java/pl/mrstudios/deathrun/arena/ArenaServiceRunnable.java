@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -248,6 +249,8 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                                         player.getInventory().setItem(
                                                 booster.slot(), new ItemBuilder(booster.item().material())
                                                         .name(booster.item().name())
+                                                        .texture(booster.item().texture())
+                                                        .itemFlag(ItemFlag.values())
                                                         .build()
                                         ));
 

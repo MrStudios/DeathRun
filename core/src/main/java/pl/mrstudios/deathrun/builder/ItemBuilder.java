@@ -1,16 +1,23 @@
 package pl.mrstudios.deathrun.builder;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_16_R3.block.impl.CraftSkullPlayer;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemBuilder {
 
@@ -62,6 +69,35 @@ public class ItemBuilder {
 
         this.itemMeta.addItemFlags(itemFlags);
         return this;
+    }
+
+    public ItemBuilder texture(String texture) {
+
+        if (texture == null)
+            return this;
+
+        if (this.itemMeta == null)
+            return this;
+
+        if (!(this.itemMeta instanceof SkullMeta skullMeta))
+            return this;
+
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "Player");
+
+        gameProfile.getProperties().put("textures", new Property("textures", texture));
+
+        try {
+
+            Method method = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+            if (!method.isAccessible())
+                method.setAccessible(true);
+
+            method.invoke(skullMeta, gameProfile);
+
+        } catch (Exception ignored) {}
+
+        return this;
+
     }
 
     public ItemStack build() {
