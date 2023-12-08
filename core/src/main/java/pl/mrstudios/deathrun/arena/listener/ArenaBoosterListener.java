@@ -82,13 +82,13 @@ public class ArenaBoosterListener implements Listener {
 
                                 event.getPlayer().getInventory().setItem(
                                         booster.slot(),
-                                        new ItemBuilder(booster.delayItem().material())
+                                        new ItemBuilder(booster.delayItem().material(), boosterDelay)
                                                 .name(booster.delayItem().name().replace("<delay>", String.valueOf(boosterDelay)))
                                                 .itemFlag(ItemFlag.values())
                                                 .build()
                                 );
 
-                                if (boosterDelay > 0)
+                                if (boosterDelay > 1)
                                     return;
 
                                 event.getPlayer().getInventory().setItem(
