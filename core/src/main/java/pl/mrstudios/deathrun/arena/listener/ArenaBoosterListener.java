@@ -1,5 +1,6 @@
 package pl.mrstudios.deathrun.arena.listener;
 
+import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.booster.IBooster;
@@ -86,6 +88,9 @@ public class ArenaBoosterListener implements Listener {
                                 if (this.arena.getGameState() != GameState.PLAYING)
                                     if (taskId.get() != -1)
                                         this.server.getScheduler().cancelTask(taskId.get());
+
+                                if (this.arena.getGameState() != GameState.PLAYING)
+                                    return;
 
                                 int boosterDelay = (int) (this.delay.get(event.getPlayer().getName()).get(booster) - System.currentTimeMillis()) / 1000;
 
