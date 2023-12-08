@@ -1,6 +1,5 @@
 package pl.mrstudios.deathrun.arena.listener;
 
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.booster.IBooster;
@@ -51,7 +49,9 @@ public class ArenaBoosterListener implements Listener {
 
         this.configuration.plugin().boosters
                 .stream()
-                .filter((booster) -> booster.item().material() == event.getPlayer().getItemInHand().getType())
+                .filter((booster) -> event.getPlayer().getInventory().getItem(booster.slot()) != null)
+                .filter((booster) -> event.getPlayer().getInventory().getItem(booster.slot()).getType() == booster.item().material())
+                .filter((booster) -> booster.slot() == event.getPlayer().getInventory().getHeldItemSlot())
                 .findFirst()
                 .ifPresent((booster) -> {
 
