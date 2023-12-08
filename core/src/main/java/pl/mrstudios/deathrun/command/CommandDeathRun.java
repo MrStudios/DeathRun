@@ -163,12 +163,6 @@ public class CommandDeathRun {
         this.trap(player, type, material);
     }
 
-    @Execute(name = "setup addtrap")
-    @Permission("mrstudios.command.deathrun.setup")
-    public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material, @Arg("material") Material anotherMaterial) {
-        this.trap(player, type, material, material);
-    }
-
     @Execute(name = "setup setname")
     @Permission("mrstudios.command.deathrun.setup")
     public void setName(@Context Player player, @Arg("name") String name) {

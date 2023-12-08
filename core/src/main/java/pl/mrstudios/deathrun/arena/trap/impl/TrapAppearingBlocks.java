@@ -53,20 +53,7 @@ public class TrapAppearingBlocks extends Trap {
 
     @Override
     public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
-
-        if (objects == null)
-            return list;
-
-        if (objects.length == 2)
-            return list;
-
-        if (!(objects[1] instanceof Material filterMaterial))
-            return list;
-
-        return list.stream()
-                .filter((location) -> location.getBlock().getType() == filterMaterial)
-                .toList();
-
+        return list;
     }
 
     @Override
