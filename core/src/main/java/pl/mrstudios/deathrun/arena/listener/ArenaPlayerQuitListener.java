@@ -39,15 +39,16 @@ public class ArenaPlayerQuitListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         event.setQuitMessage("");
-        if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
-            return;
-
         if (this.arena.getUser(event.getPlayer()) == null)
             return;
 
         IUser user = this.arena.getUser(event.getPlayer());
 
         this.arena.getUsers().remove(user);
+
+        if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
+            return;
+
         this.arena.getUsers().forEach((target) ->
                 this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.deserialize(
                         this.configuration.language().chatMessageArenaPlayerLeft
