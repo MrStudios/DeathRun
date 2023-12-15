@@ -289,18 +289,18 @@ public class ArenaServiceRunnable extends BukkitRunnable {
         if (this.endDelayTimer > 0)
             return;
 
+        ArenaShutdownStartedEvent event = new ArenaShutdownStartedEvent(this.arena, true);
+        this.server.getPluginManager().callEvent(event);
+
+        if (!event.isDefaultProcedure())
+            return;
+
         this.arena.getUsers()
                 .stream()
                 .map(IUser::asBukkit)
                 .forEach((player) -> ChannelUtil.connect(this.plugin, player, this.configuration.plugin().server));
 
         if (this.endDelayTimer > -5)
-            return;
-
-        ArenaShutdownStartedEvent event = new ArenaShutdownStartedEvent(this.arena, true);
-        this.server.getPluginManager().callEvent(event);
-
-        if (!event.isDefaultProcedure())
             return;
 
         this.server.shutdown();
