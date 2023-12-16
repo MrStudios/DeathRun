@@ -105,7 +105,8 @@ public class ArenaPlayerDamageListener implements Listener {
     }
 
     protected void playerDeath(IUser user, Player player) {
-
+        
+        player.setFireTicks(0);
         user.setDeaths(user.getDeaths() + 1);
         player.teleport(user.getCheckpoint().spawn());
         player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
