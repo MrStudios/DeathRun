@@ -4,8 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.arena.trap.Trap;
@@ -19,13 +20,12 @@ public class TrapTNT extends Trap {
     @Override
     public void start() {
 
-        super.getLocations().forEach((location) -> {
-
-            if (location.getBlock().getType() == Material.TNT)
-                ((TNTPrimed) location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT))
-                        .setFuseTicks(5);
-
-        });
+        super.getLocations()
+                .forEach(
+                        (location) -> location.getWorld().spawn(location, TNTPrimed.class, (entity) -> {
+                            entity.setFuseTicks(5);
+                            entity.setVelocity(new Vector(0, 0.125, 0));
+                        }));
 
     }
 

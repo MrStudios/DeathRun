@@ -21,7 +21,6 @@ import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.time.Duration;
-import java.util.Objects;
 
 @ArenaRegistrableListener
 public class ArenaPlayerDamageListener implements Listener {
@@ -100,13 +99,8 @@ public class ArenaPlayerDamageListener implements Listener {
         if (this.arena.getGameState() != GameState.PLAYING)
             return;
 
-        event.getLocation().getNearbyEntitiesByType(Player.class, 1)
-                .stream()
-                .map(this.arena::getUser)
-                .filter(Objects::nonNull)
-                .filter((user) -> user.getRole() == Role.RUNNER)
-                .filter((user) -> user.asBukkit() != null)
-                .forEach((user) -> this.playerDeath(user, user.asBukkit()));
+        event.getLocation().getNearbyEntitiesByType(Player.class, 3f)
+                .forEach((player) -> player.damage(1));
 
     }
 
