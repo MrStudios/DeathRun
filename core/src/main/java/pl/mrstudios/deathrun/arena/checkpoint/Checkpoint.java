@@ -6,4 +6,8 @@ import pl.mrstudios.deathrun.api.arena.checkpoint.ICheckpoint;
 
 import java.util.List;
 
-public record Checkpoint(int id, @NotNull Location spawn, @NotNull List<Location> locations) implements ICheckpoint {}
+public record Checkpoint(
+        int id,
+        @NotNull Location spawn,
+        @NotNull List<Location> locations
+) implements ICheckpoint {}
