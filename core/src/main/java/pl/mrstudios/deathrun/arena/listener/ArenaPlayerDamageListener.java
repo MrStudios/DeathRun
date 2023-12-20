@@ -8,6 +8,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -104,9 +105,13 @@ public class ArenaPlayerDamageListener implements Listener {
 
     }
 
+    @EventHandler
+    public void onFire(EntityCombustEvent event) {
+        event.setCancelled(true);
+    }
+
     protected void playerDeath(IUser user, Player player) {
-        
-        player.setFireTicks(0);
+
         user.setDeaths(user.getDeaths() + 1);
         player.teleport(user.getCheckpoint().spawn());
         player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
