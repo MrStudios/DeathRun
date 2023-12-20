@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import pl.mrstudios.commons.bukkit.item.ItemBuilder;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaGameStateChangeEvent;
@@ -22,7 +23,6 @@ import pl.mrstudios.deathrun.api.arena.event.arena.ArenaShutdownStartedEvent;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaRoleAssignedEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
-import pl.mrstudios.deathrun.builder.ItemBuilder;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
 
@@ -248,9 +248,9 @@ public class ArenaServiceRunnable extends BukkitRunnable {
                                 .forEach((booster) ->
                                         player.getInventory().setItem(
                                                 booster.slot(), new ItemBuilder(booster.item().material())
-                                                        .name(booster.item().name())
-                                                        .texture(booster.item().texture())
-                                                        .itemFlag(ItemFlag.values())
+                                                        .name(this.miniMessage.deserialize(booster.item().name()))
+                                                        .texture((booster.item().texture() != null) ? Objects.requireNonNull(booster.item().texture()) : "")
+                                                        .itemFlags(ItemFlag.values())
                                                         .build()
                                         ));
 

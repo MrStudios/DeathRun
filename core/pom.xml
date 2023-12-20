@@ -151,6 +151,17 @@
             <artifactId>commons-reflection</artifactId>
             <version>${mrstudios.commons.version}</version>
         </dependency>
+        <dependency>
+            <groupId>pl.mrstudios.commons</groupId>
+            <artifactId>commons-bukkit</artifactId>
+            <version>${mrstudios.commons.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- LITE COMMANDS -->
         <dependency>
