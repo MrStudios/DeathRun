@@ -28,7 +28,6 @@ import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapArrows;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapTNT;
-import pl.mrstudios.deathrun.command.CommandDeathRun;
 import pl.mrstudios.deathrun.command.handler.InvalidCommandUsageHandler;
 import pl.mrstudios.deathrun.command.handler.NoCommandPermissionsHandler;
 import pl.mrstudios.deathrun.config.Configuration;
