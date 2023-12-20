@@ -238,7 +238,7 @@ public class ArenaServiceRunnable extends BukkitRunnable {
 
                     user.setCheckpoint(this.configuration.map().arenaCheckpoints.get(0));
                     if (user.getRole() == Role.DEATH)
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false, false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, this.configuration.plugin().arenaDeathSpeedAmplifier, false, false, false));
 
                     this.server.getPluginManager().callEvent(new UserArenaRoleAssignedEvent(user, user.getRole()));
                     player.getInventory().clear();
