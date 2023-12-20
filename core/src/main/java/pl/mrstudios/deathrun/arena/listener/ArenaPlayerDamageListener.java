@@ -50,6 +50,9 @@ public class ArenaPlayerDamageListener implements Listener {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
             event.setCancelled(true);
 
+        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
+            event.setCancelled(true);
+
         if (event.isCancelled())
             return;
 
