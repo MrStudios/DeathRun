@@ -59,6 +59,9 @@ public class PluginConfiguration extends OkaeriConfig {
     @Comment({ "", "Max ,,survivable`` distance that player can fall." })
     public int arenaMaxFallDistance = 8;
 
+    @Comment({ "", "Speed Amplifier for Death role." })
+    public int arenaDeathSpeedAmplifier = 10;
+
     @Comment({
             "",
             "------------------------------------------------------------------------",

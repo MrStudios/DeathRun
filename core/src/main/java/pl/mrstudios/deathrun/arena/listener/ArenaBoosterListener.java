@@ -1,5 +1,6 @@
 package pl.mrstudios.deathrun.arena.listener;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.Plugin;
+import pl.mrstudios.commons.bukkit.item.ItemBuilder;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.booster.IBooster;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
@@ -15,11 +17,11 @@ import pl.mrstudios.deathrun.api.arena.event.user.UserArenaUseBoosterEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
-import pl.mrstudios.deathrun.builder.ItemBuilder;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 @ArenaRegistrableListener
@@ -28,15 +30,17 @@ public class ArenaBoosterListener implements Listener {
     private final Arena arena;
     private final Plugin plugin;
     private final Server server;
+    private final MiniMessage miniMessage;
     private final Configuration configuration;
 
     protected final Map<String, Map<IBooster, Long>> delay = new HashMap<>();
 
     @Inject
-    public ArenaBoosterListener(Arena arena, Plugin plugin, Server server, Configuration configuration) {
+    public ArenaBoosterListener(Arena arena, MiniMessage miniMessage, Plugin plugin, Server server, Configuration configuration) {
         this.arena = arena;
         this.plugin = plugin;
         this.server = server;
+        this.miniMessage = miniMessage;
         this.configuration = configuration;
     }
 
@@ -97,9 +101,9 @@ public class ArenaBoosterListener implements Listener {
                                 event.getPlayer().getInventory().setItem(
                                         booster.slot(),
                                         new ItemBuilder(booster.delayItem().material(), boosterDelay)
-                                                .name(booster.delayItem().name().replace("<delay>", String.valueOf(boosterDelay)))
-                                                .texture(booster.delayItem().texture())
-                                                .itemFlag(ItemFlag.values())
+                                                .name(this.miniMessage.deserialize(booster.delayItem().name().replace("<delay>", String.valueOf(boosterDelay))))
+                                                .texture((booster.delayItem().texture() != null) ? Objects.requireNonNull(booster.delayItem().texture()) : "")
+                                                .itemFlags(ItemFlag.values())
                                                 .build()
                                 );
 
@@ -109,9 +113,9 @@ public class ArenaBoosterListener implements Listener {
                                 event.getPlayer().getInventory().setItem(
                                         booster.slot(),
                                         new ItemBuilder(booster.item().material())
-                                                .name(booster.item().name())
-                                                .texture(booster.item().texture())
-                                                .itemFlag(ItemFlag.values())
+                                                .name(this.miniMessage.deserialize(booster.item().name()))
+                                                .texture((booster.item().texture() != null) ? Objects.requireNonNull(booster.item().texture()) : "")
+                                                .itemFlags(ItemFlag.values())
                                                 .build()
                                 );
 

@@ -3,6 +3,7 @@ package pl.mrstudios.deathrun.plugin;
 import com.sk89q.worldedit.WorldEdit;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.annotations.LiteCommandsAnnotations;
+import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.argument.ArgumentKey;
 import dev.rollczi.litecommands.bukkit.LiteCommandsBukkit;
 import dev.rollczi.litecommands.schematic.SchematicFormat;
@@ -27,7 +28,6 @@ import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapArrows;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapDisappearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapTNT;
-import pl.mrstudios.deathrun.command.CommandDeathRun;
 import pl.mrstudios.deathrun.command.handler.InvalidCommandUsageHandler;
 import pl.mrstudios.deathrun.command.handler.NoCommandPermissionsHandler;
 import pl.mrstudios.deathrun.config.Configuration;
@@ -40,6 +40,7 @@ import pl.mrstudios.deathrun.util.ZipUtil;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @SuppressWarnings("all")
@@ -130,7 +131,11 @@ public class Bootstrap extends JavaPlugin {
 
                 /* Commands */
                 .commands(LiteCommandsAnnotations.of(
-                        this.injector.inject(CommandDeathRun.class)
+                        new Reflections<>("pl.mrstudios.deathrun")
+                                .getClassesAnnotatedWith(Command.class)
+                                .stream().map(this.injector::inject)
+                                .filter(Objects::nonNull)
+                                .toArray(Command[]::new)
                 ))
 
                 /* Schematic */

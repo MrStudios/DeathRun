@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.Plugin;
+import pl.mrstudios.commons.bukkit.item.ItemBuilder;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaCheckpointEvent;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaFinishedEvent;
@@ -18,7 +19,6 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
-import pl.mrstudios.deathrun.builder.ItemBuilder;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.time.Duration;
@@ -149,8 +149,8 @@ public class ArenaCheckpointReachedListener implements Listener {
                     event.getPlayer().getInventory().clear();
                     event.getPlayer().getInventory().setItem(
                             8, new ItemBuilder(Material.RED_BED)
-                                    .name(this.configuration.language().arenaItemLeaveName)
-                                    .itemFlag(ItemFlag.values())
+                                    .name(this.miniMessage.deserialize(this.configuration.language().arenaItemLeaveName))
+                                    .itemFlags(ItemFlag.values())
                                     .build()
                     );
 
