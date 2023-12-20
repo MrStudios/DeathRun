@@ -12,6 +12,8 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaDeathEvent;
@@ -46,6 +48,9 @@ public class ArenaPlayerDamageListener implements Listener {
 
         if (!(event.getEntity() instanceof Player player))
             return;
+
+        if (event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)
+            event.setCancelled(true);
 
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
             event.setCancelled(true);
@@ -109,7 +114,7 @@ public class ArenaPlayerDamageListener implements Listener {
     }
 
     @EventHandler
-    public void onFire(EntityCombustEvent event) {
+    public void onCombust(EntityCombustEvent event) {
         event.setCancelled(true);
     }
 
@@ -118,6 +123,8 @@ public class ArenaPlayerDamageListener implements Listener {
         user.setDeaths(user.getDeaths() + 1);
         player.teleport(user.getCheckpoint().spawn());
         player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
+        player.addPotionEffect(FIRE_RESISTANCE);
+        player.setFireTicks(0);
 
         this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user, this.arena));
         this.audiences.player(player).showTitle(
@@ -129,5 +136,7 @@ public class ArenaPlayerDamageListener implements Listener {
         );
 
     }
+
+    protected static final PotionEffect FIRE_RESISTANCE = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20, 1, false, false, false);
 
 }
