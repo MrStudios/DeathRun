@@ -129,7 +129,7 @@ public class ArenaCheckpointReachedListener implements Listener {
                             .filter(Objects::nonNull)
                             .forEach((target) -> this.audiences.player(target).sendMessage(this.miniMessage.deserialize(
                                     this.configuration.language().chatMessageArenaPlayerFinished
-                                            .replace("<player>", event.getPlayer().getName())
+                                            .replace("<player>", event.getPlayer().getDisplayName())
                                             .replace("<seconds>", String.valueOf(time))
                                             .replace("<finishPosition>", String.valueOf(position))
                             )));

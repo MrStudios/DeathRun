@@ -52,7 +52,7 @@ public class ArenaPlayerQuitListener implements Listener {
         this.arena.getUsers().forEach((target) ->
                 this.audiences.player(Objects.requireNonNull(target.asBukkit())).sendMessage(this.miniMessage.deserialize(
                         this.configuration.language().chatMessageArenaPlayerLeft
-                                .replace("<player>", event.getPlayer().getName())
+                                .replace("<player>", event.getPlayer().getDisplayName())
                                 .replace("<currentPlayers>", String.valueOf(this.arena.getUsers().size()))
                                 .replace("<maxPlayers>", String.valueOf(this.configuration.map().arenaRunnerSpawnLocations.size() + this.configuration.map().arenaDeathSpawnLocations.size()))
                 )));
