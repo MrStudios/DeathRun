@@ -1,6 +1,7 @@
 package pl.mrstudios.deathrun.arena.listener;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
@@ -12,7 +13,7 @@ public class ArenaProjectileListener implements Listener {
     @Inject
     public ArenaProjectileListener() {}
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onProjectileLand(ProjectileHitEvent event) {
         event.getEntity().remove();
     }

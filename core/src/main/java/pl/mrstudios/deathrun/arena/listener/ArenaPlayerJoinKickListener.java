@@ -1,6 +1,7 @@
 package pl.mrstudios.deathrun.arena.listener;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import pl.mrstudios.commons.inject.annotation.Inject;
@@ -18,7 +19,7 @@ public class ArenaPlayerJoinKickListener implements Listener {
         this.arena = arena;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerLoginEvent event) {
 
         if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL)
@@ -28,7 +29,7 @@ public class ArenaPlayerJoinKickListener implements Listener {
     }
 
     @Deprecated
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLogin(PlayerLoginEvent event) {
 
         if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -40,7 +41,7 @@ public class ArenaButtonClickListener implements Listener {
         this.configuration = configuration;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onArenaButtonClick(PlayerInteractEvent event) {
 
         IUser user = this.arena.getUser(event.getPlayer());

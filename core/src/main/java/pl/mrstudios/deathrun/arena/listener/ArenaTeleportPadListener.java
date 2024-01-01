@@ -2,6 +2,7 @@ package pl.mrstudios.deathrun.arena.listener;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,7 +22,7 @@ public class ArenaTeleportPadListener implements Listener {
         this.configuration = configuration;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerEnterPlate(PlayerInteractEvent event) {
 
         if (event.getAction() != Action.PHYSICAL)

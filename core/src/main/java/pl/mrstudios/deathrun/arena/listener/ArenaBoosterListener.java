@@ -4,6 +4,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -44,8 +45,8 @@ public class ArenaBoosterListener implements Listener {
         this.configuration = configuration;
     }
 
-    @EventHandler
     @Deprecated
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onItemUse(PlayerInteractEvent event) {
 
         if (event.getAction() == Action.PHYSICAL)
