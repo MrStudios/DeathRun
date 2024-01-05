@@ -14,7 +14,6 @@ public class NoCommandPermissionsHandler implements MissingPermissionsHandler<Co
 
     private final MiniMessage miniMessage;
     private final BukkitAudiences audiences;
-
     private final Configuration configuration;
 
     @Inject
