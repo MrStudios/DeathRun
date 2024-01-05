@@ -429,6 +429,6 @@ public class ArenaServiceRunnable extends BukkitRunnable {
     }
 
     /* Constants */
-    protected static final int[] messageTimes = new int[] { 1, 2, 3, 4, 5, 10, 15, 30, 60, 90 };
+    protected static final int[] messageTimes = new int[] { 1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 180, 360 };
 
 }
