@@ -135,7 +135,7 @@ public class Bootstrap extends JavaPlugin {
                                 .getClassesAnnotatedWith(Command.class)
                                 .stream().map(this.injector::inject)
                                 .filter(Objects::nonNull)
-                                .toArray(Command[]::new)
+                                .toArray(Object[]::new)
                 ))
 
                 /* Schematic */
