@@ -58,6 +58,9 @@ arena-trap-delay: 20
 # Max ,,survivable`` distance that player can fall.
 arena-max-fall-distance: 8
 
+# Speed Amplifier for Death role.
+arena-death-speed-amplifier: 10
+
 # ------------------------------------------------------------------------
 #                                 EFFECTS
 # ------------------------------------------------------------------------
@@ -118,27 +121,28 @@ arena-sound-player-death: ENTITY_SKELETON_DEATH
 #                                  GENERAL
 # ------------------------------------------------------------------------
 chat-message-no-permissions: <red>You don't have permissions to this command.
+chat-message-invalid-command-usage: <red>Invalid command usage, correct usage is <dark_red><usage><red>.
 chat-message-arena-player-joined: <gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)
 chat-message-arena-player-left: <gray><player> <yellow>has quit.
 chat-message-arena-starting-timer: <yellow>Game starts in <gold><timer> seconds<yellow>.
 chat-message-arena-player-finished: <reset> <white><b>FINISH ></b> <gray>Player <gold><player>
   <gray>has finished game in <white><seconds> seconds<gray>. <dark_gray>(#<finishPosition>)
 chat-message-arena-game-start-runner:
-  - <reset>
-  - <reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.
-  - <reset>   <white><b>*</b> <gray>Your task is complete run in shortest possible time,
-    during this task interfering player will trigger various traps.
-  - <reset>
+- <reset>
+- <reset>   <gold><b>*</b> <gray>You are <green>Runner<gray>.
+- <reset>   <white><b>*</b> <gray>Your task is complete run in shortest possible time,
+  during this task interfering player will trigger various traps.
+- <reset>
 chat-message-arena-game-start-death:
-  - <reset>
-  - <reset>   <gold><b>*</b> <gray>You are <red>Death<gray>.
-  - <reset>   <white><b>*</b> <gray>Your task is to disturb runners by launching traps.
-  - <reset>
+- <reset>
+- <reset>   <gold><b>*</b> <gray>You are <red>Death<gray>.
+- <reset>   <white><b>*</b> <gray>Your task is to disturb runners by launching traps.
+- <reset>
 chat-message-game-end-spectator:
-  - <reset>
-  - <reset>   <gold><b>*</b> <gray>You are <dark_gray>Spectator<gray>.
-  - <reset>   <white><b>*</b> <gray>Now you can follow other players.
-  - <reset>
+- <reset>
+- <reset>   <gold><b>*</b> <gray>You are <dark_gray>Spectator<gray>.
+- <reset>   <white><b>*</b> <gray>Now you can follow other players.
+- <reset>
 
 # ------------------------------------------------------------------------
 #                                  TITLES
@@ -164,32 +168,32 @@ arena-move-server-subtitle: <gray>You will be transferred to lobby in <white><en
 # ------------------------------------------------------------------------
 arena-scoreboard-title: <yellow><b>DEATH RUN
 arena-scoreboard-lines-waiting:
-  - <reset>
-  - '<white>Map: <green><map>'
-  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
-  - <reset>
-  - <white>Waiting..
-  - <reset>
-  - <yellow>www.mrstudios.pl
+- <reset>
+- '<white>Map: <green><map>'
+- '<white>Players: <green><currentPlayers>/<maxPlayers>'
+- <reset>
+- <white>Waiting..
+- <reset>
+- <yellow>www.mrstudios.pl
 arena-scoreboard-lines-starting:
-  - <reset>
-  - '<white>Map: <green><map>'
-  - '<white>Players: <green><currentPlayers>/<maxPlayers>'
-  - <reset>
-  - <white>Start in <green><timer> seconds
-  - <reset>
-  - <yellow>www.mrstudios.pl
+- <reset>
+- '<white>Map: <green><map>'
+- '<white>Players: <green><currentPlayers>/<maxPlayers>'
+- <reset>
+- <white>Start in <green><timer> seconds
+- <reset>
+- <yellow>www.mrstudios.pl
 arena-scoreboard-lines-playing:
-  - <reset>
-  - '<white>Time: <green><timeFormatted>'
-  - '<white>Role: <green><role>'
-  - <reset>
-  - '<white>Runners: <green><runners>'
-  - '<white>Deaths: <red><deaths>'
-  - <reset>
-  - '<white>Map: <green><map>'
-  - <reset>
-  - <yellow>www.mrstudios.pl
+- <reset>
+- '<white>Time: <green><timeFormatted>'
+- '<white>Role: <green><role>'
+- <reset>
+- '<white>Runners: <green><runners>'
+- '<white>Deaths: <red><deaths>'
+- <reset>
+- '<white>Map: <green><map>'
+- <reset>
+- <yellow>www.mrstudios.pl
 
 # ------------------------------------------------------------------------
 #                               HOLOGRAMS
@@ -222,3 +226,4 @@ Libraries that is used in this project, most of them are open source libraries.
 - [Java Annotations](https://github.com/JetBrains/java-annotations) by JetBrains
 - [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) by Okaeri
 - [commons-io](https://github.com/apache/commons-io) by Apache Software Foundation
+- [java-commons](https://github.com/MrStudios/java-commons) by MrStudios Industries
