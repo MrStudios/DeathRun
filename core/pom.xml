@@ -42,14 +42,6 @@
                                     <shadedPattern>pl.mrstudios.deathrun.libraries.okaeri-configs</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>org.intellij.lang.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.libraries.intellij-lang-annotations</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.jetbrains.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.libraries.jetbrains-annotations</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>pl.mrstudios.commons.inject</pattern>
                                     <shadedPattern>pl.mrstudios.deathrun.libraries.commons-inject</shadedPattern>
                                 </relocation>
