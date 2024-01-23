@@ -1,19 +1,31 @@
 package pl.mrstudios.deathrun.api.arena.event.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
 
-@Getter
-@AllArgsConstructor
 public class UserArenaDeathEvent extends Event {
 
-    private @NotNull IUser user;
-    private @NotNull IArena arena;
+    private final @NotNull IUser user;
+    private final @NotNull IArena arena;
+
+    public UserArenaDeathEvent(
+            @NotNull IUser user,
+            @NotNull IArena arena
+    ) {
+        this.user = user;
+        this.arena = arena;
+    }
+
+    public @NotNull IUser getUser() {
+        return this.user;
+    }
+
+    public @NotNull IArena getArena() {
+        return this.arena;
+    }
 
     /* Handler List */
     private static final HandlerList HANDLERS = new HandlerList();

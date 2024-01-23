@@ -1,7 +1,5 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.TNTPrimed;
@@ -13,18 +11,16 @@ import pl.mrstudios.deathrun.arena.trap.Trap;
 import java.time.Duration;
 import java.util.List;
 
-@Getter @Setter
 public class TrapTNT extends Trap {
 
     @Override
     public void start() {
 
-        super.getLocations()
-                .forEach(
-                        (location) -> location.getWorld().spawn(location, TNTPrimed.class, (entity) -> {
-                            entity.setFuseTicks(5);
-                            entity.setVelocity(new Vector(0, 0.125, 0));
-                        }));
+        super.locations.forEach(
+                (location) -> location.getWorld().spawn(location, TNTPrimed.class, (entity) -> {
+                    entity.setFuseTicks(5);
+                    entity.setVelocity(new Vector(0, 0.125, 0));
+                }));
 
     }
 
@@ -39,6 +35,26 @@ public class TrapTNT extends Trap {
         return list.stream()
                 .filter((location) -> location.getBlock().getType() == Material.TNT)
                 .toList();
+    }
+
+    @Override
+    public @NotNull Location getButton() {
+        return super.button;
+    }
+
+    @Override
+    public void setButton(@NotNull Location location) {
+        super.button = location;
+    }
+
+    @Override
+    public @NotNull List<Location> getLocations() {
+        return super.locations;
+    }
+
+    @Override
+    public void setLocations(@NotNull List<Location> locations) {
+        super.locations = locations;
     }
 
     @Override

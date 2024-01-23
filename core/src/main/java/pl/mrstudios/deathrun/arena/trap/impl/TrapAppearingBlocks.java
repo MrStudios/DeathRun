@@ -1,7 +1,5 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -15,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter @Setter
 public class TrapAppearingBlocks extends Trap {
 
     @Serializable
@@ -24,11 +21,19 @@ public class TrapAppearingBlocks extends Trap {
     /* Data */
     protected final Map<Location, BlockData> backup = new HashMap<>();
 
+    public @NotNull Material getMaterial() {
+        return this.material;
+    }
+
+    public void setMaterial(@NotNull Material material) {
+        this.material = material;
+    }
+
     @Override
     public void start() {
 
-        super.getLocations().forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
-        super.getLocations().forEach((location) -> location.getBlock().setType(this.material));
+        super.locations.forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
+        super.locations.forEach((location) -> location.getBlock().setType(this.material));
 
     }
 
@@ -38,6 +43,26 @@ public class TrapAppearingBlocks extends Trap {
         this.backup.forEach((key, value) -> key.getBlock().setBlockData(value));
         this.backup.clear();
 
+    }
+
+    @Override
+    public @NotNull Location getButton() {
+        return super.button;
+    }
+
+    @Override
+    public void setButton(@NotNull Location location) {
+        super.button = location;
+    }
+
+    @Override
+    public @NotNull List<Location> getLocations() {
+        return super.locations;
+    }
+
+    @Override
+    public void setLocations(@NotNull List<Location> locations) {
+        super.locations = locations;
     }
 
     @Override
