@@ -220,6 +220,5 @@ Libraries that is used in this project, most of them are open source libraries.
 - [ProtocolSidebar](https://github.com/CatCoderr/ProtocolSidebar) by CatCoderr
 - [Kyori Adventure](https://github.com/KyoriPowered/adventure) by Kyori
 - [Java Annotations](https://github.com/JetBrains/java-annotations) by JetBrains
-- [lombok](https://github.com/projectlombok/lombok) by Project Lombok
 - [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) by Okaeri
 - [commons-io](https://github.com/apache/commons-io) by Apache Software Foundation
