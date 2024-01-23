@@ -9,7 +9,6 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
-import lombok.SneakyThrows;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
@@ -153,13 +152,13 @@ public class CommandDeathRun {
 
     @Execute(name = "setup addtrap")
     @Permission("mrstudios.command.deathrun.setup")
-    public void addTrap(@Context Player player, @Arg("type") String type) {
+    public void addTrap(@Context Player player, @Arg("type") String type) throws Exception {
         this.addTrap(player, type, null);
     }
     
     @Execute(name = "setup addtrap")
     @Permission("mrstudios.command.deathrun.setup")
-    public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material) {
+    public void addTrap(@Context Player player, @Arg("type") String type, @Arg("material") Material material) throws Exception {
         this.trap(player, type, material);
     }
 
@@ -275,8 +274,7 @@ public class CommandDeathRun {
 
     }
 
-    @SneakyThrows
-    protected void trap(Player player, String type, Object... objects) {
+    protected void trap(Player player, String type, Object... objects) throws Exception {
 
         if (!this.configuration.map().arenaSetupEnabled) {
             this.audiences.player(player).sendMessage(this.miniMessage.deserialize("<reset> <dark_red><b>*</b> <red>You can't use that command while setup is disabled."));

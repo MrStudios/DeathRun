@@ -1,22 +1,22 @@
 package pl.mrstudios.deathrun.api;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.trap.ITrapRegistry;
 
-@Getter
 public class API {
 
-    private final IArena arena;
-    private final ITrapRegistry trapRegistry;
+    private final @NotNull IArena arena;
+    private final @NotNull ITrapRegistry trapRegistry;
 
-    private final String version;
+    private final @NotNull String version;
 
-    public API(IArena arena, ITrapRegistry trapRegistry, PluginDescriptionFile pluginDescriptionFile) {
+    public API(
+            @NotNull IArena arena,
+            @NotNull ITrapRegistry trapRegistry,
+            @NotNull PluginDescriptionFile pluginDescriptionFile
+    ) {
 
         setInstance(this);
 
@@ -26,7 +26,22 @@ public class API {
 
     }
 
-    @Setter(AccessLevel.PRIVATE)
+    public @NotNull IArena getArena() {
+        return arena;
+    }
+
+    public @NotNull ITrapRegistry getTrapRegistry() {
+        return trapRegistry;
+    }
+
+    public @NotNull String getVersion() {
+        return version;
+    }
+
     public static @NotNull API instance;
+
+    protected static void setInstance(@NotNull API api) {
+        instance = api;
+    }
 
 }

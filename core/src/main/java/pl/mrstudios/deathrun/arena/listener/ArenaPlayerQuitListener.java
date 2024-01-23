@@ -44,6 +44,9 @@ public class ArenaPlayerQuitListener implements Listener {
 
         IUser user = this.arena.getUser(event.getPlayer());
 
+        if (user == null)
+            return;
+
         this.arena.getUsers().remove(user);
 
         if (this.arena.getGameState() != GameState.WAITING && this.arena.getGameState() != GameState.STARTING)
@@ -58,7 +61,7 @@ public class ArenaPlayerQuitListener implements Listener {
                 )));
 
         this.arena.getSidebar().removeViewer(event.getPlayer());
-        this.server.getPluginManager().callEvent(new ArenaUserLeftEvent(this.arena, user));
+        this.server.getPluginManager().callEvent(new ArenaUserLeftEvent(user, this.arena));
 
     }
 

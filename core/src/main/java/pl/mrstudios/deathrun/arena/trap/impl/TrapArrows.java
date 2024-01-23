@@ -1,7 +1,5 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -13,13 +11,12 @@ import pl.mrstudios.deathrun.arena.trap.Trap;
 import java.time.Duration;
 import java.util.List;
 
-@Getter @Setter
 public class TrapArrows extends Trap {
 
     @Override
     public void start() {
 
-        super.getLocations().stream()
+        super.locations.stream()
                 .map(Location::getBlock)
                 .forEach((block) -> {
 
@@ -47,6 +44,26 @@ public class TrapArrows extends Trap {
         return list.stream()
                 .filter((location) -> location.getBlock().getType() == Material.DISPENSER)
                 .toList();
+    }
+
+    @Override
+    public @NotNull Location getButton() {
+        return super.button;
+    }
+
+    @Override
+    public void setButton(@NotNull Location location) {
+        super.button = location;
+    }
+
+    @Override
+    public @NotNull List<Location> getLocations() {
+        return super.locations;
+    }
+
+    @Override
+    public void setLocations(@NotNull List<Location> locations) {
+        super.locations = locations;
     }
 
     @Override

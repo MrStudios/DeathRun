@@ -74,7 +74,7 @@ public class ArenaPlayerJoinListener implements Listener {
         event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false, false));
 
         this.arena.getSidebar().addViewer(event.getPlayer());
-        this.server.getPluginManager().callEvent(new ArenaUserJoinedEvent(this.arena, user));
+        this.server.getPluginManager().callEvent(new ArenaUserJoinedEvent(user, this.arena));
 
         event.getPlayer().getInventory().setItem(
                 8, new ItemBuilder(Material.RED_BED)

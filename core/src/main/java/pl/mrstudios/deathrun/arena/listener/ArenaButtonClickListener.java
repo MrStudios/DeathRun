@@ -72,7 +72,7 @@ public class ArenaButtonClickListener implements Listener {
                         return;
                     }
 
-                    ArenaTrapActivateEvent arenaTrapActivateEvent = new ArenaTrapActivateEvent(this.arena, trap, false);
+                    ArenaTrapActivateEvent arenaTrapActivateEvent = new ArenaTrapActivateEvent(trap, this.arena);
 
                     this.server.getPluginManager().callEvent(arenaTrapActivateEvent);
                     if (arenaTrapActivateEvent.isCancelled())
