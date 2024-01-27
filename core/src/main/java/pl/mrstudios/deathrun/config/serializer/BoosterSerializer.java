@@ -14,7 +14,11 @@ import pl.mrstudios.deathrun.arena.booster.Booster;
 public class BoosterSerializer implements ObjectSerializer<IBooster> {
 
     @Override
-    public void serialize(@NotNull IBooster object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull IBooster object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         data.add("slot", object.slot());
         data.add("power", object.power());
         data.add("delay", object.delay());
@@ -25,7 +29,10 @@ public class BoosterSerializer implements ObjectSerializer<IBooster> {
     }
 
     @Override
-    public IBooster deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull IBooster deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new Booster(
                 data.get("slot", Integer.class),
                 data.get("power", Float.class),

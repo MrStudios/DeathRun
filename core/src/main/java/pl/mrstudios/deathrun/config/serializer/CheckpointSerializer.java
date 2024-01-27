@@ -12,14 +12,21 @@ import pl.mrstudios.deathrun.arena.checkpoint.Checkpoint;
 public class CheckpointSerializer implements ObjectSerializer<ICheckpoint> {
 
     @Override
-    public void serialize(@NotNull ICheckpoint object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull ICheckpoint object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         data.add("id", object.id());
         data.add("spawn", object.spawn());
         data.addCollection("locations", object.locations(), Location.class);
     }
 
     @Override
-    public ICheckpoint deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull ICheckpoint deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new Checkpoint(
                 data.get("id", Integer.class),
                 data.get("spawn", Location.class),

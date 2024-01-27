@@ -8,11 +8,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
 
-@ArenaRegistrableListener
 public class ArenaClickItemListener implements Listener {
 
     private final Plugin plugin;

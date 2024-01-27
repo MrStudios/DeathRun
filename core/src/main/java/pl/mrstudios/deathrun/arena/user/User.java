@@ -1,6 +1,5 @@
 package pl.mrstudios.deathrun.arena.user;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,6 +8,9 @@ import pl.mrstudios.deathrun.api.arena.user.IUser;
 import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getServer;
+import static pl.mrstudios.deathrun.api.arena.user.enums.Role.UNKNOWN;
 
 public class User implements IUser {
 
@@ -31,7 +33,7 @@ public class User implements IUser {
 
         /* Set User Arena Data */
         this.deaths = 0;
-        this.role = Role.UNKNOWN;
+        this.role = UNKNOWN;
 
     }
 
@@ -77,7 +79,7 @@ public class User implements IUser {
 
     @Override
     public @Nullable Player asBukkit() {
-        return Bukkit.getServer().getPlayer(this.name);
+        return getServer().getPlayer(this.name);
     }
 
 }

@@ -12,7 +12,11 @@ import pl.mrstudios.deathrun.arena.booster.BoosterItem;
 public class BoosterItemSerializer implements ObjectSerializer<IBoosterItem> {
 
     @Override
-    public void serialize(@NotNull IBoosterItem object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull IBoosterItem object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
 
         data.add("name", object.name());
         data.add("material", object.material());
@@ -22,7 +26,10 @@ public class BoosterItemSerializer implements ObjectSerializer<IBoosterItem> {
     }
 
     @Override
-    public IBoosterItem deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull IBoosterItem deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new BoosterItem(
                 data.get("name", String.class),
                 data.get("material", Material.class),

@@ -12,13 +12,20 @@ import pl.mrstudios.deathrun.arena.pad.TeleportPad;
 public class TeleportPadSerializer implements ObjectSerializer<ITeleportPad> {
 
     @Override
-    public void serialize(@NotNull ITeleportPad object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull ITeleportPad object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         data.add("location", object.padLocation());
         data.add("teleport", object.teleportLocation());
     }
 
     @Override
-    public ITeleportPad deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull ITeleportPad deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new TeleportPad(
                 data.get("location", Location.class),
                 data.get("teleport", Location.class)

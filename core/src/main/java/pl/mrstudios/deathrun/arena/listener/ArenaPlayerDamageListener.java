@@ -2,31 +2,35 @@ package pl.mrstudios.deathrun.arena.listener;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.title.Title;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.event.user.UserArenaDeathEvent;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
-import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 
-import java.time.Duration;
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
+import static java.util.Optional.ofNullable;
+import static net.kyori.adventure.title.Title.Times.of;
+import static net.kyori.adventure.title.Title.title;
+import static org.bukkit.Material.LAVA;
+import static org.bukkit.Material.WATER;
+import static org.bukkit.event.EventPriority.MONITOR;
+import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
+import static org.bukkit.potion.PotionEffectType.FIRE_RESISTANCE;
+import static pl.mrstudios.deathrun.api.arena.enums.GameState.PLAYING;
+import static pl.mrstudios.deathrun.api.arena.user.enums.Role.RUNNER;
 
-@ArenaRegistrableListener
 public class ArenaPlayerDamageListener implements Listener {
 
     private final Arena arena;
@@ -36,7 +40,13 @@ public class ArenaPlayerDamageListener implements Listener {
     private final Configuration configuration;
 
     @Inject
-    public ArenaPlayerDamageListener(Arena arena, Server server, MiniMessage miniMessage, BukkitAudiences audiences, Configuration configuration) {
+    public ArenaPlayerDamageListener(
+            @NotNull Arena arena,
+            @NotNull Server server,
+            @NotNull MiniMessage miniMessage,
+            @NotNull BukkitAudiences audiences,
+            @NotNull Configuration configuration
+    ) {
         this.arena = arena;
         this.server = server;
         this.audiences = audiences;
@@ -44,69 +54,61 @@ public class ArenaPlayerDamageListener implements Listener {
         this.configuration = configuration;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onDamage(EntityDamageEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onDamage(@NotNull EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        if (event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)
+        if (event.getCause() == FIRE || event.getCause() == FIRE_TICK)
             event.setCancelled(true);
 
-        if (event.getCause() == EntityDamageEvent.DamageCause.FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
+        if (event.getCause() == FALL && player.getFallDistance() <= this.configuration.plugin().arenaMaxFallDistance)
             event.setCancelled(true);
 
-        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
+        if (event.getCause() == ENTITY_ATTACK || event.getCause() == ENTITY_SWEEP_ATTACK)
             event.setCancelled(true);
 
-        if (event.isCancelled())
-            return;
-
-        IUser user = this.arena.getUser(player);
-        if (user == null)
-            return;
-
-        if (user.getRole() != Role.RUNNER)
-            event.setCancelled(true);
-
-        if (this.arena.getGameState() != GameState.PLAYING)
+        if (this.arena.getGameState() != PLAYING)
             event.setCancelled(true);
 
         if (event.isCancelled())
             return;
 
-        this.playerDeath(user, player);
+        ofNullable(this.arena.getUser(player))
+                .filter((user) -> user.getRole() == RUNNER)
+                .ifPresent((user) -> this.callPlayerDeath(user, player));
         event.setCancelled(true);
 
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerMove(PlayerMoveEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onPlayerMove(@NotNull PlayerMoveEvent event) {
 
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getPitch() != event.getTo().getPitch() && event.getFrom().getYaw() != event.getTo().getYaw())
+        if (
+                event.getFrom().getBlockX() == event.getTo().getBlockX()
+                        && event.getFrom().getBlockY() == event.getTo().getBlockY()
+                        && event.getFrom().getBlockZ() == event.getTo().getBlockZ()
+                        && event.getFrom().getPitch() != event.getTo().getPitch()
+                        && event.getFrom().getYaw() != event.getTo().getYaw()
+        ) return;
+
+        if (this.arena.getGameState() != PLAYING)
             return;
 
-        if (event.getTo().getBlock().getType() != Material.WATER && event.getTo().getBlock().getType() != Material.LAVA)
+        if (event.getTo().getBlock().getType() != WATER && event.getTo().getBlock().getType() != LAVA)
             return;
 
-        IUser user = this.arena.getUser(event.getPlayer());
-        if (user == null)
-            return;
-
-        if (user.getRole() != Role.RUNNER)
-            return;
-
-        if (this.arena.getGameState() != GameState.PLAYING)
-            return;
-
-        this.playerDeath(user, event.getPlayer());
+        ofNullable(this.arena.getUser(event.getPlayer()))
+                .filter((user) -> user.getRole() == RUNNER)
+                .ifPresent((user) -> this.callPlayerDeath(user, event.getPlayer()));
 
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntityExplode(EntityExplodeEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onEntityExplode(@NotNull EntityExplodeEvent event) {
 
-        if (this.arena.getGameState() != GameState.PLAYING)
+        if (this.arena.getGameState() != PLAYING)
             return;
 
         event.getLocation().getNearbyEntitiesByType(Player.class, 3f)
@@ -114,30 +116,33 @@ public class ArenaPlayerDamageListener implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onCombust(EntityCombustEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onCombust(@NotNull EntityCombustEvent event) {
         event.setCancelled(true);
     }
 
-    protected void playerDeath(IUser user, Player player) {
+    protected void callPlayerDeath(
+            @NotNull IUser user,
+            @NotNull Player player
+    ) {
 
         user.setDeaths(user.getDeaths() + 1);
         player.teleport(user.getCheckpoint().spawn());
         player.playSound(player.getLocation(), this.configuration.plugin().arenaSoundPlayerDeath, 1.0f, 1.0f);
-        player.addPotionEffect(FIRE_RESISTANCE);
+        player.addPotionEffect(FIRE_RESISTANCE_EFFECT);
         player.setFireTicks(0);
 
         this.server.getPluginManager().callEvent(new UserArenaDeathEvent(user, this.arena));
         this.audiences.player(player).showTitle(
-                Title.title(
+                title(
                         this.miniMessage.deserialize(this.configuration.language().arenaDeathTitle),
                         this.miniMessage.deserialize(this.configuration.language().arenaDeathSubtitle),
-                        Title.Times.of(Duration.ofMillis(250), Duration.ofSeconds(2), Duration.ofMillis(250))
+                        of(ofMillis(250), ofSeconds(2), ofMillis(250))
                 )
         );
 
     }
 
-    protected static final PotionEffect FIRE_RESISTANCE = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20, 1, false, false, false);
+    protected static final PotionEffect FIRE_RESISTANCE_EFFECT = new PotionEffect(FIRE_RESISTANCE, 20, 1, false, false, false);
 
 }

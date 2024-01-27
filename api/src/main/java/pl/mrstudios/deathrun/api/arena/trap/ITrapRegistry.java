@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface ITrapRegistry {
 
-    @Nullable Class<? extends ITrap> get(String identifier);
+    @Nullable Class<? extends ITrap> get(@NotNull String identifier);
 
     void register(@NotNull Class<? extends ITrap> trapClass);
 

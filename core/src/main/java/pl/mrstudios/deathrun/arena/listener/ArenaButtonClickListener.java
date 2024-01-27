@@ -5,18 +5,15 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.deathrun.api.arena.event.arena.ArenaTrapActivateEvent;
 import pl.mrstudios.deathrun.api.arena.trap.ITrap;
-import pl.mrstudios.deathrun.api.arena.user.IUser;
-import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 import pl.mrstudios.deathrun.arena.Arena;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 
 import java.time.Duration;
@@ -25,7 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ArenaRegistrableListener
+import static java.lang.System.currentTimeMillis;
+import static java.time.Duration.ofSeconds;
+import static java.util.Optional.ofNullable;
+import static org.bukkit.Material.*;
+import static org.bukkit.event.EventPriority.MONITOR;
+import static pl.mrstudios.deathrun.api.arena.user.enums.Role.DEATH;
+
 public class ArenaButtonClickListener implements Listener {
 
     private final Arena arena;
@@ -34,41 +37,38 @@ public class ArenaButtonClickListener implements Listener {
     private final Configuration configuration;
 
     @Inject
-    public ArenaButtonClickListener(Arena arena, Plugin plugin, Server server, Configuration configuration) {
+    public ArenaButtonClickListener(
+            @NotNull Arena arena,
+            @NotNull Plugin plugin,
+            @NotNull Server server,
+            @NotNull Configuration configuration
+    ) {
         this.arena = arena;
         this.plugin = plugin;
         this.server = server;
         this.configuration = configuration;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onArenaButtonClick(PlayerInteractEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onArenaButtonClick(@NotNull PlayerInteractEvent event) {
 
-        IUser user = this.arena.getUser(event.getPlayer());
+        if (
+                event.getClickedBlock() == null || event.getAction() != Action.RIGHT_CLICK_BLOCK || this.materials.stream().noneMatch((material) -> material == event.getClickedBlock().getType())
+        ) return;
 
-        if (user == null)
-            return;
-
-        if (user.getRole() != Role.DEATH)
-            return;
-
-        if (event.getClickedBlock() == null)
-            return;
-
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
-            return;
-
-        if (this.materials.stream().noneMatch((material) -> material == event.getClickedBlock().getType()))
-            return;
-
-        this.configuration.map().arenaTraps.stream()
-                .filter(
-                        (trap) -> trap.getButton().getBlockX() == event.getClickedBlock().getX() && trap.getButton().getBlockY() == event.getClickedBlock().getY() && trap.getButton().getBlockZ() == event.getClickedBlock().getZ()
+        ofNullable(this.arena.getUser(event.getPlayer()))
+                .filter((user) -> user.getRole() == DEATH)
+                .flatMap((user) -> this.configuration.map().arenaTraps.stream()
+                        .filter(
+                                (trap) -> trap.getButton().getBlockX() == event.getClickedBlock().getX()
+                                        && trap.getButton().getBlockY() == event.getClickedBlock().getY()
+                                        && trap.getButton().getBlockZ() == event.getClickedBlock().getZ()
+                        )
+                        .findFirst()
                 )
-                .findFirst()
                 .ifPresent((trap) -> {
 
-                    if (this.delays.getOrDefault(trap, 0L) > System.currentTimeMillis()) {
+                    if (this.delays.getOrDefault(trap, 0L) > currentTimeMillis()) {
                         event.getPlayer().playSound(event.getPlayer().getLocation(), this.configuration.plugin().arenaSoundTrapDelay, 1.0f, 1.0f);
                         return;
                     }
@@ -86,27 +86,25 @@ public class ArenaButtonClickListener implements Listener {
                         entity.setInvisible(true);
                         entity.setInvulnerable(true);
                         entity.setCustomNameVisible(true);
-                        entity.setCustomName(
-                                this.miniMessageToLegacy(
-                                        this.configuration.language().arenaHologramTrapDelayed
-                                                .replace("<delay>", String.valueOf(this.configuration.plugin().arenaTrapDelay))
-                                )
-                        );
+                        entity.setCustomName(this.miniMessageToLegacy(
+                                this.configuration.language().arenaHologramTrapDelayed
+                                        .replace("<delay>", String.valueOf(this.configuration.plugin().arenaTrapDelay))
+                        ));
 
                     });
 
                     this.server.getScheduler().scheduleSyncDelayedTask(this.plugin, trap::end, trap.getDuration().toMillis() / 50L);
                     this.server.getScheduler().scheduleSyncRepeatingTask(this.plugin, () -> {
 
-                        if (System.currentTimeMillis() < this.delays.getOrDefault(trap, 0L))
+                        if (currentTimeMillis() < this.delays.getOrDefault(trap, 0L))
                             armorStand.setCustomName(
                                     this.miniMessageToLegacy(
                                             this.configuration.language().arenaHologramTrapDelayed
-                                                    .replace("<delay>", String.valueOf(Duration.ofMillis(this.delays.getOrDefault(trap, 0L) - System.currentTimeMillis()).toSeconds()))
+                                                    .replace("<delay>", String.valueOf(Duration.ofMillis(this.delays.getOrDefault(trap, 0L) - currentTimeMillis()).toSeconds()))
                                     )
                             );
 
-                        if (System.currentTimeMillis() <= this.delays.getOrDefault(trap, 0L))
+                        if (currentTimeMillis() <= this.delays.getOrDefault(trap, 0L))
                             return;
 
                         armorStand.remove();
@@ -114,7 +112,7 @@ public class ArenaButtonClickListener implements Listener {
 
                     }, 0, 20L);
 
-                    this.delays.put(trap, System.currentTimeMillis() + Duration.ofSeconds(this.configuration.plugin().arenaTrapDelay).toMillis());
+                    this.delays.put(trap, currentTimeMillis() + ofSeconds(this.configuration.plugin().arenaTrapDelay).toMillis());
 
                 });
 
@@ -122,14 +120,14 @@ public class ArenaButtonClickListener implements Listener {
 
     private final Map<ITrap, Long> delays = new HashMap<>();
     protected final Collection<Material> materials = List.of(
-            Material.STONE_BUTTON,
-            Material.OAK_BUTTON,
-            Material.ACACIA_BUTTON,
-            Material.BIRCH_BUTTON,
-            Material.CRIMSON_BUTTON,
-            Material.JUNGLE_BUTTON,
-            Material.SPRUCE_BUTTON,
-            Material.WARPED_BUTTON
+            STONE_BUTTON,
+            OAK_BUTTON,
+            ACACIA_BUTTON,
+            BIRCH_BUTTON,
+            CRIMSON_BUTTON,
+            JUNGLE_BUTTON,
+            SPRUCE_BUTTON,
+            WARPED_BUTTON
     );
 
     protected String miniMessageToLegacy(String message) {

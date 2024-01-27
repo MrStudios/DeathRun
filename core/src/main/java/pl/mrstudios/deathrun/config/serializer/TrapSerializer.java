@@ -12,15 +12,21 @@ import pl.mrstudios.deathrun.api.arena.trap.annotations.Serializable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class TrapSerializer implements ObjectSerializer<ITrap> {
+import static java.lang.Class.forName;
+import static java.util.Arrays.asList;
+
+public class TrapSerializer implements ObjectSerializer<ITrap> { // TODO: Complete refactor of this class.
 
     @Override
-    public void serialize(@NotNull ITrap object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull ITrap object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
 
-        List<Field> fields = new ArrayList<>(Arrays.asList(object.getClass().getDeclaredFields()));
+        List<Field> fields = new ArrayList<>(asList(object.getClass().getDeclaredFields()));
 
         data.add("button", object.getButton());
         data.addCollection("locations", object.getLocations(), Location.class);
@@ -43,12 +49,15 @@ public class TrapSerializer implements ObjectSerializer<ITrap> {
     }
 
     @Override
-    public ITrap deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull ITrap deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
 
         try {
 
-            ITrap trap = (ITrap) Class.forName(data.get("class", String.class)).getDeclaredConstructor().newInstance();
-            List<Field> fields = new ArrayList<>(Arrays.asList(trap.getClass().getDeclaredFields()));
+            ITrap trap = (ITrap) forName(data.get("class", String.class)).getDeclaredConstructor().newInstance();
+            List<Field> fields = new ArrayList<>(asList(trap.getClass().getDeclaredFields()));
 
             trap.setButton(data.get("button", Location.class));
             trap.setLocations(data.getAsList("locations", Location.class));

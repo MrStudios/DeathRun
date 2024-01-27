@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.Duration.ofSeconds;
+import static java.util.Optional.ofNullable;
+
 public class TrapAppearingBlocks extends Trap {
 
     @Serializable
@@ -31,18 +34,14 @@ public class TrapAppearingBlocks extends Trap {
 
     @Override
     public void start() {
-
         super.locations.forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
         super.locations.forEach((location) -> location.getBlock().setType(this.material));
-
     }
 
     @Override
     public void end() {
-
         this.backup.forEach((key, value) -> key.getBlock().setBlockData(value));
         this.backup.clear();
-
     }
 
     @Override
@@ -66,14 +65,10 @@ public class TrapAppearingBlocks extends Trap {
     }
 
     @Override
-    public void setExtra(Object... objects) {
-
-        if (objects.length == 0)
-            return;
-
-        if (objects[0] instanceof Material fillableMaterial)
-            this.material = fillableMaterial;
-
+    public void setExtra(@Nullable Object... objects) {
+        ofNullable(objects)
+                .filter((array) -> array.length > 0)
+                .ifPresent((array) -> this.material = (Material) array[0]);
     }
 
     @Override
@@ -83,7 +78,7 @@ public class TrapAppearingBlocks extends Trap {
 
     @Override
     public @NotNull Duration getDuration() {
-        return Duration.ofSeconds(3);
+        return ofSeconds(3);
     }
 
 }

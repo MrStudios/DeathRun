@@ -18,7 +18,7 @@ public class TrapRegistry implements ITrapRegistry {
     }
 
     @Override
-    public @Nullable Class<? extends ITrap> get(String identifier) {
+    public @Nullable Class<? extends ITrap> get(@NotNull String identifier) {
         return this.traps.getOrDefault(identifier.toUpperCase(), null);
     }
 

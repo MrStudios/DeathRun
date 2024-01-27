@@ -1,29 +1,27 @@
 package pl.mrstudios.deathrun.util;
 
+import com.google.common.io.ByteArrayDataOutput;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import static com.google.common.io.ByteStreams.newDataOutput;
 
 public class ChannelUtil {
 
-    public static void connect(Plugin plugin, Player player, String server) {
+    @SuppressWarnings("UnstableApiUsage")
+    public static void connect(
+            @NotNull Plugin plugin,
+            @NotNull Player player,
+            @NotNull String server
+    ) {
 
-        try {
+        ByteArrayDataOutput dataOutput = newDataOutput();
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+        dataOutput.writeUTF("Connect");
+        dataOutput.writeUTF(server);
 
-            dataOutputStream.writeUTF("Connect");
-            dataOutputStream.writeUTF(server);
-
-            player.sendPluginMessage(plugin, "BungeeCord", byteArrayOutputStream.toByteArray());
-
-            dataOutputStream.close();
-            byteArrayOutputStream.close();
-
-        } catch (Exception ignored) {}
+        player.sendPluginMessage(plugin, "BungeeCord", dataOutput.toByteArray());
 
     }
 

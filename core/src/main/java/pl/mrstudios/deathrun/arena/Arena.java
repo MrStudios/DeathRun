@@ -8,11 +8,13 @@ import org.jetbrains.annotations.Nullable;
 import pl.mrstudios.deathrun.api.arena.IArena;
 import pl.mrstudios.deathrun.api.arena.enums.GameState;
 import pl.mrstudios.deathrun.api.arena.user.IUser;
-import pl.mrstudios.deathrun.api.arena.user.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static pl.mrstudios.deathrun.api.arena.enums.GameState.WAITING;
+import static pl.mrstudios.deathrun.api.arena.user.enums.Role.*;
 
 public class Arena implements IArena {
 
@@ -27,10 +29,12 @@ public class Arena implements IArena {
     private final List<IUser> users;
     private GameState gameState;
 
-    public Arena(String name) {
+    public Arena(
+            @NotNull String name
+    ) {
         this.name = name;
         this.users = new ArrayList<>();
-        this.gameState = GameState.WAITING;
+        this.gameState = WAITING;
         this.elapsedTime = 0;
         this.finishedRuns = 0;
         this.remainingTime = 0;
@@ -116,21 +120,21 @@ public class Arena implements IArena {
     @Override
     public @NotNull List<IUser> getRunners() {
         return this.users.stream()
-                .filter((user) -> user.getRole().equals(Role.RUNNER))
+                .filter((user) -> user.getRole().equals(RUNNER))
                 .toList();
     }
 
     @Override
     public @NotNull List<IUser> getDeaths() {
         return this.users.stream()
-                .filter((user) -> user.getRole().equals(Role.DEATH))
+                .filter((user) -> user.getRole().equals(DEATH))
                 .toList();
     }
 
     @Override
     public @NotNull List<IUser> getSpectators() {
         return this.users.stream()
-                .filter((user) -> user.getRole().equals(Role.SPECTATOR))
+                .filter((user) -> user.getRole().equals(SPECTATOR))
                 .toList();
     }
 

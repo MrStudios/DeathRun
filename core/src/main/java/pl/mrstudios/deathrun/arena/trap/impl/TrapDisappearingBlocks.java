@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.Duration.ofSeconds;
+import static java.util.Optional.ofNullable;
+import static org.bukkit.Material.AIR;
+
 public class TrapDisappearingBlocks extends Trap {
 
     @Serializable
@@ -31,49 +35,35 @@ public class TrapDisappearingBlocks extends Trap {
 
     @Override
     public void start() {
-
         super.locations.forEach((location) -> {
             this.backup.put(location, location.getBlock().getBlockData());
-            location.getBlock().setType(Material.AIR);
+            location.getBlock().setType(AIR);
         });
-
     }
 
     @Override
     public void end() {
-
         this.backup.forEach((key, value) -> key.getBlock().setBlockData(value));
         this.backup.clear();
-
     }
 
     @Override
-    public void setExtra(Object... objects) {
-
-        if (objects.length == 0)
-            return;
-
-        if (objects[0] instanceof Material extraMaterial)
-            this.material = extraMaterial;
-
+    public void setExtra(@Nullable Object... objects) {
+        ofNullable(objects)
+                .filter((array) -> array.length > 0)
+                .ifPresent((array) -> this.material = (Material) array[0]);
     }
 
     @Override
     public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
-
-        if (objects == null)
-            return list;
-
-        if (objects.length == 0)
-            return list;
-
-        if (!(objects[0] instanceof Material filterMaterial))
-            return list;
-
-        return list.stream()
-                .filter((location) -> location.getBlock().getType() == filterMaterial)
-                .toList();
-
+        return ofNullable(objects)
+                .filter((array) -> array.length > 0)
+                .map((array) -> (Material) array[0])
+                .map(
+                        (material) -> list.stream()
+                                .filter((location) -> location.getBlock().getType() == material)
+                                .toList()
+                ).orElse(list);
     }
 
     @Override
@@ -98,7 +88,7 @@ public class TrapDisappearingBlocks extends Trap {
 
     @Override
     public @NotNull Duration getDuration() {
-        return Duration.ofSeconds(3);
+        return ofSeconds(3);
     }
 
 }

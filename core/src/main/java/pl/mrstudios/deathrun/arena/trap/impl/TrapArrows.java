@@ -1,7 +1,6 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +9,9 @@ import pl.mrstudios.deathrun.arena.trap.Trap;
 
 import java.time.Duration;
 import java.util.List;
+
+import static java.time.Duration.ZERO;
+import static org.bukkit.Material.DISPENSER;
 
 public class TrapArrows extends Trap {
 
@@ -42,7 +44,7 @@ public class TrapArrows extends Trap {
     @Override
     public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
         return list.stream()
-                .filter((location) -> location.getBlock().getType() == Material.DISPENSER)
+                .filter((location) -> location.getBlock().getType() == DISPENSER)
                 .toList();
     }
 
@@ -68,7 +70,7 @@ public class TrapArrows extends Trap {
 
     @Override
     public @NotNull Duration getDuration() {
-        return Duration.ZERO;
+        return ZERO;
     }
 
 }

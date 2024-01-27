@@ -5,14 +5,19 @@ import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import org.bukkit.Material;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.arena.effect.BlockEffect;
+
+import static org.bukkit.potion.PotionEffectType.getByName;
 
 public class BlockEffectSerializer implements ObjectSerializer<BlockEffect> {
 
     @Override
-    public void serialize(@NotNull BlockEffect object, @NotNull SerializationData data, @NotNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull BlockEffect object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         data.add("block", object.blockType());
         data.add("effect", object.effectType().getName());
         data.add("amplifier", object.amplifier());
@@ -20,10 +25,13 @@ public class BlockEffectSerializer implements ObjectSerializer<BlockEffect> {
     }
 
     @Override
-    public BlockEffect deserialize(@NotNull DeserializationData data, @NotNull GenericsDeclaration generics) {
+    public @NotNull BlockEffect deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new BlockEffect(
                 data.get("block", Material.class),
-                PotionEffectType.getByName(data.get("effect", String.class)),
+                getByName(data.get("effect", String.class)),
                 data.get("amplifier", Integer.class),
                 data.get("duration", Float.class)
         );
