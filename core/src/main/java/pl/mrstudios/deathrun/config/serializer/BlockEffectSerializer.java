@@ -4,15 +4,20 @@ import eu.okaeri.configs.schema.GenericsDeclaration;
 import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
-import lombok.NonNull;
 import org.bukkit.Material;
-import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.deathrun.arena.effect.BlockEffect;
+
+import static org.bukkit.potion.PotionEffectType.getByName;
 
 public class BlockEffectSerializer implements ObjectSerializer<BlockEffect> {
 
     @Override
-    public void serialize(@NonNull BlockEffect object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
+    public void serialize(
+            @NotNull BlockEffect object,
+            @NotNull SerializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         data.add("block", object.blockType());
         data.add("effect", object.effectType().getName());
         data.add("amplifier", object.amplifier());
@@ -20,17 +25,20 @@ public class BlockEffectSerializer implements ObjectSerializer<BlockEffect> {
     }
 
     @Override
-    public BlockEffect deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
+    public @NotNull BlockEffect deserialize(
+            @NotNull DeserializationData data,
+            @NotNull GenericsDeclaration generics
+    ) {
         return new BlockEffect(
                 data.get("block", Material.class),
-                PotionEffectType.getByName(data.get("effect", String.class)),
+                getByName(data.get("effect", String.class)),
                 data.get("amplifier", Integer.class),
                 data.get("duration", Float.class)
         );
     }
 
     @Override
-    public boolean supports(@NonNull Class<? super BlockEffect> type) {
+    public boolean supports(@NotNull Class<? super BlockEffect> type) {
         return BlockEffect.class.isAssignableFrom(type);
     }
 

@@ -7,7 +7,7 @@
     <parent>
         <groupId>pl.mrstudios.deathrun</groupId>
         <artifactId>deathrun-parent</artifactId>
-        <version>1.1.4</version>
+        <version>1.2.0</version>
     </parent>
 
     <artifactId>deathrun-core</artifactId>
@@ -40,14 +40,6 @@
                                 <relocation>
                                     <pattern>eu.okaeri.configs</pattern>
                                     <shadedPattern>pl.mrstudios.deathrun.libraries.okaeri-configs</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.intellij.lang.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.libraries.intellij-lang-annotations</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.jetbrains.annotations</pattern>
-                                    <shadedPattern>pl.mrstudios.deathrun.libraries.jetbrains-annotations</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>pl.mrstudios.commons.inject</pattern>
@@ -235,11 +227,11 @@
     </dependencies>
 
     <properties>
-        <kyori.adventure.version>4.14.0</kyori.adventure.version>
+        <kyori.adventure.version>4.15.0</kyori.adventure.version>
         <mrstudios.commons.version>1.0.0</mrstudios.commons.version>
         <okaeri.configs.version>5.0.0-beta.5</okaeri.configs.version>
-        <adventure.platform.version>4.3.1</adventure.platform.version>
-        <rollczi.litecommands.version>3.2.0</rollczi.litecommands.version>
+        <adventure.platform.version>4.3.2</adventure.platform.version>
+        <rollczi.litecommands.version>3.3.2</rollczi.litecommands.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

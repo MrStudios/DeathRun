@@ -1,12 +1,17 @@
 package pl.mrstudios.deathrun.exception;
 
+import org.jetbrains.annotations.NotNull;
+
 public class PluginCriticalException extends RuntimeException {
 
-    public PluginCriticalException(String message) {
+    public PluginCriticalException(@NotNull String message) {
         super(message);
     }
 
-    public PluginCriticalException(String message, Throwable cause) {
+    public PluginCriticalException(
+            @NotNull String message,
+            @NotNull Throwable cause
+    ) {
         super(message, cause);
     }
 

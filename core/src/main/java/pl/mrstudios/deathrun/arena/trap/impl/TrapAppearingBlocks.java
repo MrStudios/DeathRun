@@ -1,7 +1,5 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -15,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter @Setter
+import static java.time.Duration.ofSeconds;
+import static java.util.Optional.ofNullable;
+
 public class TrapAppearingBlocks extends Trap {
 
     @Serializable
@@ -24,31 +24,51 @@ public class TrapAppearingBlocks extends Trap {
     /* Data */
     protected final Map<Location, BlockData> backup = new HashMap<>();
 
+    public @NotNull Material getMaterial() {
+        return this.material;
+    }
+
+    public void setMaterial(@NotNull Material material) {
+        this.material = material;
+    }
+
     @Override
     public void start() {
-
-        super.getLocations().forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
-        super.getLocations().forEach((location) -> location.getBlock().setType(this.material));
-
+        super.locations.forEach((location) -> this.backup.put(location, location.getBlock().getBlockData()));
+        super.locations.forEach((location) -> location.getBlock().setType(this.material));
     }
 
     @Override
     public void end() {
-
         this.backup.forEach((key, value) -> key.getBlock().setBlockData(value));
         this.backup.clear();
-
     }
 
     @Override
-    public void setExtra(Object... objects) {
+    public @NotNull Location getButton() {
+        return super.button;
+    }
 
-        if (objects.length == 0)
-            return;
+    @Override
+    public void setButton(@NotNull Location location) {
+        super.button = location;
+    }
 
-        if (objects[0] instanceof Material fillableMaterial)
-            this.material = fillableMaterial;
+    @Override
+    public @NotNull List<Location> getLocations() {
+        return super.locations;
+    }
 
+    @Override
+    public void setLocations(@NotNull List<Location> locations) {
+        super.locations = locations;
+    }
+
+    @Override
+    public void setExtra(@Nullable Object... objects) {
+        ofNullable(objects)
+                .filter((array) -> array.length > 0)
+                .ifPresent((array) -> this.material = (Material) array[0]);
     }
 
     @Override
@@ -58,7 +78,7 @@ public class TrapAppearingBlocks extends Trap {
 
     @Override
     public @NotNull Duration getDuration() {
-        return Duration.ofSeconds(3);
+        return ofSeconds(3);
     }
 
 }

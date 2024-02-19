@@ -8,17 +8,18 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.jetbrains.annotations.NotNull;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 
-@ArenaRegistrableListener
+import static org.bukkit.event.EventPriority.MONITOR;
+
 public class ArenaInventoryActionListener implements Listener {
 
     @Inject
     public ArenaInventoryActionListener() {}
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
+    @EventHandler(priority = MONITOR)
+    public void onInventoryClick(@NotNull InventoryClickEvent event) {
 
         if (event.getClickedInventory() == null)
             return;
@@ -30,22 +31,22 @@ public class ArenaInventoryActionListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = MONITOR)
     public void onItemDrop(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = MONITOR)
     public void onPlayerItemSwap(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = MONITOR)
     public void onPlayerArrowPickup(PlayerPickupArrowEvent event) {
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = MONITOR)
     public void onPlayerItemPickup(PlayerAttemptPickupItemEvent event) {
         event.setCancelled(true);
     }

@@ -1,8 +1,12 @@
 package pl.mrstudios.deathrun.exception;
 
+import org.jetbrains.annotations.NotNull;
+
 public class MissingDependencyException extends RuntimeException {
 
-    public MissingDependencyException(String message) {
+    public MissingDependencyException(
+            @NotNull String message
+    ) {
         super(message);
     }
 

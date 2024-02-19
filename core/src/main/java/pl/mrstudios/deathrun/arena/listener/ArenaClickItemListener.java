@@ -2,16 +2,15 @@ package pl.mrstudios.deathrun.arena.listener;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import pl.mrstudios.commons.inject.annotation.Inject;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.config.Configuration;
 import pl.mrstudios.deathrun.util.ChannelUtil;
 
-@ArenaRegistrableListener
 public class ArenaClickItemListener implements Listener {
 
     private final Plugin plugin;
@@ -23,7 +22,7 @@ public class ArenaClickItemListener implements Listener {
         this.configuration = configuration;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onStepOnBlockEffect(PlayerInteractEvent event) {
 
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR)

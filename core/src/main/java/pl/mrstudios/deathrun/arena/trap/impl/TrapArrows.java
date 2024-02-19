@@ -1,9 +1,6 @@
 package pl.mrstudios.deathrun.arena.trap.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.jetbrains.annotations.NotNull;
@@ -13,13 +10,15 @@ import pl.mrstudios.deathrun.arena.trap.Trap;
 import java.time.Duration;
 import java.util.List;
 
-@Getter @Setter
+import static java.time.Duration.ZERO;
+import static org.bukkit.Material.DISPENSER;
+
 public class TrapArrows extends Trap {
 
     @Override
     public void start() {
 
-        super.getLocations().stream()
+        super.locations.stream()
                 .map(Location::getBlock)
                 .forEach((block) -> {
 
@@ -45,13 +44,33 @@ public class TrapArrows extends Trap {
     @Override
     public @NotNull List<Location> filter(@NotNull List<Location> list, @Nullable Object... objects) {
         return list.stream()
-                .filter((location) -> location.getBlock().getType() == Material.DISPENSER)
+                .filter((location) -> location.getBlock().getType() == DISPENSER)
                 .toList();
     }
 
     @Override
+    public @NotNull Location getButton() {
+        return super.button;
+    }
+
+    @Override
+    public void setButton(@NotNull Location location) {
+        super.button = location;
+    }
+
+    @Override
+    public @NotNull List<Location> getLocations() {
+        return super.locations;
+    }
+
+    @Override
+    public void setLocations(@NotNull List<Location> locations) {
+        super.locations = locations;
+    }
+
+    @Override
     public @NotNull Duration getDuration() {
-        return Duration.ZERO;
+        return ZERO;
     }
 
 }

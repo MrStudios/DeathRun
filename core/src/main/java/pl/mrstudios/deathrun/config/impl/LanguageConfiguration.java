@@ -26,6 +26,7 @@ public class LanguageConfiguration extends OkaeriConfig {
             ""
     })
     public String chatMessageNoPermissions = "<red>You don't have permissions to this command.";
+    public String chatMessageInvalidCommandUsage = "<red>Invalid command usage, correct usage is <dark_red><usage><red>.";
     public String chatMessageArenaPlayerJoined = "<gray><player> <yellow>has joined. <aqua>(<currentPlayers>/<maxPlayers>)";
     public String chatMessageArenaPlayerLeft = "<gray><player> <yellow>has quit.";
     public String chatMessageArenaStartingTimer = "<yellow>Game starts in <gold><timer> seconds<yellow>.";
@@ -149,17 +150,6 @@ public class LanguageConfiguration extends OkaeriConfig {
             "------------------------------------------------------------------------",
             ""
     })
-    /*
-    public String arenaItemStrafeLeftAvailableName = "<green>Strafe Left <gray>(Right Click)";
-    public String arenaItemStrafeLeftUnavailableName = "<green>Strafe Left <dark_gray>(<delay> seconds)";
-
-    public String arenaItemStrafeBackAvailableName = "<green>Strafe Back <gray>(Right Click)";
-    public String arenaItemStrafeBackUnavailableName = "<green>Strafe Back <dark_gray>(<delay> seconds)";
-
-    public String arenaItemStrafeRightAvailableName = "<green>Strafe Right <gray>(Right Click)";
-    public String arenaItemStrafeRightUnavailableName = "<green>Strafe Right <dark_gray>(<delay> seconds)";
-    */ // TODO: Add this feature in future.
-
     public String arenaItemLeaveName = "<red>Leave <gray>(Right Click)";
 
 }

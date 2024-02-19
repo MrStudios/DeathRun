@@ -22,7 +22,6 @@ import pl.mrstudios.commons.reflection.Reflections;
 import pl.mrstudios.deathrun.api.API;
 import pl.mrstudios.deathrun.arena.Arena;
 import pl.mrstudios.deathrun.arena.ArenaServiceRunnable;
-import pl.mrstudios.deathrun.arena.listener.annotations.ArenaRegistrableListener;
 import pl.mrstudios.deathrun.arena.trap.TrapRegistry;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapAppearingBlocks;
 import pl.mrstudios.deathrun.arena.trap.impl.TrapArrows;
@@ -72,7 +71,7 @@ public class Bootstrap extends JavaPlugin {
         this.worldEdit = WorldEdit.getInstance();
 
         /* Configuration */
-        this.configurationFactory = new ConfigurationFactory(this.getDataFolder());
+        this.configurationFactory = new ConfigurationFactory(this.getDataFolder().toPath());
         this.configuration = new Configuration(
                 this.configurationFactory.produce(PluginConfiguration.class, "config.yml"),
                 this.configurationFactory.produce(LanguageConfiguration.class, "language.yml"),
@@ -135,7 +134,7 @@ public class Bootstrap extends JavaPlugin {
                                 .getClassesAnnotatedWith(Command.class)
                                 .stream().map(this.injector::inject)
                                 .filter(Objects::nonNull)
-                                .toArray(Command[]::new)
+                                .toArray(Object[]::new)
                 ))
 
                 /* Schematic */
@@ -150,7 +149,7 @@ public class Bootstrap extends JavaPlugin {
         /* Register Listeners */
         if (!this.configuration.map().arenaSetupEnabled)
             new Reflections<Listener>("pl.mrstudios.deathrun")
-                    .getClassesAnnotatedWith(ArenaRegistrableListener.class)
+                    .getClassesImplementing(Listener.class)
                     .forEach((listener) -> this.getServer().getPluginManager().registerEvents(this.injector.inject(listener), this));
 
         /* Start Arena Service */
