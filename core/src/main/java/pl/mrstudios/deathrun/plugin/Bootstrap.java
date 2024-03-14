@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.mrstudios.commons.inject.Injector;
+import pl.mrstudios.commons.inject.annotation.Inject;
 import pl.mrstudios.commons.reflection.Reflections;
 import pl.mrstudios.deathrun.api.API;
 import pl.mrstudios.deathrun.arena.Arena;
@@ -41,6 +42,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
+
+import static java.lang.System.currentTimeMillis;
+import static java.util.Arrays.stream;
 
 @SuppressWarnings("all")
 public class Bootstrap extends JavaPlugin {
@@ -149,8 +153,13 @@ public class Bootstrap extends JavaPlugin {
         /* Register Listeners */
         if (!this.configuration.map().arenaSetupEnabled)
             new Reflections<Listener>("pl.mrstudios.deathrun")
-                    .getClassesImplementing(Listener.class)
-                    .forEach((listener) -> this.getServer().getPluginManager().registerEvents(this.injector.inject(listener), this));
+                    .getClassesImplementing(Listener.class).stream().filter(
+                            (listener) -> stream(listener.getConstructors())
+                                    .anyMatch((constructor) -> constructor.isAnnotationPresent(Inject.class))
+                    ).forEach(
+                            (listener) -> this.getServer().getPluginManager()
+                                    .registerEvents(this.injector.inject(listener), this)
+                    );
 
         /* Start Arena Service */
         if (!this.configuration.map().arenaSetupEnabled)
@@ -187,7 +196,7 @@ public class Bootstrap extends JavaPlugin {
                     .filter((file) -> file.getName().endsWith(".zip"))
                     .forEach((file) -> {
 
-                        long startTime = System.currentTimeMillis();
+                        long startTime = currentTimeMillis();
                         this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup.");
 
                         try {
@@ -196,10 +205,10 @@ public class Bootstrap extends JavaPlugin {
                             FileUtils.deleteDirectory(worldFile);
 
                             ZipUtil.unzip(file, worldFile.toPath());
-                            this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                            this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (currentTimeMillis() - startTime) + "ms]");
 
                         } catch (Exception exception) {
-                            this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                            this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (currentTimeMillis() - startTime) + "ms]");
                         }
 
                     });
