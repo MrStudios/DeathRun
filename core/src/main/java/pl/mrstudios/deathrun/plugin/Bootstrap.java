@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.stream;
 
 @SuppressWarnings("all")
@@ -195,7 +196,7 @@ public class Bootstrap extends JavaPlugin {
                     .filter((file) -> file.getName().endsWith(".zip"))
                     .forEach((file) -> {
 
-                        long startTime = System.currentTimeMillis();
+                        long startTime = currentTimeMillis();
                         this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup.");
 
                         try {
@@ -204,10 +205,10 @@ public class Bootstrap extends JavaPlugin {
                             FileUtils.deleteDirectory(worldFile);
 
                             ZipUtil.unzip(file, worldFile.toPath());
-                            this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                            this.getLogger().info("Restoring " + file.getName().replace(".zip", "") + " world backup complete. [" + (currentTimeMillis() - startTime) + "ms]");
 
                         } catch (Exception exception) {
-                            this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (System.currentTimeMillis() - startTime) + "ms]");
+                            this.getLogger().severe("Restoring " + file.getName().replace(".zip", "") + " world backup failed. [" + (currentTimeMillis() - startTime) + "ms]");
                         }
 
                     });
