@@ -227,11 +227,11 @@
     </dependencies>
 
     <properties>
-        <kyori.adventure.version>4.15.0</kyori.adventure.version>
+        <kyori.adventure.version>4.16.0</kyori.adventure.version>
         <mrstudios.commons.version>1.0.0</mrstudios.commons.version>
         <okaeri.configs.version>5.0.0-beta.5</okaeri.configs.version>
         <adventure.platform.version>4.3.2</adventure.platform.version>
-        <rollczi.litecommands.version>3.3.2</rollczi.litecommands.version>
+        <rollczi.litecommands.version>3.4.0</rollczi.litecommands.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
