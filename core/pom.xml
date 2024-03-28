@@ -113,6 +113,10 @@
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>opencollab-repo</id>
+            <url>https://repo.opencollab.dev/maven-releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -228,7 +232,7 @@
 
     <properties>
         <kyori.adventure.version>4.16.0</kyori.adventure.version>
-        <mrstudios.commons.version>1.1.0</mrstudios.commons.version>
+        <mrstudios.commons.version>1.0.0</mrstudios.commons.version>
         <okaeri.configs.version>5.0.0-beta.5</okaeri.configs.version>
         <adventure.platform.version>4.3.2</adventure.platform.version>
         <rollczi.litecommands.version>3.4.0</rollczi.litecommands.version>
