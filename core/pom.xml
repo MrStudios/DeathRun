@@ -7,7 +7,7 @@
     <parent>
         <groupId>pl.mrstudios.deathrun</groupId>
         <artifactId>deathrun-parent</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
 
     <artifactId>deathrun-core</artifactId>
@@ -112,6 +112,10 @@
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>opencollab-repo</id>
+            <url>https://repo.opencollab.dev/maven-releases</url>
         </repository>
     </repositories>
 
@@ -220,7 +224,7 @@
         <dependency>
             <groupId>me.catcoder</groupId>
             <artifactId>bukkit-sidebar</artifactId>
-            <version>6.2.5-SNAPSHOT</version>
+            <version>6.2.6-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
